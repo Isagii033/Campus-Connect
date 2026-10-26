@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusConnect — Student Help Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#4F46E5', dark: '#4338CA', light: '#6366F1' },
+            lavender: { DEFAULT: '#EEF2FF', dark: '#E0E7FF' },
+            accent: { pink: '#EC4899', orange: '#F97316', teal: '#14B8A6', yellow: '#EAB308' },
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    * { font-family: 'Inter', system-ui, sans-serif; box-sizing: border-box; }
+    body { background: #F0F2F8; color: #1F2937; margin: 0; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #a78bfa, #6366f1); border-radius: 9999px; }
+
+    /* ===== ANIMATED BG ===== */
+    body::before {
+      content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle at 20% 80%, rgba(99,102,241,0.04) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(236,72,153,0.04) 0%, transparent 50%),
+                  radial-gradient(circle at 50% 50%, rgba(20,184,166,0.03) 0%, transparent 50%);
+      animation: bgFloat 20s ease-in-out infinite;
+      z-index: -1; pointer-events: none;
+    }
+    @keyframes bgFloat {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(2%, -2%) rotate(1deg); }
+      66% { transform: translate(-1%, 1%) rotate(-1deg); }
+    }
+
+    /* ===== GLASSMORPHISM HEADER ===== */
+    .glassmorphism {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.5);
+      box-shadow: 0 4px 30px rgba(79,70,229,0.06);
+    }
+
+    /* ===== PAGES ===== */
+    .page { display: none; opacity: 0; transform: translateY(12px); }
+    .page.active { display: block; animation: pageIn 0.5s ease forwards; }
+    @keyframes pageIn { to { opacity: 1; transform: translateY(0); } }
+
+    /* ===== TOAST ===== */
+    .toast {
+      position: fixed; top: 80px; right: 20px; z-index: 9999;
+      transform: translateX(120%) scale(0.9); transition: all 0.4s cubic-bezier(.68,-.55,.27,1.55);
+      max-width: 380px; backdrop-filter: blur(12px);
+    }
+    .toast.show { transform: translateX(0) scale(1); }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar-drawer {
+      position: fixed; top: 0; left: 0; height: 100%; width: 300px;
+      background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+      z-index: 9998; transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+      box-shadow: 8px 0 40px rgba(79,70,229,0.15);
+    }
+    .sidebar-drawer.open { transform: translateX(0); }
+
+    .overlay {
+      position: fixed; inset: 0; background: rgba(15,15,35,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 9997; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .overlay.show { opacity: 1; pointer-events: all; }
+
+    /* ===== MODALS ===== */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(15,15,35,0.6);
+      backdrop-filter: blur(6px);
+      z-index: 10000; display: none; align-items: center; justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-overlay.show > div {
+      animation: modalPop 0.4s cubic-bezier(.68,-.55,.27,1.55);
+    }
+    @keyframes modalPop { from { opacity: 0; transform: scale(0.85) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+    /* ===== NOTIFICATION PANEL ===== */
+    .notification-panel {
+      position: fixed; top: 0; right: 0; height: 100%; width: 380px;
+      background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+      z-index: 9999; transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+      box-shadow: -8px 0 40px rgba(79,70,229,0.15);
+      display: flex; flex-direction: column;
+    }
+    .notification-panel.open { transform: translateX(0); }
+
+    /* ===== WIZARD STEPS ===== */
+    .step-indicator { display: flex; align-items: center; gap: 0; }
+    .step-dot {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px; transition: all 0.4s cubic-bezier(.4,0,.2,1);
+      flex-shrink: 0; position: relative;
+    }
+    .step-dot.glow { box-shadow: 0 0 20px rgba(79,70,229,0.4); }
+    .step-line { flex: 1; height: 3px; transition: all 0.4s; border-radius: 2px; }
+
+    /* ===== STARS ===== */
+    .star-btn { cursor: pointer; font-size: 32px; color: #d1d5db; transition: all 0.2s cubic-bezier(.4,0,.2,1); }
+    .star-btn.active { color: #f59e0b; transform: scale(1.2); filter: drop-shadow(0 0 6px rgba(245,158,11,0.5)); }
+    .star-btn:hover { color: #f59e0b; transform: scale(1.3); }
+
+    /* ===== CARDS ===== */
+    .category-card {
+      cursor: pointer; transition: all 0.35s cubic-bezier(.4,0,.2,1);
+      position: relative; overflow: hidden;
+    }
+    .category-card::before {
+      content: ''; position: absolute; inset: 0; opacity: 0;
+      background: linear-gradient(135deg, rgba(79,70,229,0.05), rgba(236,72,153,0.05));
+      transition: opacity 0.3s;
+    }
+    .category-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(79,70,229,0.15); }
+    .category-card:hover::before { opacity: 1; }
+
+    .request-card {
+      transition: all 0.35s cubic-bezier(.4,0,.2,1);
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(229,231,235,0.6);
+    }
+    .request-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #4F46E5, #EC4899, #F97316);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .request-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(79,70,229,0.12); border-color: rgba(99,102,241,0.2); }
+    .request-card:hover::after { opacity: 1; }
+
+    .card-shadow { box-shadow: 0 4px 24px rgba(79,70,229,0.06), 0 1px 3px rgba(0,0,0,0.04); }
+    .card-shadow-lg { box-shadow: 0 10px 40px rgba(79,70,229,0.1), 0 2px 6px rgba(0,0,0,0.04); }
+
+    /* ===== TAGS & BADGES ===== */
+    .skill-tag {
+      display: inline-block; padding: 5px 14px;
+      border-radius: 9999px; font-size: 12px; font-weight: 600; margin: 3px;
+      transition: all 0.25s; cursor: default;
+    }
+    .skill-tag:nth-child(1) { background: linear-gradient(135deg, #EEF2FF, #E0E7FF); color: #4F46E5; }
+    .skill-tag:nth-child(2) { background: linear-gradient(135deg, #FCE7F3, #FBCFE8); color: #DB2777; }
+    .skill-tag:nth-child(3) { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); color: #059669; }
+    .skill-tag:nth-child(4) { background: linear-gradient(135deg, #FEF3C7, #FDE68A); color: #D97706; }
+    .skill-tag:nth-child(5) { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); color: #2563EB; }
+    .skill-tag:nth-child(n+6) { background: linear-gradient(135deg, #F3E8FF, #E9D5FF); color: #7C3AED; }
+    .skill-tag:hover { transform: translateY(-2px) scale(1.05); }
+
+    .status-open { background: linear-gradient(135deg, #dcfce7, #bbf7d0); color: #15803d; }
+    .status-accepted { background: linear-gradient(135deg, #fef9c3, #fde68a); color: #a16207; }
+    .status-in_progress { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1d4ed8; }
+    .status-completed { background: linear-gradient(135deg, #f3f4f6, #e5e7eb); color: #4b5563; }
+
+    /* ===== NAV LINKS ===== */
+    .nav-link {
+      color: #6B7280; font-weight: 500; font-size: 15px;
+      cursor: pointer; padding: 8px 14px; border-radius: 10px;
+      transition: all 0.3s; white-space: nowrap; text-decoration: none;
+      position: relative;
+    }
+    .nav-link:hover { color: #4F46E5; background: linear-gradient(135deg, #EEF2FF, #F5F3FF); transform: translateY(-1px); }
+    .nav-link.active { color: #4F46E5; background: linear-gradient(135deg, #EEF2FF, #E0E7FF); font-weight: 600; }
+
+    /* ===== BUTTONS ===== */
+    .btn-primary {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: white; border: none; cursor: pointer;
+      transition: all 0.3s cubic-bezier(.4,0,.2,1); font-weight: 600;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, #6366F1, #8B5CF6);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(79,70,229,0.35); }
+    .btn-primary:hover::before { opacity: 1; }
+    .btn-primary span, .btn-primary i { position: relative; z-index: 1; }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #EEF2FF, #F5F3FF); color: #4F46E5; border: 1px solid rgba(99,102,241,0.15);
+      cursor: pointer; transition: all 0.3s; font-weight: 600;
+    }
+    .btn-secondary:hover { background: linear-gradient(135deg, #E0E7FF, #EDE9FE); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(79,70,229,0.1); }
+
+    /* ===== FORM FIELDS ===== */
+    .input-field {
+      width: 100%; padding: 12px 16px; border: 2px solid #E5E7EB;
+      border-radius: 12px; font-size: 15px; outline: none;
+      transition: all 0.3s; font-family: 'Inter', sans-serif;
+      background: rgba(255,255,255,0.8);
+    }
+    .input-field:focus { border-color: #6366F1; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); background: white; }
+
+    .select-field {
+      width: 100%; padding: 12px 16px; border: 2px solid #E5E7EB;
+      border-radius: 12px; font-size: 15px; outline: none;
+      background: rgba(255,255,255,0.8); cursor: pointer;
+      transition: all 0.3s; appearance: none; font-family: 'Inter', sans-serif;
+    }
+    .select-field:focus { border-color: #6366F1; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); }
+
+    /* ===== TABS ===== */
+    .tab-btn {
+      padding: 10px 24px; border-radius: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.3s; border: none; font-size: 14px;
+    }
+    .tab-btn.active { background: linear-gradient(135deg, #4F46E5, #7C3AED); color: white; box-shadow: 0 4px 15px rgba(79,70,229,0.3); }
+    .tab-btn:not(.active) { background: rgba(243,244,246,0.8); color: #6B7280; }
+    .tab-btn:not(.active):hover { background: #E5E7EB; transform: translateY(-1px); }
+
+    /* ===== USER SWITCHER ===== */
+    .user-switcher-option {
+      padding: 12px 16px; cursor: pointer; transition: all 0.25s;
+      border-radius: 12px; margin: 4px;
+    }
+    .user-switcher-option:hover { background: linear-gradient(135deg, #EEF2FF, #F5F3FF); transform: translateX(4px); }
+    .user-switcher-option.active-user { background: linear-gradient(135deg, #EEF2FF, #E0E7FF); border: 2px solid #6366F1; }
+
+    .dropdown-menu {
+      position: absolute; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+      border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); z-index: 1000;
+      min-width: 240px; overflow: hidden; border: 1px solid rgba(255,255,255,0.5);
+      animation: dropIn 0.25s cubic-bezier(.68,-.55,.27,1.55);
+    }
+    @keyframes dropIn { from { opacity: 0; transform: translateY(-8px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    /* ===== HERO ===== */
+    .hero-bg {
+      background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 30%, #EC4899 70%, #F97316 100%);
+      background-size: 300% 300%;
+      animation: heroGradient 8s ease infinite;
+    }
+    @keyframes heroGradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* ===== FLOATING SHAPES ===== */
+    .floating-shape {
+      position: absolute; border-radius: 50%; opacity: 0.1;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    /* ===== AVATAR ===== */
+    .avatar-circle {
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-weight: 700; letter-spacing: 0.5px; flex-shrink: 0;
+      transition: all 0.3s;
+    }
+    .avatar-circle:hover { transform: scale(1.1); }
+
+    /* ===== STATS CARD ===== */
+    .stat-card {
+      position: relative; overflow: hidden; transition: all 0.35s;
+    }
+    .stat-card::before {
+      content: ''; position: absolute; top: -50%; right: -50%;
+      width: 100%; height: 100%; border-radius: 50%;
+      opacity: 0.06; transition: all 0.4s;
+    }
+    .stat-card:hover { transform: translateY(-4px); }
+
+    /* ===== CATEGORY RADIO ===== */
+    .category-radio-card {
+      border: 2px solid #E5E7EB; border-radius: 16px; padding: 20px;
+      cursor: pointer; transition: all 0.3s cubic-bezier(.4,0,.2,1); text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .category-radio-card.selected {
+      border-color: #6366F1; background: linear-gradient(135deg, #EEF2FF, #F5F3FF);
+      box-shadow: 0 0 0 4px rgba(99,102,241,0.1);
+    }
+    .category-radio-card:hover { border-color: #a5b4fc; transform: translateY(-2px); }
+
+    /* ===== BUDGET PREVIEW ===== */
+    .budget-preview {
+      background: linear-gradient(135deg, #EEF2FF, #F5F3FF, #FCE7F3);
+      border: 1px solid #C7D2FE; border-radius: 16px; padding: 20px;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    .animate-fade-in { animation: fadeIn 0.5s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    .animate-scale-in { animation: scaleIn 0.4s cubic-bezier(.68,-.55,.27,1.55); }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+    .stagger-1 { animation-delay: 0.05s; }
+    .stagger-2 { animation-delay: 0.1s; }
+    .stagger-3 { animation-delay: 0.15s; }
+    .stagger-4 { animation-delay: 0.2s; }
+    .stagger-5 { animation-delay: 0.25s; }
+    .stagger-6 { animation-delay: 0.3s; }
+
+    /* ===== GRADIENT TEXT ===== */
+    .gradient-text {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED, #EC4899);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ===== GLOW BADGE ===== */
+    .notif-glow {
+      animation: notifPulse 2s ease-in-out infinite;
+    }
+    @keyframes notifPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .notification-panel { width: 100%; }
+    }
+
+    /* ===== AUTH PAGES ===== */
+    .auth-wrapper {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 20px; position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 30%, #312E81 60%, #4338CA 100%);
+    }
+    .auth-wrapper::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 20% 30%, rgba(99,102,241,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(236,72,153,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, rgba(20,184,166,0.08) 0%, transparent 60%);
+      animation: bgFloat 20s ease-in-out infinite;
+    }
+    .auth-wrapper::after {
+      content: ''; position: absolute; inset: 0; opacity: 0.03;
+      background-image: radial-gradient(circle, white 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .auth-card {
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+      border-radius: 24px; padding: 40px; width: 100%; max-width: 440px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3), 0 0 100px rgba(99,102,241,0.1);
+      position: relative; z-index: 1;
+      animation: modalPop 0.5s cubic-bezier(.68,-.55,.27,1.55);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    body.dark .auth-card {
+      background: rgba(26,28,46,0.95);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 100px rgba(99,102,241,0.15);
+      border-color: rgba(99,102,241,0.2);
+    }
+    .auth-floating { position: absolute; border-radius: 50%; opacity: 0.08; }
+    .auth-input {
+      width: 100%; padding: 14px 16px 14px 44px; border: 2px solid #E5E7EB;
+      border-radius: 14px; font-size: 15px; outline: none;
+      transition: all 0.3s; font-family: 'Inter', sans-serif;
+      background: rgba(249,250,251,0.8);
+    }
+    .auth-input:focus { border-color: #6366F1; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); background: white; }
+    body.dark .auth-input {
+      background: rgba(30,32,50,0.8); border-color: rgba(99,102,241,0.2); color: #E5E7EB;
+    }
+    body.dark .auth-input:focus { background: rgba(30,32,50,1); border-color: #6366F1; }
+    .auth-input-icon {
+      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      color: #9CA3AF; font-size: 14px; transition: color 0.3s;
+    }
+    .auth-input:focus ~ .auth-input-icon,
+    .auth-input-group:focus-within .auth-input-icon { color: #6366F1; }
+    .auth-divider {
+      display: flex; align-items: center; gap: 16px; margin: 20px 0;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #E5E7EB, transparent);
+    }
+    .password-toggle {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: #9CA3AF; cursor: pointer;
+      font-size: 14px; transition: color 0.2s; padding: 4px;
+    }
+    .password-toggle:hover { color: #6366F1; }
+
+    /* ===== DARK MODE ===== */
+    body.dark { background: #0F1117; color: #E5E7EB; }
+    body.dark::before {
+      background: radial-gradient(circle at 20% 80%, rgba(99,102,241,0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(236,72,153,0.06) 0%, transparent 50%),
+                  radial-gradient(circle at 50% 50%, rgba(20,184,166,0.05) 0%, transparent 50%);
+    }
+    body.dark .glassmorphism {
+      background: rgba(17,19,30,0.85);
+      border-bottom: 1px solid rgba(99,102,241,0.15);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    }
+    body.dark .sidebar-drawer { background: linear-gradient(180deg, #13151f 0%, #1a1c2e 100%); }
+    body.dark .notification-panel { background: linear-gradient(180deg, #13151f 0%, #1a1c2e 100%); }
+    body.dark .overlay { background: rgba(0,0,0,0.7); }
+    body.dark .modal-overlay { background: rgba(0,0,0,0.75); }
+
+    /* Dark cards & surfaces */
+    body.dark .bg-white\/90,
+    body.dark .bg-white\/80,
+    body.dark .bg-white { background: rgba(26,28,46,0.9) !important; }
+    body.dark .card-shadow { box-shadow: 0 4px 24px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2); }
+    body.dark .card-shadow-lg { box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.2); }
+    body.dark .border-white\/50 { border-color: rgba(99,102,241,0.15) !important; }
+    body.dark .border-gray-100 { border-color: rgba(255,255,255,0.08) !important; }
+    body.dark .border-gray-100\/50 { border-color: rgba(255,255,255,0.06) !important; }
+
+    /* Dark text overrides */
+    body.dark .text-gray-800 { color: #E5E7EB !important; }
+    body.dark .text-gray-700 { color: #D1D5DB !important; }
+    body.dark .text-gray-600 { color: #9CA3AF !important; }
+    body.dark .text-gray-500 { color: #9CA3AF !important; }
+    body.dark .text-gray-400 { color: #6B7280 !important; }
+    body.dark h1, body.dark h2, body.dark h3 { color: #F3F4F6; }
+
+    /* Dark form fields */
+    body.dark .input-field, body.dark .select-field {
+      background: rgba(30,32,50,0.8); border-color: rgba(99,102,241,0.2);
+      color: #E5E7EB;
+    }
+    body.dark .input-field:focus, body.dark .select-field:focus {
+      border-color: #6366F1; box-shadow: 0 0 0 4px rgba(99,102,241,0.15); background: rgba(30,32,50,1);
+    }
+    body.dark .input-field::placeholder, body.dark .select-field option { color: #6B7280; }
+
+    /* Dark nav */
+    body.dark .nav-link { color: #9CA3AF; }
+    body.dark .nav-link:hover, body.dark .nav-link.active {
+      color: #A5B4FC; background: rgba(99,102,241,0.12);
+    }
+
+    /* Dark buttons */
+    body.dark .btn-secondary {
+      background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(124,58,237,0.15));
+      border-color: rgba(99,102,241,0.2); color: #A5B4FC;
+    }
+    body.dark .btn-secondary:hover { background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(124,58,237,0.25)); }
+    body.dark .tab-btn:not(.active) { background: rgba(30,32,50,0.8); color: #9CA3AF; }
+    body.dark .tab-btn:not(.active):hover { background: rgba(99,102,241,0.15); }
+
+    /* Dark user switcher */
+    body.dark .user-switcher-option:hover { background: rgba(99,102,241,0.12); }
+    body.dark .user-switcher-option.active-user { background: rgba(99,102,241,0.15); border-color: #6366F1; }
+    body.dark .dropdown-menu { background: rgba(22,24,40,0.97); border-color: rgba(99,102,241,0.2); }
+
+    /* Dark cards hover */
+    body.dark .request-card { border-color: rgba(99,102,241,0.1); }
+    body.dark .request-card:hover { border-color: rgba(99,102,241,0.3); box-shadow: 0 20px 40px rgba(99,102,241,0.1); }
+    body.dark .category-card:hover { box-shadow: 0 20px 40px rgba(99,102,241,0.15); }
+    body.dark .stat-card:hover { box-shadow: 0 10px 30px rgba(99,102,241,0.12); }
+
+    /* Dark category radio */
+    body.dark .category-radio-card { border-color: rgba(99,102,241,0.15); background: rgba(26,28,46,0.6); }
+    body.dark .category-radio-card.selected { border-color: #6366F1; background: rgba(99,102,241,0.12); }
+    body.dark .category-radio-card:hover { border-color: rgba(99,102,241,0.4); }
+
+    /* Dark misc */
+    body.dark .budget-preview { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(124,58,237,0.1)); border-color: rgba(99,102,241,0.2); }
+    body.dark .bg-gray-50, body.dark .bg-gray-50\/80 { background: rgba(30,32,50,0.6) !important; }
+    body.dark .bg-indigo-50, body.dark .bg-gradient-to-r { background: rgba(99,102,241,0.1) !important; }
+    body.dark .skill-tag { filter: brightness(0.85) saturate(1.3); }
+
+    /* Dark toast */
+    body.dark .toast { box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+
+    /* Dark modal content */
+    body.dark .modal-overlay > div { background: #1a1c2e !important; }
+
+    /* Dark scrollbar */
+    body.dark ::-webkit-scrollbar-track { background: #13151f; }
+
+    /* Dark mode toggle */
+    .dark-toggle {
+      width: 52px; height: 28px; border-radius: 14px;
+      position: relative; cursor: pointer; border: none;
+      transition: all 0.4s cubic-bezier(.4,0,.2,1);
+      background: linear-gradient(135deg, #E0E7FF, #C7D2FE);
+      overflow: hidden;
+    }
+    body.dark .dark-toggle { background: linear-gradient(135deg, #312E81, #4338CA); }
+    .dark-toggle-knob {
+      position: absolute; top: 3px; left: 3px;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: white; transition: all 0.4s cubic-bezier(.4,0,.2,1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    body.dark .dark-toggle-knob { left: 27px; background: #1e1b4b; color: #FDE68A; }
+
+    /* ===== RAINBOW BORDER ===== */
+    .rainbow-border {
+      position: relative;
+    }
+    .rainbow-border::before {
+      content: ''; position: absolute; inset: -2px; border-radius: inherit;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED, #EC4899, #F97316, #14B8A6);
+      z-index: -1; opacity: 0; transition: opacity 0.3s;
+    }
+    .rainbow-border:hover::before { opacity: 1; }
+
+    /* ===== SHIMMER ===== */
+    .shimmer {
+      position: relative; overflow: hidden;
+    }
+    .shimmer::after {
+      content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer { to { left: 150%; } }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- TOAST -->
+<div id="toast" class="toast rounded-2xl shadow-2xl px-5 py-4 flex items-start gap-3"></div>
+
+<!-- OVERLAY -->
+<div id="overlay" class="overlay" onclick="closeSidebar();closeNotificationPanel()"></div>
+
+<!-- ===================== AUTH: LOGIN PAGE ===================== -->
+<div id="auth-login" class="auth-wrapper" style="display:none">
+  <div class="auth-floating w-32 h-32 bg-indigo-400" style="top:10%;left:8%;animation:float 8s ease-in-out infinite"></div>
+  <div class="auth-floating w-20 h-20 bg-pink-400" style="bottom:15%;right:12%;animation:float 6s ease-in-out 2s infinite"></div>
+  <div class="auth-floating w-16 h-16 bg-teal-400" style="top:60%;left:70%;animation:float 7s ease-in-out 1s infinite"></div>
+  <div class="auth-card">
+    <div class="text-center mb-8">
+      <div class="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-xl shimmer" style="background:linear-gradient(135deg,#4F46E5,#7C3AED)">
+        <i class="fas fa-graduation-cap text-white text-2xl"></i>
+      </div>
+      <h1 class="text-2xl font-black gradient-text">Welcome Back</h1>
+      <p class="text-gray-500 text-sm mt-1">Sign in to CampusConnect</p>
+    </div>
+    <div class="space-y-4">
+      <div class="auth-input-group relative">
+        <input id="loginEmail" type="email" class="auth-input" placeholder="Email address" />
+        <i class="fas fa-envelope auth-input-icon"></i>
+      </div>
+      <div class="auth-input-group relative">
+        <input id="loginPassword" type="password" class="auth-input" placeholder="Password" />
+        <i class="fas fa-lock auth-input-icon"></i>
+        <button type="button" class="password-toggle" onclick="togglePasswordVis('loginPassword',this)"><i class="fas fa-eye"></i></button>
+      </div>
+      <div class="flex items-center justify-between text-sm">
+        <label class="flex items-center gap-2 cursor-pointer text-gray-600">
+          <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded accent-indigo-500" checked /> Remember me
+        </label>
+        <a class="font-semibold hover:underline cursor-pointer" style="color:#6366F1" onclick="showToast('info','Password reset coming soon!')">Forgot password?</a>
+      </div>
+      <button onclick="handleLogin()" class="btn-primary w-full py-3.5 rounded-xl text-base font-bold mt-2"><i class="fas fa-sign-in-alt mr-2"></i><span>Sign In</span></button>
+    </div>
+    <div class="auth-divider"><span class="text-xs text-gray-400 font-semibold">OR</span></div>
+    <div class="grid grid-cols-2 gap-3 mb-5">
+      <button onclick="handleDemoLogin('user_rahul')" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold transition-all hover:scale-[1.03]" style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF);color:#4F46E5">
+        <div class="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:linear-gradient(135deg,#4F46E5,#6366F1)">RS</div> Rahul
+      </button>
+      <button onclick="handleDemoLogin('user_ananya')" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold transition-all hover:scale-[1.03]" style="background:linear-gradient(135deg,#F3E8FF,#E9D5FF);color:#7C3AED">
+        <div class="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:linear-gradient(135deg,#7C3AED,#A855F7)">AR</div> Ananya
+      </button>
+    </div>
+    <p class="text-center text-sm text-gray-500">Don't have an account? <a class="font-bold cursor-pointer hover:underline" style="color:#6366F1" onclick="showAuth('register')">Create one</a></p>
+  </div>
+</div>
+
+<!-- ===================== AUTH: REGISTER PAGE ===================== -->
+<div id="auth-register" class="auth-wrapper" style="display:none">
+  <div class="auth-floating w-24 h-24 bg-pink-400" style="top:8%;right:10%;animation:float 7s ease-in-out infinite"></div>
+  <div class="auth-floating w-16 h-16 bg-indigo-400" style="bottom:20%;left:10%;animation:float 6s ease-in-out 1s infinite"></div>
+  <div class="auth-card" style="max-width:480px">
+    <div class="text-center mb-6">
+      <div class="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-xl shimmer" style="background:linear-gradient(135deg,#EC4899,#F97316)">
+        <i class="fas fa-user-plus text-white text-2xl"></i>
+      </div>
+      <h1 class="text-2xl font-black gradient-text">Create Account</h1>
+      <p class="text-gray-500 text-sm mt-1">Join the CampusConnect community</p>
+    </div>
+    <div class="space-y-3.5">
+      <div class="grid grid-cols-2 gap-3">
+        <div class="auth-input-group relative">
+          <input id="regFirstName" type="text" class="auth-input" placeholder="First name" />
+          <i class="fas fa-user auth-input-icon"></i>
+        </div>
+        <div class="auth-input-group relative">
+          <input id="regLastName" type="text" class="auth-input" placeholder="Last name" />
+          <i class="fas fa-user auth-input-icon"></i>
+        </div>
+      </div>
+      <div class="auth-input-group relative">
+        <input id="regEmail" type="email" class="auth-input" placeholder="Email address" />
+        <i class="fas fa-envelope auth-input-icon"></i>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="auth-input-group relative">
+          <select id="regDept" class="auth-input" style="padding-left:44px;appearance:none;cursor:pointer">
+            <option value="">Department</option>
+            <option>Computer Science</option>
+            <option>Electronics & Comm</option>
+            <option>Mechanical Eng</option>
+            <option>Civil Eng</option>
+            <option>Information Tech</option>
+            <option>Electrical Eng</option>
+            <option>Biotechnology</option>
+            <option>MBA</option>
+          </select>
+          <i class="fas fa-building auth-input-icon"></i>
+        </div>
+        <div class="auth-input-group relative">
+          <select id="regYear" class="auth-input" style="padding-left:44px;appearance:none;cursor:pointer">
+            <option value="">Year</option>
+            <option>1st Year</option>
+            <option>2nd Year</option>
+            <option>3rd Year</option>
+            <option>4th Year</option>
+          </select>
+          <i class="fas fa-calendar auth-input-icon"></i>
+        </div>
+      </div>
+      <div class="auth-input-group relative">
+        <input id="regSkills" type="text" class="auth-input" placeholder="Skills (comma-separated)" />
+        <i class="fas fa-wand-magic-sparkles auth-input-icon"></i>
+      </div>
+      <div class="auth-input-group relative">
+        <input id="regPassword" type="password" class="auth-input" placeholder="Create password (min 6 chars)" />
+        <i class="fas fa-lock auth-input-icon"></i>
+        <button type="button" class="password-toggle" onclick="togglePasswordVis('regPassword',this)"><i class="fas fa-eye"></i></button>
+      </div>
+      <div class="auth-input-group relative">
+        <input id="regConfirm" type="password" class="auth-input" placeholder="Confirm password" />
+        <i class="fas fa-shield-halved auth-input-icon"></i>
+      </div>
+      <label class="flex items-start gap-2 text-sm text-gray-600 mt-1">
+        <input type="checkbox" id="agreeTerms" class="w-4 h-4 mt-0.5 rounded accent-indigo-500" />
+        <span>I agree to the <a class="font-semibold" style="color:#6366F1" href="#">Terms of Service</a> and <a class="font-semibold" style="color:#6366F1" href="#">Privacy Policy</a></span>
+      </label>
+      <button onclick="handleRegister()" class="btn-primary w-full py-3.5 rounded-xl text-base font-bold"><i class="fas fa-user-plus mr-2"></i><span>Create Account</span></button>
+    </div>
+    <p class="text-center text-sm text-gray-500 mt-5">Already have an account? <a class="font-bold cursor-pointer hover:underline" style="color:#6366F1" onclick="showAuth('login')">Sign in</a></p>
+  </div>
+</div>
+
+<!-- APP WRAPPER (shown when logged in) -->
+<div id="app-wrapper" style="display:none">
+
+<!-- SIDEBAR DRAWER -->
+<div id="sidebar" class="sidebar-drawer pt-6 px-5">
+  <div class="flex items-center justify-between mb-8 px-2">
+    <div class="flex items-center gap-2">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center shimmer" style="background:linear-gradient(135deg,#4F46E5,#7C3AED)">
+        <i class="fas fa-graduation-cap text-white text-sm"></i>
+      </div>
+      <span class="text-lg font-extrabold gradient-text">CampusConnect</span>
+    </div>
+    <button onclick="closeSidebar()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-red-500 transition-all"><i class="fas fa-times"></i></button>
+  </div>
+  <nav class="flex flex-col gap-1" id="sidebarNav">
+    <a class="nav-link flex items-center gap-3 py-3" onclick="navigateTo('home');closeSidebar()"><i class="fas fa-home w-5"></i> Home</a>
+    <a class="nav-link flex items-center gap-3 py-3" onclick="navigateTo('browse');closeSidebar()"><i class="fas fa-compass w-5"></i> Browse Requests</a>
+    <a class="nav-link flex items-center gap-3 py-3" onclick="navigateTo('post');closeSidebar()"><i class="fas fa-plus-circle w-5"></i> Post a Request</a>
+    <a class="nav-link flex items-center gap-3 py-3" onclick="navigateTo('dashboard');closeSidebar()"><i class="fas fa-chart-pie w-5"></i> Dashboard</a>
+    <a class="nav-link flex items-center gap-3 py-3" onclick="navigateTo('profile');closeSidebar()"><i class="fas fa-user-circle w-5"></i> Profile</a>
+    <hr class="border-gray-100 my-2"/>
+    <a class="nav-link flex items-center gap-3 py-3 text-red-500 hover:bg-red-50" onclick="handleLogout()"><i class="fas fa-sign-out-alt w-5"></i> Sign Out</a>
+  </nav>
+  <div class="mt-8 px-2">
+    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3"><i class="fas fa-exchange-alt mr-1"></i> Switch Account</p>
+    <div id="sidebarUserSwitcher"></div>
+  </div>
+</div>
+
+<!-- NOTIFICATION PANEL -->
+<div id="notificationPanel" class="notification-panel">
+  <div class="flex items-center justify-between p-5 border-b border-gray-100/50">
+    <h3 class="font-extrabold text-lg gradient-text">Notifications</h3>
+    <div class="flex gap-2 items-center">
+      <button onclick="markAllNotificationsRead()" class="text-xs font-bold hover:underline" style="color:#7C3AED">Mark all read</button>
+      <button onclick="closeNotificationPanel()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-red-500 transition-all"><i class="fas fa-times"></i></button>
+    </div>
+  </div>
+  <div id="notificationList" class="flex-1 overflow-y-auto p-4"></div>
+</div>
+
+<!-- HEADER -->
+<header class="glassmorphism sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center gap-3 cursor-pointer group" onclick="navigateTo('home')">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shimmer group-hover:scale-110 transition-transform" style="background:linear-gradient(135deg,#4F46E5,#7C3AED)">
+          <i class="fas fa-graduation-cap text-white text-sm"></i>
+        </div>
+        <span class="text-xl font-black hidden sm:block gradient-text">CampusConnect</span>
+        <span class="text-lg font-black sm:hidden gradient-text">CC</span>
+      </div>
+      <nav class="hidden lg:flex items-center gap-1" id="desktopNav">
+        <a class="nav-link" onclick="navigateTo('home')"><i class="fas fa-home mr-1.5"></i>Home</a>
+        <a class="nav-link" onclick="navigateTo('browse')"><i class="fas fa-compass mr-1.5"></i>Browse</a>
+        <a class="nav-link" onclick="navigateTo('post')"><i class="fas fa-plus mr-1.5"></i>Post</a>
+        <a class="nav-link" onclick="navigateTo('dashboard')"><i class="fas fa-chart-pie mr-1.5"></i>Dashboard</a>
+        <a class="nav-link" onclick="navigateTo('profile')"><i class="fas fa-user-circle mr-1.5"></i>Profile</a>
+      </nav>
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Dark Mode Toggle -->
+        <button class="dark-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">
+          <div class="dark-toggle-knob"><i class="fas fa-sun text-yellow-500"></i></div>
+        </button>
+
+        <button onclick="toggleNotificationPanel()" class="relative p-2.5 rounded-xl hover:bg-indigo-50 transition-all group">
+          <i class="fas fa-bell text-gray-500 text-lg group-hover:text-indigo-500 transition-colors"></i>
+          <span id="notifBadge" class="absolute -top-0.5 -right-0.5 w-5 h-5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full flex items-center justify-center font-bold hidden notif-glow">0</span>
+        </button>
+        <div class="relative" id="userSwitcherContainer">
+          <button onclick="toggleUserDropdown()" class="flex items-center gap-2 rounded-xl px-3 py-2 transition-all hover:shadow-md" style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF)">
+            <div id="headerAvatar" class="avatar-circle w-8 h-8 text-white text-xs font-bold shadow-sm"></div>
+            <span id="headerUserName" class="hidden sm:block font-semibold text-sm text-gray-700 max-w-24 truncate"></span>
+            <i class="fas fa-chevron-down text-gray-400 text-xs transition-transform"></i>
+          </button>
+          <div id="userDropdown" class="dropdown-menu hidden" style="top:calc(100% + 8px);right:0;">
+            <div class="p-2" id="userDropdownContent"></div>
+          </div>
+        </div>
+        <button class="lg:hidden p-2.5 rounded-xl hover:bg-indigo-50 transition-all" onclick="openSidebar()">
+          <i class="fas fa-bars text-gray-500 text-lg"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 pb-20">
+
+  <!-- HOME -->
+  <div id="page-home" class="page">
+    <div class="hero-bg rounded-3xl mt-6 px-8 py-16 sm:py-24 text-center text-white relative overflow-hidden">
+      <!-- Floating decorations -->
+      <div class="floating-shape w-20 h-20 bg-white" style="top:10%;left:5%;animation-delay:0s"></div>
+      <div class="floating-shape w-14 h-14 bg-yellow-300" style="top:20%;right:10%;animation-delay:2s"></div>
+      <div class="floating-shape w-10 h-10 bg-pink-300" style="bottom:15%;left:15%;animation-delay:4s"></div>
+      <div class="floating-shape w-16 h-16 bg-teal-300" style="bottom:20%;right:20%;animation-delay:1s"></div>
+      <div class="floating-shape w-8 h-8 bg-orange-300" style="top:60%;left:40%;animation-delay:3s"></div>
+      <div class="absolute inset-0 opacity-10" style="background-image:radial-gradient(circle,white 1px,transparent 1px);background-size:30px 30px;"></div>
+      <div class="relative z-10">
+        <div class="inline-flex items-center gap-2 bg-white/20 rounded-full px-5 py-2 text-sm font-bold mb-6 backdrop-blur-md border border-white/20 animate-scale-in">
+          <i class="fas fa-bolt text-yellow-300 animate-pulse"></i> Student-to-Student Help Platform
+        </div>
+        <h1 class="text-4xl sm:text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight">
+          Your Campus.<br/>Your Skills.<br/>
+          <span class="text-yellow-300 drop-shadow-lg">One Connection.</span>
+        </h1>
+        <p class="text-lg sm:text-xl text-white/80 mb-10 max-w-2xl mx-auto leading-relaxed">Connect with fellow students to get help or earn money by sharing your skills. Photography, notes, presentations and more!</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button onclick="navigateTo('post')" class="group px-8 py-4 rounded-2xl text-lg font-bold bg-white text-indigo-600 shadow-2xl hover:shadow-white/25 hover:scale-105 transition-all">
+            <i class="fas fa-plus-circle mr-2 group-hover:rotate-90 transition-transform"></i> Post a Request
+          </button>
+          <button onclick="navigateTo('browse')" class="px-8 py-4 rounded-2xl text-lg font-bold bg-white/15 hover:bg-white/25 backdrop-blur-md text-white border-2 border-white/30 hover:border-white/60 transition-all hover:scale-105">
+            <i class="fas fa-compass mr-2"></i> Find Help
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-10" id="statsBar"></div>
+
+    <div class="mt-12">
+      <h2 class="text-2xl font-black text-gray-800 mb-2 text-center">Browse by <span class="gradient-text">Category</span></h2>
+      <p class="text-gray-500 text-center mb-8">Choose a service type to explore available requests</p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4" id="categoriesGrid"></div>
+    </div>
+
+    <div class="mt-12">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-2xl font-black text-gray-800">Recent <span class="gradient-text">Open Requests</span></h2>
+          <p class="text-gray-500 text-sm mt-1">Fresh opportunities from your campus</p>
+        </div>
+        <button onclick="navigateTo('browse')" class="btn-secondary px-5 py-2.5 rounded-xl text-sm group">View All <i class="fas fa-arrow-right ml-1.5 group-hover:translate-x-1 transition-transform"></i></button>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="homeRequestsGrid"></div>
+    </div>
+  </div>
+
+  <!-- BROWSE -->
+  <div id="page-browse" class="page">
+    <div class="mt-6 mb-6">
+      <h2 class="text-2xl font-black text-gray-800 mb-1">Browse <span class="gradient-text">Requests</span></h2>
+      <p class="text-gray-500">Find opportunities to help fellow students and earn</p>
+    </div>
+    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-5 card-shadow-lg mb-6 border border-white/50">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="relative">
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <input id="browseSearch" type="text" placeholder="Search requests..." class="input-field pl-11" oninput="renderBrowse()" />
+        </div>
+        <select id="browseCategory" class="select-field" onchange="renderBrowse()">
+          <option value="">All Categories</option>
+        </select>
+        <select id="browseBudget" class="select-field" onchange="renderBrowse()">
+          <option value="">Any Budget</option>
+          <option value="free">Free / Collab</option>
+          <option value="under200">Under ₹200</option>
+          <option value="200to500">₹200 – ₹500</option>
+          <option value="500plus">₹500+</option>
+        </select>
+        <select id="browseStatus" class="select-field" onchange="renderBrowse()">
+          <option value="">All Status</option>
+          <option value="OPEN">Open</option>
+          <option value="ACCEPTED">Accepted</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="COMPLETED">Completed</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="browseResults"></div>
+    <div id="browseEmpty" class="hidden text-center py-20">
+      <div class="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#EEF2FF,#FCE7F3)">
+        <i class="fas fa-search text-3xl text-gray-300"></i>
+      </div>
+      <p class="text-gray-400 text-lg font-semibold">No requests match your filters</p>
+      <button onclick="clearBrowseFilters()" class="btn-secondary px-6 py-2.5 rounded-xl mt-5 text-sm">Clear Filters</button>
+    </div>
+  </div>
+
+  <!-- POST REQUEST WIZARD -->
+  <div id="page-post" class="page">
+    <div class="mt-6 mb-6">
+      <h2 class="text-2xl font-black text-gray-800 mb-1">Post a <span class="gradient-text">New Request</span></h2>
+      <p class="text-gray-500">Tell us what you need help with</p>
+    </div>
+    <div class="max-w-2xl mx-auto">
+      <div class="step-indicator mb-8" id="stepIndicator"></div>
+      <div id="wizardStep1" class="wizard-step bg-white/90 backdrop-blur-sm rounded-2xl p-7 card-shadow-lg border border-white/50 animate-fade-in">
+        <h3 class="text-lg font-bold text-gray-800 mb-1"><i class="fas fa-th-large mr-2 text-indigo-500"></i>Select a Category</h3>
+        <p class="text-sm text-gray-500 mb-5">What kind of help do you need?</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="step1CategoryGrid"></div>
+        <div class="flex justify-end mt-6">
+          <button onclick="wizardNext(1)" class="btn-primary px-7 py-3 rounded-xl text-sm"><span>Next</span> <i class="fas fa-arrow-right ml-2"></i></button>
+        </div>
+      </div>
+      <div id="wizardStep2" class="wizard-step hidden bg-white/90 backdrop-blur-sm rounded-2xl p-7 card-shadow-lg border border-white/50 animate-fade-in">
+        <h3 class="text-lg font-bold text-gray-800 mb-1"><i class="fas fa-edit mr-2 text-pink-500"></i>Request Details</h3>
+        <p class="text-sm text-gray-500 mb-5">Describe what you need</p>
+        <div class="space-y-4">
+          <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Title *</label><input id="postTitle" type="text" class="input-field" placeholder="e.g., Photographer needed for college event" /></div>
+          <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Description *</label><textarea id="postDesc" class="input-field" rows="4" placeholder="Provide details about what you need..."></textarea></div>
+          <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Special Requirements (Optional)</label><input id="postReqs" type="text" class="input-field" placeholder="e.g., Must have DSLR camera" /></div>
+        </div>
+        <div class="flex justify-between mt-6">
+          <button onclick="wizardBack(2)" class="btn-secondary px-6 py-3 rounded-xl text-sm"><i class="fas fa-arrow-left mr-2"></i> Back</button>
+          <button onclick="wizardNext(2)" class="btn-primary px-7 py-3 rounded-xl text-sm"><span>Next</span> <i class="fas fa-arrow-right ml-2"></i></button>
+        </div>
+      </div>
+      <div id="wizardStep3" class="wizard-step hidden bg-white/90 backdrop-blur-sm rounded-2xl p-7 card-shadow-lg border border-white/50 animate-fade-in">
+        <h3 class="text-lg font-bold text-gray-800 mb-1"><i class="fas fa-calendar-alt mr-2 text-teal-500"></i>Schedule & Location</h3>
+        <p class="text-sm text-gray-500 mb-5">When and where do you need help?</p>
+        <div class="space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Date *</label><input id="postDate" type="date" class="input-field" /></div>
+            <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Time</label><input id="postTime" type="time" class="input-field" /></div>
+          </div>
+          <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Campus Location *</label>
+            <select id="postLocation" class="select-field"><option value="">Select location...</option><option>Main Auditorium</option><option>Central Library</option><option>Block A</option><option>Block B</option><option>Block C</option><option>Innovation Lab</option><option>Cafeteria</option><option>Sports Complex</option><option>Main Gate</option><option>Hostel Area</option></select>
+          </div>
+        </div>
+        <div class="flex justify-between mt-6">
+          <button onclick="wizardBack(3)" class="btn-secondary px-6 py-3 rounded-xl text-sm"><i class="fas fa-arrow-left mr-2"></i> Back</button>
+          <button onclick="wizardNext(3)" class="btn-primary px-7 py-3 rounded-xl text-sm"><span>Next</span> <i class="fas fa-arrow-right ml-2"></i></button>
+        </div>
+      </div>
+      <div id="wizardStep4" class="wizard-step hidden bg-white/90 backdrop-blur-sm rounded-2xl p-7 card-shadow-lg border border-white/50 animate-fade-in">
+        <h3 class="text-lg font-bold text-gray-800 mb-1"><i class="fas fa-wallet mr-2 text-orange-500"></i>Set Your Budget</h3>
+        <p class="text-sm text-gray-500 mb-5">How much are you willing to pay? Enter 0 for free collab.</p>
+        <div class="space-y-4">
+          <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Budget (₹)</label>
+            <div class="relative"><span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold text-lg">₹</span>
+            <input id="postBudget" type="number" min="0" class="input-field pl-10 text-lg font-semibold" placeholder="0" oninput="updateBudgetPreview()" /></div>
+          </div>
+          <div id="budgetPreview" class="budget-preview hidden animate-scale-in">
+            <h4 class="font-bold text-sm text-gray-700 mb-3"><i class="fas fa-calculator mr-2" style="color:#7C3AED"></i>Cost Breakdown</h4>
+            <div class="space-y-2.5 text-sm">
+              <div class="flex justify-between"><span class="text-gray-600">Service Amount</span><span id="bpAmount" class="font-bold text-gray-800">₹0</span></div>
+              <div class="flex justify-between"><span class="text-gray-600">CampusConnect Fee (10%)</span><span id="bpFee" class="font-bold text-red-500">-₹0</span></div>
+              <hr class="border-indigo-100"/>
+              <div class="flex justify-between text-base"><span class="font-extrabold text-gray-800">Provider Payout</span><span id="bpPayout" class="font-extrabold text-green-600">₹0</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-between mt-6">
+          <button onclick="wizardBack(4)" class="btn-secondary px-6 py-3 rounded-xl text-sm"><i class="fas fa-arrow-left mr-2"></i> Back</button>
+          <button onclick="submitRequest()" class="btn-primary px-7 py-3 rounded-xl text-sm"><i class="fas fa-paper-plane mr-2"></i> <span>Post Request</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="page-dashboard" class="page">
+    <div class="mt-6 mb-6">
+      <h2 class="text-2xl font-black text-gray-800 mb-1">My <span class="gradient-text">Dashboard</span></h2>
+      <p class="text-gray-500">Track your requests and tasks</p>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6" id="dashStats"></div>
+    <div class="flex gap-2 mb-6" id="dashTabs">
+      <button class="tab-btn active" onclick="switchDashTab('myRequests')"><i class="fas fa-paper-plane mr-1.5"></i>My Requests</button>
+      <button class="tab-btn" onclick="switchDashTab('acceptedTasks')"><i class="fas fa-hands-helping mr-1.5"></i>Accepted Tasks</button>
+    </div>
+    <div id="dashContent"></div>
+  </div>
+
+  <!-- PROFILE -->
+  <div id="page-profile" class="page">
+    <div class="mt-6 space-y-6">
+      <div class="bg-white/90 backdrop-blur-sm rounded-3xl p-7 card-shadow-lg border border-white/50" id="profileHeader"></div>
+      <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 card-shadow border border-white/50" id="profileSkills"></div>
+      <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 card-shadow border border-white/50" id="profileReviews"></div>
+    </div>
+  </div>
+</main>
+
+<!-- REQUEST MODAL -->
+<div id="requestModal" class="modal-overlay" onclick="closeRequestModal(event)">
+  <div class="bg-white rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-7 shadow-2xl" id="requestModalContent" onclick="event.stopPropagation()"></div>
+</div>
+
+<!-- RATING MODAL -->
+<div id="ratingModal" class="modal-overlay" onclick="closeRatingModal(event)">
+  <div class="bg-white rounded-3xl w-full max-w-md p-7 shadow-2xl" id="ratingModalContent" onclick="event.stopPropagation()"></div>
+</div>
+
+</div><!-- END APP WRAPPER -->
+
+<script>
+// =====================================================
+// DATA
+// =====================================================
+var CATEGORIES = [
+  { id: 'photography', label: 'Photography', icon: 'fa-camera-retro', bg: '#FEF3C7', color: '#D97706', gradient: 'linear-gradient(135deg,#FEF3C7,#FDE68A)' },
+  { id: 'notes', label: 'Notes', icon: 'fa-book-open', bg: '#DBEAFE', color: '#2563EB', gradient: 'linear-gradient(135deg,#DBEAFE,#BFDBFE)' },
+  { id: 'presentation', label: 'Presentations', icon: 'fa-palette', bg: '#FCE7F3', color: '#DB2777', gradient: 'linear-gradient(135deg,#FCE7F3,#FBCFE8)' },
+  { id: 'teammates', label: 'Teammates', icon: 'fa-user-group', bg: '#D1FAE5', color: '#059669', gradient: 'linear-gradient(135deg,#D1FAE5,#A7F3D0)' },
+  { id: 'transport', label: 'Transport', icon: 'fa-car-side', bg: '#E0E7FF', color: '#4F46E5', gradient: 'linear-gradient(135deg,#E0E7FF,#C7D2FE)' },
+  { id: 'other', label: 'Other', icon: 'fa-wand-magic-sparkles', bg: '#F3E8FF', color: '#7C3AED', gradient: 'linear-gradient(135deg,#F3E8FF,#E9D5FF)' },
+];
+function getCategoryById(id) { return CATEGORIES.find(function(c){return c.id===id}) || CATEGORIES[5]; }
+
+var SEED_USERS = [
+  { id: 'user_rahul', name: 'Rahul Sharma', email: 'rahul.sharma@campus.edu', dept: 'Computer Science', year: '2nd Year', skills: ['Web Development', 'Python', 'Photography', 'Video Editing'], rating: 4.5, completedCount: 12, avatar: 'RS', bio: 'CS enthusiast passionate about web dev and open source. Always up for a hackathon!' },
+  { id: 'user_ananya', name: 'Ananya Roy', email: 'ananya.roy@campus.edu', dept: 'Electronics & Comm', year: '3rd Year', skills: ['Circuit Design', 'MATLAB', 'Technical Writing', 'Presentation Design', 'IoT'], rating: 4.8, completedCount: 23, avatar: 'AR', bio: 'ECE senior who loves helping juniors with notes and projects. Design enthusiast on the side.' },
+];
+
+var TODAY = new Date();
+var TOMORROW = new Date(TODAY); TOMORROW.setDate(TOMORROW.getDate() + 1);
+var FRIDAY = new Date(TODAY); FRIDAY.setDate(FRIDAY.getDate() + ((5 - FRIDAY.getDay() + 7) % 7 || 7));
+var NEXTWEEK = new Date(TODAY); NEXTWEEK.setDate(NEXTWEEK.getDate() + 7);
+function fmtDate(d) { return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); }
+
+var SEED_REQUESTS = [
+  { id:'req_001', requesterId:'user_ananya', providerId:null, title:'Photographer Needed for College Cultural Event', category:'photography', description:'We need an experienced photographer with a DSLR for our annual cultural fest. Coverage of stage performances, candid shots, and group photos required.', requirements:'Must have DSLR camera, event photography experience preferred', date:fmtDate(TOMORROW), time:'4:00 PM', location:'Main Auditorium', budget:500, status:'OPEN', createdAt:new Date(TODAY.getTime()-3600000).toISOString() },
+  { id:'req_002', requesterId:'user_rahul', providerId:null, title:'Engineering Mathematics Module 2 Notes & Formula Sheet', category:'notes', description:'Looking for well-organized notes for Engineering Maths Module 2 covering Laplace Transforms, Fourier Series, and Complex Analysis.', requirements:'Neat handwriting or typed, covering all important derivations', date:fmtDate(TODAY), time:'', location:'Central Library', budget:100, status:'OPEN', createdAt:new Date(TODAY.getTime()-7200000).toISOString() },
+  { id:'req_003', requesterId:'user_ananya', providerId:null, title:'10-Slide Deck Design for Startup Pitch', category:'presentation', description:'Need a professional-looking 10-slide pitch deck for our startup idea presentation. Content is ready, just need someone skilled with PowerPoint/Canva.', requirements:'Proficiency in Canva or PowerPoint, modern design sense', date:fmtDate(FRIDAY), time:'2:00 PM', location:'Block B', budget:300, status:'OPEN', createdAt:new Date(TODAY.getTime()-10800000).toISOString() },
+  { id:'req_004', requesterId:'user_rahul', providerId:null, title:'Looking for React/Node Developer for Hackathon', category:'teammates', description:'Forming a team for the upcoming inter-college hackathon. Need someone skilled in React and/or Node.js. We already have a designer and ML engineer.', requirements:'Experience with React.js, Node.js, or full-stack development', date:fmtDate(NEXTWEEK), time:'', location:'Innovation Lab', budget:0, status:'OPEN', createdAt:new Date(TODAY.getTime()-14400000).toISOString() },
+  { id:'req_005', requesterId:'user_rahul', providerId:null, title:'Ride Share to City Station After Evening Class', category:'transport', description:'Looking for a ride share from campus to City Railway Station after our 5 PM class. Happy to split fuel costs.', requirements:'Must have 2-wheeler or car', date:fmtDate(TODAY), time:'5:30 PM', location:'Main Gate', budget:150, status:'OPEN', createdAt:new Date(TODAY.getTime()-1800000).toISOString() }
+];
+
+// =====================================================
+// LOCALSTORAGE DB
+// =====================================================
+function initDB() {
+  if (!localStorage.getItem('cc_users')) localStorage.setItem('cc_users', JSON.stringify(SEED_USERS));
+  if (!localStorage.getItem('cc_requests')) localStorage.setItem('cc_requests', JSON.stringify(SEED_REQUESTS));
+  if (!localStorage.getItem('cc_reviews')) localStorage.setItem('cc_reviews', JSON.stringify([]));
+  if (!localStorage.getItem('cc_notifications')) localStorage.setItem('cc_notifications', JSON.stringify([]));
+  if (!localStorage.getItem('cc_active_user')) localStorage.setItem('cc_active_user', 'user_rahul');
+}
+function getUsers() { return JSON.parse(localStorage.getItem('cc_users')||'[]'); }
+function getRequests() { return JSON.parse(localStorage.getItem('cc_requests')||'[]'); }
+function getReviews() { return JSON.parse(localStorage.getItem('cc_reviews')||'[]'); }
+function getNotifications() { return JSON.parse(localStorage.getItem('cc_notifications')||'[]'); }
+function getActiveUserId() { return localStorage.getItem('cc_active_user')||'user_rahul'; }
+function getActiveUser() { return getUsers().find(function(u){return u.id===getActiveUserId()}); }
+function saveUsers(u) { localStorage.setItem('cc_users', JSON.stringify(u)); }
+function saveRequests(r) { localStorage.setItem('cc_requests', JSON.stringify(r)); }
+function saveReviews(r) { localStorage.setItem('cc_reviews', JSON.stringify(r)); }
+function saveNotifications(n) { localStorage.setItem('cc_notifications', JSON.stringify(n)); }
+function setActiveUser(id) { localStorage.setItem('cc_active_user', id); }
+function getUserById(id) { return getUsers().find(function(u){return u.id===id}); }
+
+function addNotification(userId, title, message) {
+  var notifs = getNotifications();
+  notifs.unshift({ id:'notif_'+Date.now(), userId:userId, title:title, message:message, date:new Date().toISOString(), read:false });
+  saveNotifications(notifs);
+  updateNotifBadge();
+}
+function updateNotifBadge() {
+  var userId = getActiveUserId();
+  var count = getNotifications().filter(function(n){return n.userId===userId && !n.read}).length;
+  var badge = document.getElementById('notifBadge');
+  if (count > 0) { badge.textContent = count > 9 ? '9+' : count; badge.classList.remove('hidden'); }
+  else { badge.classList.add('hidden'); }
+}
+function markAllNotificationsRead() {
+  var userId = getActiveUserId();
+  var notifs = getNotifications().map(function(n){return n.userId===userId ? Object.assign({},n,{read:true}) : n});
+  saveNotifications(notifs); updateNotifBadge(); renderNotificationPanel();
+  showToast('success','All notifications marked as read');
+}
+
+// =====================================================
+// NAVIGATION
+// =====================================================
+var currentPage = 'home';
+var pages = ['home','browse','post','dashboard','profile'];
+function navigateTo(page, opts) {
+  opts = opts || {};
+  pages.forEach(function(p){ var el=document.getElementById('page-'+p); if(el) el.classList.remove('active'); });
+  var target = document.getElementById('page-'+page);
+  if (target) target.classList.add('active');
+  currentPage = page;
+  document.querySelectorAll('.nav-link').forEach(function(a){a.classList.remove('active')});
+  document.querySelectorAll('.nav-link').forEach(function(a){ if(a.getAttribute('onclick') && a.getAttribute('onclick').indexOf(page)!==-1) a.classList.add('active'); });
+  window.scrollTo({top:0,behavior:'smooth'});
+  if (page==='home') renderHome();
+  if (page==='browse') { if(opts.category){setTimeout(function(){document.getElementById('browseCategory').value=opts.category;renderBrowse()},50)} else renderBrowse(); }
+  if (page==='post') initWizard();
+  if (page==='dashboard') renderDashboard();
+  if (page==='profile') renderProfile();
+}
+
+// =====================================================
+// USER SWITCHER
+// =====================================================
+function getAvatarColor(userId) {
+  return userId === 'user_rahul' ? 'linear-gradient(135deg,#4F46E5,#6366F1)' : 'linear-gradient(135deg,#7C3AED,#A855F7)';
+}
+function renderUserSwitcher() {
+  var active = getActiveUser(); var users = getUsers();
+  var av = document.getElementById('headerAvatar');
+  av.textContent = active.avatar; av.style.background = getAvatarColor(active.id);
+  document.getElementById('headerUserName').textContent = active.name.split(' ')[0];
+  document.getElementById('userDropdownContent').innerHTML = users.map(function(u){
+    return '<div class="user-switcher-option '+(u.id===active.id?'active-user':'')+'" onclick="switchUser(\''+u.id+'\')">' +
+      '<div class="flex items-center gap-3">' +
+      '<div class="avatar-circle w-10 h-10 text-white text-sm font-bold shadow-sm" style="background:'+getAvatarColor(u.id)+'">'+u.avatar+'</div>' +
+      '<div><p class="font-semibold text-sm text-gray-800">'+u.name+(u.id===active.id?' <span class="text-xs font-bold" style="color:#7C3AED">(Active)</span>':'')+'</p>' +
+      '<p class="text-xs text-gray-500">'+u.dept+' &bull; '+u.year+'</p></div>' +
+      (u.id===active.id?'<i class="fas fa-check-circle ml-auto" style="color:#7C3AED"></i>':'') +
+      '</div></div>';
+  }).join('') +
+  '<hr style="border:none;border-top:1px solid rgba(229,231,235,0.5);margin:8px 4px"/>' +
+  '<div class="user-switcher-option" onclick="handleLogout()" style="margin:4px">' +
+  '<div class="flex items-center gap-3">' +
+  '<div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:linear-gradient(135deg,#FEE2E2,#FECACA)"><i class="fas fa-sign-out-alt text-red-500"></i></div>' +
+  '<p class="font-semibold text-sm text-red-500">Sign Out</p>' +
+  '</div></div>';
+  var sbs = document.getElementById('sidebarUserSwitcher');
+  if(sbs) sbs.innerHTML = users.map(function(u){
+    return '<div class="user-switcher-option '+(u.id===active.id?'active-user':'')+' mb-2" onclick="switchUser(\''+u.id+'\');closeSidebar()">' +
+      '<div class="flex items-center gap-3">' +
+      '<div class="avatar-circle w-9 h-9 text-white text-sm font-bold" style="background:'+getAvatarColor(u.id)+'">'+u.avatar+'</div>' +
+      '<div><p class="font-semibold text-sm text-gray-800">'+u.name.split(' ')[0]+'</p><p class="text-xs text-gray-500">'+u.dept+'</p></div>' +
+      (u.id===active.id?'<i class="fas fa-check ml-auto" style="color:#7C3AED"></i>':'') +
+      '</div></div>';
+  }).join('');
+}
+function switchUser(id) { setActiveUser(id); closeUserDropdown(); renderUserSwitcher(); updateNotifBadge(); navigateTo(currentPage); showToast('success','Switched to '+getUserById(id).name); }
+function toggleUserDropdown() { document.getElementById('userDropdown').classList.toggle('hidden'); }
+function closeUserDropdown() { document.getElementById('userDropdown').classList.add('hidden'); }
+document.addEventListener('click',function(e){ if(!document.getElementById('userSwitcherContainer').contains(e.target)) closeUserDropdown(); });
+
+// =====================================================
+// TOAST
+// =====================================================
+var toastTimer = null;
+function showToast(type, message) {
+  var toast = document.getElementById('toast');
+  var configs = {
+    success: { bg:'linear-gradient(135deg,#ECFDF5,#D1FAE5)', border:'#6EE7B7', icon:'fa-check-circle', iconColor:'#10B981', textColor:'#065F46' },
+    error:   { bg:'linear-gradient(135deg,#FEF2F2,#FEE2E2)', border:'#FCA5A5', icon:'fa-exclamation-circle', iconColor:'#EF4444', textColor:'#991B1B' },
+    info:    { bg:'linear-gradient(135deg,#EEF2FF,#E0E7FF)', border:'#A5B4FC', icon:'fa-info-circle', iconColor:'#6366F1', textColor:'#3730A3' },
+    warning: { bg:'linear-gradient(135deg,#FFFBEB,#FEF3C7)', border:'#FCD34D', icon:'fa-exclamation-triangle', iconColor:'#F59E0B', textColor:'#92400E' },
+  };
+  var c = configs[type]||configs.info;
+  toast.style.background = c.bg; toast.style.border = '2px solid '+c.border;
+  toast.innerHTML = '<i class="fas '+c.icon+' text-xl mt-0.5" style="color:'+c.iconColor+'"></i>' +
+    '<div><p class="font-bold text-sm" style="color:'+c.textColor+'">'+message+'</p></div>' +
+    '<button onclick="hideToast()" class="ml-auto text-gray-400 hover:text-gray-600 text-sm hover:rotate-90 transition-transform"><i class="fas fa-times"></i></button>';
+  toast.classList.add('show');
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(hideToast, 3500);
+}
+function hideToast() { document.getElementById('toast').classList.remove('show'); }
+
+// =====================================================
+// SIDEBAR & NOTIFICATIONS
+// =====================================================
+function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+function toggleNotificationPanel() {
+  var panel = document.getElementById('notificationPanel');
+  if(panel.classList.contains('open')) closeNotificationPanel();
+  else { renderNotificationPanel(); panel.classList.add('open'); document.getElementById('overlay').classList.add('show'); }
+}
+function closeNotificationPanel() { document.getElementById('notificationPanel').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+function renderNotificationPanel() {
+  var userId=getActiveUserId(); var notifs=getNotifications().filter(function(n){return n.userId===userId});
+  var list=document.getElementById('notificationList');
+  if(notifs.length===0){ list.innerHTML='<div class="text-center py-16"><div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF)"><i class="fas fa-bell-slash text-2xl text-gray-300"></i></div><p class="text-gray-400 font-semibold">No notifications yet</p></div>'; return; }
+  list.innerHTML = notifs.map(function(n,i){
+    return '<div class="flex gap-3 p-4 rounded-xl mb-2 transition-all hover:scale-[1.02] '+(n.read?'bg-gray-50/80':'bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100')+'" style="animation:fadeIn 0.3s ease '+(i*0.05)+'s both">' +
+      '<div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF)">' +
+      '<i class="fas fa-bell text-sm" style="color:#6366F1"></i></div>' +
+      '<div class="flex-1 min-w-0"><p class="font-bold text-sm text-gray-800">'+n.title+'</p>' +
+      '<p class="text-xs text-gray-500 mt-0.5 leading-snug">'+n.message+'</p>' +
+      '<p class="text-xs text-gray-400 mt-1.5"><i class="fas fa-clock mr-1"></i>'+new Date(n.date).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</p></div>' +
+      (!n.read?'<div class="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0" style="background:linear-gradient(135deg,#6366F1,#7C3AED)"></div>':'') + '</div>';
+  }).join('');
+}
+</script>
+
+<script>
+// =====================================================
+// HOME
+// =====================================================
+function renderHome() { renderStatsBar(); renderCategoriesGrid(); renderHomeRequests(); }
+
+function renderStatsBar() {
+  var requests=getRequests();
+  var active=requests.filter(function(r){return r.status==='OPEN'||r.status==='ACCEPTED'||r.status==='IN_PROGRESS'}).length;
+  var completed=requests.filter(function(r){return r.status==='COMPLETED'}).length;
+  var earnings=requests.filter(function(r){return r.status==='COMPLETED'}).reduce(function(s,r){return s+(r.budget||0)},0);
+  var stats=[
+    {label:'Active Requests',value:active,icon:'fa-fire',gradient:'linear-gradient(135deg,#4F46E5,#6366F1)',bg:'linear-gradient(135deg,#EEF2FF,#E0E7FF)'},
+    {label:'Tasks Completed',value:completed,icon:'fa-trophy',gradient:'linear-gradient(135deg,#059669,#10B981)',bg:'linear-gradient(135deg,#D1FAE5,#A7F3D0)'},
+    {label:'Student Earnings',value:'\u20B9'+earnings.toLocaleString('en-IN'),icon:'fa-coins',gradient:'linear-gradient(135deg,#D97706,#F59E0B)',bg:'linear-gradient(135deg,#FEF3C7,#FDE68A)'},
+  ];
+  document.getElementById('statsBar').innerHTML = stats.map(function(s,i){
+    return '<div class="stat-card bg-white/90 backdrop-blur-sm rounded-2xl p-5 card-shadow-lg border border-white/50 flex items-center gap-4 animate-fade-in stagger-'+(i+1)+'">' +
+      '<div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg" style="background:'+s.gradient+'">' +
+      '<i class="fas '+s.icon+' text-xl text-white"></i></div>' +
+      '<div><p class="text-2xl font-black text-gray-800">'+s.value+'</p>' +
+      '<p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">'+s.label+'</p></div></div>';
+  }).join('');
+}
+
+function renderCategoriesGrid() {
+  document.getElementById('categoriesGrid').innerHTML = CATEGORIES.map(function(cat,i){
+    return '<div class="category-card bg-white/90 backdrop-blur-sm rounded-2xl p-5 text-center card-shadow border border-white/50 animate-fade-in stagger-'+(i+1)+'" onclick="navigateTo(\'browse\',{category:\''+cat.id+'\'})">' +
+      '<div class="w-16 h-16 rounded-2xl mx-auto mb-3 flex items-center justify-center text-2xl shadow-md transition-transform group-hover:scale-110" style="background:'+cat.gradient+';color:'+cat.color+'">' +
+      '<i class="fas '+cat.icon+'"></i></div>' +
+      '<p class="font-bold text-sm text-gray-700">'+cat.label+'</p></div>';
+  }).join('');
+}
+
+function renderHomeRequests() {
+  var requests=getRequests().filter(function(r){return r.status==='OPEN'}).slice(0,3);
+  var grid=document.getElementById('homeRequestsGrid');
+  if(requests.length===0){grid.innerHTML='<div class="col-span-3 text-center py-10 text-gray-400">No open requests. <button class="font-bold hover:underline" style="color:#6366F1" onclick="navigateTo(\'post\')">Be the first!</button></div>';return;}
+  grid.innerHTML = requests.map(function(r,i){return requestCardHTML(r,i)}).join('');
+}
+
+// =====================================================
+// REQUEST CARD
+// =====================================================
+function statusBadge(status) {
+  var map = { 'OPEN':['status-open','Open','fa-circle'], 'ACCEPTED':['status-accepted','Accepted','fa-clock'], 'IN_PROGRESS':['status-in_progress','In Progress','fa-spinner fa-spin'], 'COMPLETED':['status-completed','Completed','fa-check'] };
+  var a = map[status]||map['OPEN'];
+  return '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold '+a[0]+'"><i class="fas '+a[2]+' text-[10px]"></i>'+a[1]+'</span>';
+}
+
+function requestCardHTML(req,idx) {
+  var cat=getCategoryById(req.category); var requester=getUserById(req.requesterId); var rName=requester?requester.name:'Unknown';
+  var delay = idx !== undefined ? ' style="animation-delay:'+(idx*0.08)+'s"' : '';
+  return '<div class="request-card bg-white/90 backdrop-blur-sm rounded-2xl p-5 card-shadow cursor-pointer border border-white/50 animate-fade-in"'+delay+' onclick="openRequestModal(\''+req.id+'\')">' +
+    '<div class="flex items-start justify-between mb-3">' +
+    '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold" style="background:'+cat.gradient+';color:'+cat.color+'">' +
+    '<i class="fas '+cat.icon+' text-xs"></i>'+cat.label+'</span>' + statusBadge(req.status) + '</div>' +
+    '<h3 class="font-bold text-gray-800 mb-2 leading-snug" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">'+req.title+'</h3>' +
+    '<p class="text-gray-500 text-sm mb-4" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">'+req.description+'</p>' +
+    '<div class="flex flex-wrap gap-y-2 gap-x-3 text-xs text-gray-500 mb-4">' +
+    '<span class="flex items-center gap-1"><i class="fas fa-user-circle text-indigo-400"></i>'+rName+'</span>' +
+    (req.location?'<span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-pink-400"></i>'+req.location+'</span>':'') +
+    (req.date?'<span class="flex items-center gap-1"><i class="fas fa-calendar-day text-teal-400"></i>'+req.date+(req.time?', '+req.time:'')+'</span>':'') + '</div>' +
+    '<div class="flex items-center justify-between">' +
+    '<span class="font-black text-lg gradient-text">'+(req.budget===0?'Free / Collab':'\u20B9'+req.budget)+'</span>' +
+    '<button class="btn-primary px-4 py-2 rounded-xl text-sm" onclick="event.stopPropagation();openRequestModal(\''+req.id+'\')"><span>Details</span> <i class="fas fa-arrow-right ml-1"></i></button>' +
+    '</div></div>';
+}
+
+// =====================================================
+// BROWSE
+// =====================================================
+function renderBrowse() {
+  populateBrowseCategoryFilter();
+  var search=(document.getElementById('browseSearch').value||'').toLowerCase();
+  var category=document.getElementById('browseCategory').value||'';
+  var budget=document.getElementById('browseBudget').value||'';
+  var status=document.getElementById('browseStatus').value||'';
+  var requests=getRequests();
+  if(search) requests=requests.filter(function(r){return r.title.toLowerCase().indexOf(search)!==-1||r.description.toLowerCase().indexOf(search)!==-1});
+  if(category) requests=requests.filter(function(r){return r.category===category});
+  if(budget==='free') requests=requests.filter(function(r){return r.budget===0});
+  if(budget==='under200') requests=requests.filter(function(r){return r.budget>0&&r.budget<200});
+  if(budget==='200to500') requests=requests.filter(function(r){return r.budget>=200&&r.budget<=500});
+  if(budget==='500plus') requests=requests.filter(function(r){return r.budget>500});
+  if(status) requests=requests.filter(function(r){return r.status===status});
+  requests.sort(function(a,b){return new Date(b.createdAt)-new Date(a.createdAt)});
+  var grid=document.getElementById('browseResults'); var empty=document.getElementById('browseEmpty');
+  if(requests.length===0){grid.innerHTML='';empty.classList.remove('hidden')} else {empty.classList.add('hidden');grid.innerHTML=requests.map(function(r,i){return requestCardHTML(r,i)}).join('')}
+}
+var browseCategoryPopulated=false;
+function populateBrowseCategoryFilter(){if(browseCategoryPopulated)return;var sel=document.getElementById('browseCategory');CATEGORIES.forEach(function(c){var o=document.createElement('option');o.value=c.id;o.textContent=c.label;sel.appendChild(o)});browseCategoryPopulated=true}
+function clearBrowseFilters(){document.getElementById('browseSearch').value='';document.getElementById('browseCategory').value='';document.getElementById('browseBudget').value='';document.getElementById('browseStatus').value='';renderBrowse()}
+
+// =====================================================
+// REQUEST MODAL
+// =====================================================
+function openRequestModal(id) {
+  var req=getRequests().find(function(r){return r.id===id}); if(!req) return;
+  var cat=getCategoryById(req.category); var requester=getUserById(req.requesterId); var activeUser=getActiveUser(); var isOwner=activeUser.id===req.requesterId;
+  var actionBtn='';
+  if(isOwner) actionBtn='<div class="bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200 rounded-xl p-4 text-center text-sm text-yellow-700 font-bold"><i class="fas fa-info-circle mr-2"></i>You posted this request</div>';
+  else if(req.status==='OPEN') actionBtn='<button onclick="acceptRequest(\''+id+'\')" class="btn-primary w-full py-3.5 rounded-xl text-base font-bold shimmer"><i class="fas fa-handshake mr-2"></i><span>Accept This Request</span></button>';
+  else if(req.status==='ACCEPTED'&&req.providerId===activeUser.id) actionBtn='<div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 text-center text-sm text-blue-700 font-bold"><i class="fas fa-check mr-2"></i>You accepted this request</div>';
+  else if(req.status==='ACCEPTED'||req.status==='IN_PROGRESS') actionBtn='<div class="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center text-sm text-gray-500 font-semibold">This request is no longer available</div>';
+  else if(req.status==='COMPLETED') actionBtn='<div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4 text-center text-sm text-green-700 font-bold"><i class="fas fa-check-circle mr-2"></i>Completed</div>';
+  var provider=req.providerId?getUserById(req.providerId):null;
+  var provHTML=provider?'<div class="flex items-center gap-3 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl mb-5"><div class="avatar-circle w-11 h-11 text-white text-sm font-bold" style="background:'+getAvatarColor(provider.id)+'">'+provider.avatar+'</div><div><p class="text-xs text-green-700 font-bold mb-0.5"><i class="fas fa-check-circle mr-1"></i>Accepted by</p><p class="font-bold text-gray-800">'+provider.name+'</p><p class="text-xs text-gray-500">'+provider.dept+'</p></div></div>':'';
+  document.getElementById('requestModalContent').innerHTML =
+    '<div class="flex items-center justify-between mb-5">' +
+    '<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold" style="background:'+cat.gradient+';color:'+cat.color+'"><i class="fas '+cat.icon+'"></i>'+cat.label+'</span>' +
+    '<div class="flex items-center gap-2">'+statusBadge(req.status)+'<button onclick="closeRequestModal()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-red-500 transition-all ml-1"><i class="fas fa-times"></i></button></div></div>' +
+    '<h2 class="text-xl font-black text-gray-800 mb-3 leading-tight">'+req.title+'</h2>' +
+    '<p class="text-gray-600 mb-5 leading-relaxed">'+req.description+'</p>' +
+    (req.requirements?'<div class="rounded-xl p-4 mb-5" style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF)"><p class="text-sm font-bold mb-1" style="color:#6366F1"><i class="fas fa-star mr-2"></i>Special Requirements</p><p class="text-sm text-gray-600">'+req.requirements+'</p></div>':'') +
+    '<div class="grid grid-cols-2 gap-3 mb-5">' +
+    '<div class="rounded-xl p-4" style="background:linear-gradient(135deg,#F9FAFB,#F3F4F6)"><p class="text-xs text-gray-400 font-bold mb-1">LOCATION</p><p class="font-bold text-gray-800 text-sm"><i class="fas fa-map-marker-alt mr-1.5 text-pink-500"></i>'+(req.location||'TBD')+'</p></div>' +
+    '<div class="rounded-xl p-4" style="background:linear-gradient(135deg,#F9FAFB,#F3F4F6)"><p class="text-xs text-gray-400 font-bold mb-1">DATE & TIME</p><p class="font-bold text-gray-800 text-sm"><i class="fas fa-calendar-day mr-1.5 text-teal-500"></i>'+(req.date||'TBD')+(req.time?', '+req.time:'')+'</p></div>' +
+    '<div class="rounded-xl p-4" style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF)"><p class="text-xs text-gray-400 font-bold mb-1">BUDGET</p><p class="font-black text-2xl gradient-text">'+(req.budget===0?'Free':'\u20B9'+req.budget)+'</p></div>' +
+    '<div class="rounded-xl p-4" style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0)"><p class="text-xs text-gray-400 font-bold mb-1">PAYOUT</p><p class="font-black text-2xl text-green-600">'+(req.budget===0?'\u2014':'\u20B9'+Math.round(req.budget*0.9))+'</p></div></div>' +
+    '<div class="flex items-center gap-3 p-4 rounded-xl mb-5" style="background:linear-gradient(135deg,#F9FAFB,#F3F4F6)">' +
+    '<div class="avatar-circle w-11 h-11 text-white text-sm font-bold shadow-md" style="background:'+getAvatarColor(requester?requester.id:'')+'">'+( requester?requester.avatar:'?')+'</div>' +
+    '<div><p class="font-bold text-gray-800">'+(requester?requester.name:'Unknown')+'</p><p class="text-xs text-gray-500">'+(requester?requester.dept+' &bull; '+requester.year:'')+'</p>' +
+    '<div class="flex items-center gap-1 mt-0.5"><i class="fas fa-star text-yellow-400 text-xs"></i><span class="text-xs font-bold text-gray-600">'+(requester?requester.rating:0)+' &bull; '+(requester?requester.completedCount:0)+' tasks</span></div></div></div>' +
+    provHTML + actionBtn;
+  document.getElementById('requestModal').classList.add('show');
+}
+function closeRequestModal(e){if(!e||e.target===document.getElementById('requestModal')) document.getElementById('requestModal').classList.remove('show')}
+
+// =====================================================
+// ACCEPT
+// =====================================================
+function acceptRequest(id) {
+  var requests=getRequests(); var idx=requests.findIndex(function(r){return r.id===id}); if(idx===-1)return;
+  var req=requests[idx]; var activeUser=getActiveUser();
+  if(req.requesterId===activeUser.id){showToast('error','You cannot accept your own request!');return}
+  if(req.status!=='OPEN'){showToast('error','This request is no longer available.');return}
+  requests[idx].status='ACCEPTED'; requests[idx].providerId=activeUser.id; saveRequests(requests);
+  addNotification(req.requesterId,'Request Accepted! \uD83C\uDF89',activeUser.name+' has accepted your request: "'+req.title+'"');
+  closeRequestModal(); showToast('success','You accepted "'+req.title+'"!');
+  if(currentPage==='browse') renderBrowse(); if(currentPage==='home') renderHome();
+}
+
+// =====================================================
+// WIZARD
+// =====================================================
+var wizardData={category:'',step:1};
+function initWizard(){
+  wizardData={category:'',step:1}; renderWizardStep(1); renderStep1Categories(); renderStepIndicator(1);
+  ['postTitle','postDesc','postReqs','postDate','postTime','postBudget'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
+  var loc=document.getElementById('postLocation'); if(loc)loc.value='';
+  document.getElementById('budgetPreview').classList.add('hidden');
+}
+function renderStep1Categories(){
+  document.getElementById('step1CategoryGrid').innerHTML=CATEGORIES.map(function(cat){
+    return '<div class="category-radio-card '+(wizardData.category===cat.id?'selected':'')+'" onclick="selectWizardCategory(\''+cat.id+'\')">' +
+      '<div class="text-3xl mb-2" style="color:'+cat.color+'"><i class="fas '+cat.icon+'"></i></div>' +
+      '<p class="font-bold text-sm text-gray-700">'+cat.label+'</p></div>';
+  }).join('');
+}
+function selectWizardCategory(id){wizardData.category=id;renderStep1Categories()}
+function renderWizardStep(step){for(var i=1;i<=4;i++){var el=document.getElementById('wizardStep'+i);if(el){if(i===step)el.classList.remove('hidden');else el.classList.add('hidden')}}renderStepIndicator(step)}
+function renderStepIndicator(current){
+  var steps=['Category','Details','Schedule','Budget']; var icons=['fa-th-large','fa-edit','fa-calendar-alt','fa-wallet']; var colors=['#4F46E5','#EC4899','#14B8A6','#F97316'];
+  var html='';
+  steps.forEach(function(label,i){
+    var num=i+1; var done=num<current; var act=num===current;
+    var bg=done?'linear-gradient(135deg,#10B981,#059669)':(act?'linear-gradient(135deg,'+colors[i]+','+colors[i]+'dd)':'#E5E7EB');
+    html+='<div class="step-dot text-white '+(act?'glow shadow-lg':'')+'" style="background:'+bg+';'+(done||act?'':'color:#9CA3AF')+'">'+(done?'<i class="fas fa-check text-xs"></i>':'<i class="fas '+icons[i]+' text-xs"></i>')+'</div>';
+    if(i<steps.length-1) html+='<div class="step-line" style="background:'+(done?'linear-gradient(90deg,#10B981,#6366F1)':'#E5E7EB')+'"></div>';
+  });
+  document.getElementById('stepIndicator').innerHTML=html;
+}
+function wizardNext(step){
+  if(step===1){if(!wizardData.category){showToast('warning','Please select a category');return}wizardData.step=2;renderWizardStep(2)}
+  else if(step===2){if(!document.getElementById('postTitle').value.trim()){showToast('warning','Please enter a title');return}if(!document.getElementById('postDesc').value.trim()){showToast('warning','Please enter a description');return}wizardData.step=3;renderWizardStep(3)}
+  else if(step===3){if(!document.getElementById('postDate').value){showToast('warning','Please select a date');return}if(!document.getElementById('postLocation').value){showToast('warning','Please select a location');return}wizardData.step=4;renderWizardStep(4)}
+}
+function wizardBack(step){wizardData.step=step-1;renderWizardStep(step-1)}
+function updateBudgetPreview(){
+  var val=parseInt(document.getElementById('postBudget').value)||0;var p=document.getElementById('budgetPreview');
+  if(val>0){p.classList.remove('hidden');document.getElementById('bpAmount').textContent='\u20B9'+val;document.getElementById('bpFee').textContent='-\u20B9'+Math.round(val*0.1);document.getElementById('bpPayout').textContent='\u20B9'+Math.round(val*0.9)}else p.classList.add('hidden');
+}
+function submitRequest(){
+  var budget=parseInt(document.getElementById('postBudget').value)||0;
+  var dateVal=document.getElementById('postDate').value; var dateObj=dateVal?new Date(dateVal):new Date();
+  var timeEl=document.getElementById('postTime');var timeVal='';
+  if(timeEl&&timeEl.value){var parts=timeEl.value.split(':');var h=parseInt(parts[0]);var m=parts[1];var ampm=h>=12?'PM':'AM';h=h%12||12;timeVal=h+':'+m+' '+ampm}
+  var newReq={id:'req_'+Date.now(),requesterId:getActiveUserId(),providerId:null,title:document.getElementById('postTitle').value.trim(),category:wizardData.category,description:document.getElementById('postDesc').value.trim(),requirements:document.getElementById('postReqs').value.trim(),date:fmtDate(dateObj),time:timeVal,location:document.getElementById('postLocation').value,budget:budget,status:'OPEN',createdAt:new Date().toISOString()};
+  var requests=getRequests();requests.unshift(newReq);saveRequests(requests);
+  showToast('success','Request posted successfully! \uD83C\uDF89');navigateTo('browse');
+}
+</script>
+
+<script>
+// =====================================================
+// DASHBOARD
+// =====================================================
+var dashTab='myRequests';
+function switchDashTab(tab){
+  dashTab=tab;
+  document.querySelectorAll('#dashTabs .tab-btn').forEach(function(btn){
+    btn.classList.remove('active');
+    if((tab==='myRequests'&&btn.textContent.indexOf('My')!==-1)||(tab==='acceptedTasks'&&btn.textContent.indexOf('Accepted')!==-1)) btn.classList.add('active');
+  });
+  renderDashboard();
+}
+function renderDashboard(){
+  var userId=getActiveUserId();var requests=getRequests();var reviews=getReviews();
+  var posted=requests.filter(function(r){return r.requesterId===userId});
+  var accepted=requests.filter(function(r){return r.providerId===userId});
+  var completedP=posted.filter(function(r){return r.status==='COMPLETED'});
+  var completedA=accepted.filter(function(r){return r.status==='COMPLETED'});
+  var userReviews=reviews.filter(function(r){return r.providerId===userId});
+  var avgRating=userReviews.length>0?(userReviews.reduce(function(s,r){return s+r.rating},0)/userReviews.length).toFixed(1):getActiveUser().rating;
+  var totalEarned=completedA.reduce(function(s,r){return s+Math.round((r.budget||0)*0.9)},0);
+  var totalSpent=completedP.reduce(function(s,r){return s+(r.budget||0)},0);
+  var stats=[
+    {label:'Posted',value:posted.length,icon:'fa-paper-plane',gradient:'linear-gradient(135deg,#4F46E5,#6366F1)'},
+    {label:'Completed',value:completedP.length+completedA.length,icon:'fa-trophy',gradient:'linear-gradient(135deg,#059669,#10B981)'},
+    {label:'Avg Rating',value:avgRating,icon:'fa-star',gradient:'linear-gradient(135deg,#D97706,#F59E0B)'},
+    {label:'Earned / Spent',value:'\u20B9'+totalEarned+' / \u20B9'+totalSpent,icon:'fa-wallet',gradient:'linear-gradient(135deg,#7C3AED,#A855F7)'},
+  ];
+  document.getElementById('dashStats').innerHTML=stats.map(function(s,i){
+    return '<div class="stat-card bg-white/90 backdrop-blur-sm rounded-2xl p-4 card-shadow border border-white/50 animate-fade-in stagger-'+(i+1)+'">' +
+      '<div class="flex items-center gap-3"><div class="w-11 h-11 rounded-xl flex items-center justify-center shadow-md" style="background:'+s.gradient+'">' +
+      '<i class="fas '+s.icon+' text-white"></i></div><div><p class="font-black text-gray-800 text-lg">'+s.value+'</p><p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">'+s.label+'</p></div></div></div>';
+  }).join('');
+  var content=document.getElementById('dashContent');
+  if(dashTab==='myRequests'){
+    if(posted.length===0){content.innerHTML='<div class="text-center py-20 bg-white/90 rounded-2xl card-shadow-lg border border-white/50"><div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF)"><i class="fas fa-inbox text-2xl text-gray-300"></i></div><p class="text-gray-400 text-lg font-semibold mb-4">No requests posted yet</p><button onclick="navigateTo(\'post\')" class="btn-primary px-7 py-3 rounded-xl"><i class="fas fa-plus mr-2"></i><span>Post Your First Request</span></button></div>';return}
+    content.innerHTML='<div class="space-y-4">'+posted.map(function(req,i){
+      var cat=getCategoryById(req.category);var provider=req.providerId?getUserById(req.providerId):null;var actionArea='';
+      if(req.status==='IN_PROGRESS') actionArea='<button onclick="confirmCompletion(\''+req.id+'\')" class="btn-primary px-5 py-2.5 rounded-xl text-sm"><i class="fas fa-check-double mr-1.5"></i><span>Confirm Complete</span></button>';
+      else if(req.status==='COMPLETED') actionArea='<span class="inline-flex items-center gap-1.5 text-sm text-green-600 font-bold bg-green-50 px-3 py-1.5 rounded-full"><i class="fas fa-check-circle"></i>Done</span>';
+      return '<div class="bg-white/90 backdrop-blur-sm rounded-2xl p-5 card-shadow border border-white/50 animate-fade-in" style="animation-delay:'+(i*0.06)+'s">' +
+        '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3"><div class="flex-1 min-w-0">' +
+        '<div class="flex items-center gap-2 mb-2"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold" style="background:'+cat.gradient+';color:'+cat.color+'"><i class="fas '+cat.icon+' text-xs"></i>'+cat.label+'</span>'+statusBadge(req.status)+'</div>' +
+        '<h3 class="font-bold text-gray-800 truncate">'+req.title+'</h3>' +
+        '<p class="text-sm text-gray-500 mt-1"><i class="fas fa-calendar-day text-gray-400 mr-1"></i>'+(req.date||'')+(req.time?' at '+req.time:'')+'<span class="mx-2 text-gray-300">|</span><i class="fas fa-map-marker-alt text-gray-400 mr-1"></i>'+(req.location||'')+'<span class="mx-2 text-gray-300">|</span><span class="font-bold gradient-text">'+(req.budget===0?'Free':'\u20B9'+req.budget)+'</span></p>' +
+        (provider?'<p class="text-sm font-bold mt-1.5" style="color:#059669"><i class="fas fa-user-check mr-1"></i>Accepted by '+provider.name+'</p>':'') +
+        '</div><div class="flex items-center gap-2">'+actionArea+'</div></div></div>';
+    }).join('')+'</div>';
+  } else {
+    if(accepted.length===0){content.innerHTML='<div class="text-center py-20 bg-white/90 rounded-2xl card-shadow-lg border border-white/50"><div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0)"><i class="fas fa-hands-helping text-2xl text-gray-300"></i></div><p class="text-gray-400 text-lg font-semibold mb-4">No tasks accepted yet</p><button onclick="navigateTo(\'browse\')" class="btn-primary px-7 py-3 rounded-xl"><i class="fas fa-compass mr-2"></i><span>Browse Requests</span></button></div>';return}
+    content.innerHTML='<div class="space-y-4">'+accepted.map(function(req,i){
+      var cat=getCategoryById(req.category);var requester=getUserById(req.requesterId);var actionArea='';
+      if(req.status==='ACCEPTED') actionArea='<button onclick="markComplete(\''+req.id+'\')" class="btn-primary px-5 py-2.5 rounded-xl text-sm"><i class="fas fa-flag-checkered mr-1.5"></i><span>Mark Complete</span></button>';
+      else if(req.status==='IN_PROGRESS') actionArea='<span class="inline-flex items-center gap-1.5 text-sm text-blue-600 font-bold bg-blue-50 px-3 py-1.5 rounded-full"><i class="fas fa-hourglass-half"></i>Awaiting Confirmation</span>';
+      else if(req.status==='COMPLETED') actionArea='<span class="inline-flex items-center gap-1.5 text-sm text-green-600 font-bold bg-green-50 px-3 py-1.5 rounded-full"><i class="fas fa-check-circle"></i>Earned \u20B9'+Math.round((req.budget||0)*0.9)+'</span>';
+      return '<div class="bg-white/90 backdrop-blur-sm rounded-2xl p-5 card-shadow border border-white/50 animate-fade-in" style="animation-delay:'+(i*0.06)+'s">' +
+        '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3"><div class="flex-1 min-w-0">' +
+        '<div class="flex items-center gap-2 mb-2"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold" style="background:'+cat.gradient+';color:'+cat.color+'"><i class="fas '+cat.icon+' text-xs"></i>'+cat.label+'</span>'+statusBadge(req.status)+'</div>' +
+        '<h3 class="font-bold text-gray-800 truncate">'+req.title+'</h3>' +
+        '<p class="text-sm text-gray-500 mt-1"><i class="fas fa-calendar-day text-gray-400 mr-1"></i>'+(req.date||'')+(req.time?' at '+req.time:'')+'<span class="mx-2 text-gray-300">|</span><i class="fas fa-map-marker-alt text-gray-400 mr-1"></i>'+(req.location||'')+'<span class="mx-2 text-gray-300">|</span><span class="font-bold gradient-text">'+(req.budget===0?'Free':'\u20B9'+req.budget)+'</span></p>' +
+        (requester?'<p class="text-sm text-gray-500 mt-1.5"><i class="fas fa-user mr-1"></i>Requested by <span class="font-semibold">'+requester.name+'</span></p>':'') +
+        '</div><div class="flex items-center gap-2">'+actionArea+'</div></div></div>';
+    }).join('')+'</div>';
+  }
+}
+
+// =====================================================
+// MARK COMPLETE / CONFIRM
+// =====================================================
+function markComplete(id){
+  var requests=getRequests();var idx=requests.findIndex(function(r){return r.id===id});if(idx===-1)return;
+  requests[idx].status='IN_PROGRESS';saveRequests(requests);
+  addNotification(requests[idx].requesterId,'Task Marked Complete \u2705',getActiveUser().name+' has marked "'+requests[idx].title+'" as complete. Please confirm.');
+  showToast('info','Marked as complete. Awaiting requester confirmation.');renderDashboard();
+}
+function confirmCompletion(id){
+  var requests=getRequests();var idx=requests.findIndex(function(r){return r.id===id});if(idx===-1)return;
+  var req=requests[idx];if(req.status!=='IN_PROGRESS'){showToast('warning','Task is not ready for completion');return}
+  requests[idx].status='COMPLETED';saveRequests(requests);
+  var users=getUsers();var provIdx=users.findIndex(function(u){return u.id===req.providerId});
+  if(provIdx!==-1){users[provIdx].completedCount=(users[provIdx].completedCount||0)+1;saveUsers(users)}
+  addNotification(req.providerId,'Payment Released! \uD83D\uDCB0',getActiveUser().name+' confirmed "'+req.title+'". \u20B9'+Math.round((req.budget||0)*0.9)+' credited.');
+  showToast('success','Task confirmed as complete!');renderDashboard();openRatingModal(id);
+}
+
+// =====================================================
+// RATING MODAL
+// =====================================================
+var currentRating=0;
+function openRatingModal(requestId){
+  currentRating=0;var req=getRequests().find(function(r){return r.id===requestId});if(!req||!req.providerId)return;
+  var provider=getUserById(req.providerId);
+  var starsHTML='';for(var i=1;i<=5;i++) starsHTML+='<span class="star-btn" id="star'+i+'" onclick="setRating('+i+')"><i class="fas fa-star"></i></span>';
+  document.getElementById('ratingModalContent').innerHTML=
+    '<div class="text-center mb-6">' +
+    '<div class="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center shimmer" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A)"><i class="fas fa-star text-3xl text-yellow-500"></i></div>' +
+    '<h2 class="text-xl font-black text-gray-800">Rate Your Experience</h2>' +
+    '<p class="text-sm text-gray-500 mt-1">How was working with <span class="font-bold gradient-text">'+(provider?provider.name:'the provider')+'</span>?</p></div>' +
+    '<div class="flex justify-center gap-3 mb-6">'+starsHTML+'</div>' +
+    '<div class="mb-6"><label class="block text-sm font-semibold text-gray-700 mb-1.5">Write a Review (Optional)</label>' +
+    '<textarea id="reviewText" class="input-field" rows="3" placeholder="Tell us about your experience..."></textarea></div>' +
+    '<div class="flex gap-3">' +
+    '<button onclick="closeRatingModal()" class="btn-secondary flex-1 py-3 rounded-xl">Skip</button>' +
+    '<button onclick="submitRating(\''+requestId+'\')" class="btn-primary flex-1 py-3 rounded-xl"><i class="fas fa-paper-plane mr-2"></i><span>Submit Review</span></button></div>';
+  document.getElementById('ratingModal').classList.add('show');
+}
+function setRating(n){currentRating=n;for(var i=1;i<=5;i++){var s=document.getElementById('star'+i);if(s){if(i<=n)s.classList.add('active');else s.classList.remove('active')}}}
+function submitRating(requestId){
+  if(currentRating===0){showToast('warning','Please select a rating');return}
+  var textEl=document.getElementById('reviewText');var text=textEl?textEl.value.trim():'';
+  var req=getRequests().find(function(r){return r.id===requestId});if(!req||!req.providerId)return;
+  var review={id:'review_'+Date.now(),requestId:requestId,reviewerId:getActiveUserId(),providerId:req.providerId,rating:currentRating,text:text,date:new Date().toISOString()};
+  var reviews=getReviews();reviews.push(review);saveReviews(reviews);
+  var users=getUsers();var provIdx=users.findIndex(function(u){return u.id===req.providerId});
+  if(provIdx!==-1){var pr=reviews.filter(function(r){return r.providerId===req.providerId});users[provIdx].rating=parseFloat((pr.reduce(function(s,r){return s+r.rating},0)/pr.length).toFixed(1));saveUsers(users)}
+  closeRatingModal();showToast('success','Review submitted! Thank you. \u2B50');if(currentPage==='dashboard')renderDashboard();
+}
+function closeRatingModal(e){if(!e||e.target===document.getElementById('ratingModal'))document.getElementById('ratingModal').classList.remove('show')}
+
+// =====================================================
+// PROFILE
+// =====================================================
+function renderProfile(){
+  var user=getActiveUser();var reviews=getReviews().filter(function(r){return r.providerId===user.id});
+  var avgRating=reviews.length>0?(reviews.reduce(function(s,r){return s+r.rating},0)/reviews.length).toFixed(1):user.rating;
+  document.getElementById('profileHeader').innerHTML=
+    '<div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">' +
+    '<div class="relative"><div class="avatar-circle w-24 h-24 text-white text-3xl shadow-xl ring-4 ring-white" style="background:'+getAvatarColor(user.id)+'">'+user.avatar+'</div>' +
+    '<div class="absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center shadow-md" style="background:linear-gradient(135deg,#10B981,#059669)"><i class="fas fa-check text-white text-xs"></i></div></div>' +
+    '<div class="text-center sm:text-left flex-1">' +
+    '<h2 class="text-2xl font-black text-gray-800">'+user.name+'</h2>' +
+    '<p class="text-gray-500 mt-0.5 font-medium">'+user.dept+' &bull; '+user.year+'</p>' +
+    '<p class="text-gray-600 text-sm mt-2 max-w-md leading-relaxed">'+(user.bio||'')+'</p>' +
+    '<div class="flex flex-wrap justify-center sm:justify-start gap-3 mt-4">' +
+    '<div class="flex items-center gap-2 px-4 py-2 rounded-full shadow-sm" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A)"><i class="fas fa-star text-yellow-500 text-sm"></i><span class="font-black text-gray-800">'+avgRating+'</span><span class="text-xs text-gray-600 font-semibold">Rating</span></div>' +
+    '<div class="flex items-center gap-2 px-4 py-2 rounded-full shadow-sm" style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0)"><i class="fas fa-trophy text-green-600 text-sm"></i><span class="font-black text-gray-800">'+user.completedCount+'</span><span class="text-xs text-gray-600 font-semibold">Completed</span></div>' +
+    '<div class="flex items-center gap-2 px-4 py-2 rounded-full shadow-sm" style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF)"><i class="fas fa-envelope text-sm" style="color:#6366F1"></i><span class="text-xs text-gray-600 font-medium">'+user.email+'</span></div>' +
+    '</div></div></div>';
+  document.getElementById('profileSkills').innerHTML=
+    '<h3 class="font-black text-gray-800 mb-4"><i class="fas fa-wand-magic-sparkles mr-2" style="color:#7C3AED"></i>Skills & Expertise</h3>' +
+    '<div class="flex flex-wrap">'+(user.skills||[]).map(function(s){return '<span class="skill-tag">'+s+'</span>'}).join('')+'</div>';
+  var reviewsHTML='';
+  if(reviews.length===0) reviewsHTML='<div class="text-center py-12"><div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A)"><i class="fas fa-star text-2xl text-gray-300"></i></div><p class="text-gray-400 font-semibold">No reviews received yet</p></div>';
+  else reviewsHTML=reviews.slice().reverse().map(function(r,i){
+    var reviewer=getUserById(r.reviewerId);var stars='';for(var j=0;j<5;j++) stars+='<i class="fas fa-star text-xs '+(j<r.rating?'text-yellow-400':'text-gray-200')+'"></i>';
+    return '<div class="border border-gray-100 rounded-xl p-4 mb-3 hover:shadow-md transition-all animate-fade-in" style="animation-delay:'+(i*0.05)+'s">' +
+      '<div class="flex items-center gap-3 mb-2">' +
+      '<div class="avatar-circle w-9 h-9 text-white text-xs font-bold shadow-sm" style="background:'+getAvatarColor(reviewer?reviewer.id:'')+'">'+( reviewer?reviewer.avatar:'?')+'</div>' +
+      '<div><p class="font-bold text-sm text-gray-800">'+(reviewer?reviewer.name:'Unknown')+'</p><div class="flex gap-0.5 mt-0.5">'+stars+'</div></div>' +
+      '<p class="text-xs text-gray-400 ml-auto"><i class="fas fa-clock mr-1"></i>'+new Date(r.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+'</p></div>' +
+      (r.text?'<p class="text-sm text-gray-600 leading-relaxed mt-2 italic">\u201C'+r.text+'\u201D</p>':'') + '</div>';
+  }).join('');
+  document.getElementById('profileReviews').innerHTML=
+    '<h3 class="font-black text-gray-800 mb-4"><i class="fas fa-comments mr-2" style="color:#EC4899"></i>Student Reviews <span class="text-sm font-bold text-gray-400">('+reviews.length+')</span></h3>'+reviewsHTML;
+}
+
+// =====================================================
+// AUTH SYSTEM
+// =====================================================
+function initPasswords() {
+  if (!localStorage.getItem('cc_passwords')) {
+    localStorage.setItem('cc_passwords', JSON.stringify({
+      'rahul.sharma@campus.edu': 'rahul123',
+      'ananya.roy@campus.edu': 'ananya123'
+    }));
+  }
+}
+
+function isLoggedIn() { return localStorage.getItem('cc_logged_in') === 'true'; }
+
+function showAuth(page) {
+  document.getElementById('auth-login').style.display = page === 'login' ? 'flex' : 'none';
+  document.getElementById('auth-register').style.display = page === 'register' ? 'flex' : 'none';
+  document.getElementById('app-wrapper').style.display = 'none';
+}
+
+function showApp() {
+  document.getElementById('auth-login').style.display = 'none';
+  document.getElementById('auth-register').style.display = 'none';
+  document.getElementById('app-wrapper').style.display = 'block';
+}
+
+function togglePasswordVis(inputId, btn) {
+  var input = document.getElementById(inputId);
+  var icon = btn.querySelector('i');
+  if (input.type === 'password') { input.type = 'text'; icon.className = 'fas fa-eye-slash'; }
+  else { input.type = 'password'; icon.className = 'fas fa-eye'; }
+}
+
+function handleLogin() {
+  var email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  var password = document.getElementById('loginPassword').value;
+  if (!email) { showToast('warning', 'Please enter your email'); return; }
+  if (!password) { showToast('warning', 'Please enter your password'); return; }
+  var passwords = JSON.parse(localStorage.getItem('cc_passwords') || '{}');
+  if (!passwords[email]) { showToast('error', 'No account found with this email'); return; }
+  if (passwords[email] !== password) { showToast('error', 'Incorrect password. Try again.'); return; }
+  // Find user by email
+  var users = getUsers();
+  var user = users.find(function(u) { return u.email.toLowerCase() === email; });
+  if (!user) { showToast('error', 'User data not found'); return; }
+  setActiveUser(user.id);
+  localStorage.setItem('cc_logged_in', 'true');
+  showApp();
+  renderUserSwitcher();
+  updateNotifBadge();
+  navigateTo('home');
+  showToast('success', 'Welcome back, ' + user.name.split(' ')[0] + '! \uD83D\uDC4B');
+}
+
+function handleDemoLogin(userId) {
+  setActiveUser(userId);
+  localStorage.setItem('cc_logged_in', 'true');
+  showApp();
+  renderUserSwitcher();
+  updateNotifBadge();
+  navigateTo('home');
+  var user = getUserById(userId);
+  showToast('success', 'Signed in as ' + user.name + ' \uD83D\uDE80');
+}
+
+function handleRegister() {
+  var first = document.getElementById('regFirstName').value.trim();
+  var last = document.getElementById('regLastName').value.trim();
+  var email = document.getElementById('regEmail').value.trim().toLowerCase();
+  var dept = document.getElementById('regDept').value;
+  var year = document.getElementById('regYear').value;
+  var skillsRaw = document.getElementById('regSkills').value.trim();
+  var password = document.getElementById('regPassword').value;
+  var confirm = document.getElementById('regConfirm').value;
+  var agreed = document.getElementById('agreeTerms').checked;
+
+  if (!first || !last) { showToast('warning', 'Please enter your full name'); return; }
+  if (!email || !email.includes('@')) { showToast('warning', 'Please enter a valid email'); return; }
+  if (!dept) { showToast('warning', 'Please select your department'); return; }
+  if (!year) { showToast('warning', 'Please select your year'); return; }
+  if (password.length < 6) { showToast('warning', 'Password must be at least 6 characters'); return; }
+  if (password !== confirm) { showToast('error', 'Passwords do not match'); return; }
+  if (!agreed) { showToast('warning', 'Please agree to the Terms of Service'); return; }
+
+  // Check if email exists
+  var passwords = JSON.parse(localStorage.getItem('cc_passwords') || '{}');
+  if (passwords[email]) { showToast('error', 'An account with this email already exists'); return; }
+
+  var name = first + ' ' + last;
+  var avatar = (first[0] + last[0]).toUpperCase();
+  var skills = skillsRaw ? skillsRaw.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; }) : [];
+  var newUser = {
+    id: 'user_' + Date.now(),
+    name: name, email: email, dept: dept, year: year,
+    skills: skills, rating: 5.0, completedCount: 0, avatar: avatar,
+    bio: 'New student on CampusConnect!'
+  };
+
+  var users = getUsers();
+  users.push(newUser);
+  saveUsers(users);
+  passwords[email] = password;
+  localStorage.setItem('cc_passwords', JSON.stringify(passwords));
+  setActiveUser(newUser.id);
+  localStorage.setItem('cc_logged_in', 'true');
+  showApp();
+  renderUserSwitcher();
+  updateNotifBadge();
+  navigateTo('home');
+  showToast('success', 'Account created! Welcome, ' + first + '! \uD83C\uDF89');
+}
+
+function handleLogout() {
+  localStorage.setItem('cc_logged_in', 'false');
+  closeUserDropdown();
+  closeSidebar();
+  showAuth('login');
+  showToast('info', 'You have been signed out');
+  // Clear login form
+  var le = document.getElementById('loginEmail'); if (le) le.value = '';
+  var lp = document.getElementById('loginPassword'); if (lp) lp.value = '';
+}
+
+// =====================================================
+// DARK MODE
+// =====================================================
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
+  var isDark = document.body.classList.contains('dark');
+  localStorage.setItem('cc_dark_mode', isDark ? 'true' : 'false');
+  // Update toggle icon
+  var knobs = document.querySelectorAll('.dark-toggle-knob');
+  knobs.forEach(function(k) {
+    k.innerHTML = isDark ? '<i class="fas fa-moon" style="color:#FDE68A"></i>' : '<i class="fas fa-sun" style="color:#F59E0B"></i>';
+  });
+}
+function initDarkMode() {
+  var saved = localStorage.getItem('cc_dark_mode');
+  if (saved === 'true') {
+    document.body.classList.add('dark');
+    var knobs = document.querySelectorAll('.dark-toggle-knob');
+    knobs.forEach(function(k) { k.innerHTML = '<i class="fas fa-moon" style="color:#FDE68A"></i>'; });
+  }
+}
+
+// =====================================================
+// INIT
+// =====================================================
+function init(){
+  initPasswords();
+  initDarkMode();
+  initDB();
+  if (isLoggedIn()) {
+    showApp();
+    renderUserSwitcher();
+    updateNotifBadge();
+    navigateTo('home');
+  } else {
+    showAuth('login');
+  }
+}
+init();
+</script>
+</body>
+</html>
