@@ -192,9 +192,18 @@
     body.dark .admin-table th { background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(124,58,237,0.15)); color: #A5B4FC; border-color: rgba(99,102,241,0.3); }
     body.dark .admin-table td { border-color: rgba(255,255,255,0.06); }
     body.dark .admin-table tr:hover td { background: rgba(99,102,241,0.08); }
-    .status-badge-pending { background: linear-gradient(135deg, #FEF3C7, #FDE68A); color: #92400E; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 700; }
-    .status-badge-approved { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); color: #065F46; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 700; }
-    .status-badge-rejected { background: linear-gradient(135deg, #FEE2E2, #FECACA); color: #991B1B; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 700; }
+    .status-badge-pending { background: linear-gradient(135deg, #FEF3C7, #FDE68A); color: #92400E; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; }
+    .status-badge-approved { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); color: #065F46; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; }
+    .status-badge-rejected { background: linear-gradient(135deg, #FEE2E2, #FECACA); color: #991B1B; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; }
+    body.dark .status-badge-pending { background: rgba(245, 158, 11, 0.18) !important; color: #FBBF24 !important; border: 1px solid rgba(251, 191, 36, 0.4); }
+    body.dark .status-badge-approved { background: rgba(16, 185, 129, 0.18) !important; color: #34D399 !important; border: 1px solid rgba(52, 211, 153, 0.4); }
+    body.dark .status-badge-rejected { background: rgba(239, 68, 68, 0.18) !important; color: #F87171 !important; border: 1px solid rgba(248, 113, 113, 0.4); }
+
+    /* Unique ID and Roll Badges */
+    .id-badge { display: inline-flex; align-items: center; gap: 5px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 8px; background: linear-gradient(135deg, #EEF2FF, #E0E7FF); color: #3730A3; border: 1px solid #C7D2FE; letter-spacing: 0.02em; }
+    body.dark .id-badge { background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(124, 58, 237, 0.25)) !important; color: #C7D2FE !important; border: 1px solid rgba(165, 180, 252, 0.4) !important; text-shadow: 0 0 10px rgba(99, 102, 241, 0.5); }
+    .roll-badge { display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #F3F4F6; color: #1F2937; border: 1px solid #E5E7EB; letter-spacing: 0.02em; }
+    body.dark .roll-badge { background: rgba(30, 35, 55, 0.9) !important; color: #E2E8F0 !important; border: 1px solid rgba(148, 163, 184, 0.3) !important; }
 
     /* ===== DARK MODE ===== */
     body.dark { background: #0F1117; color: #E5E7EB; }
@@ -237,6 +246,11 @@
     body.dark .budget-preview { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(124,58,237,0.1)); border-color: rgba(99,102,241,0.2); }
     body.dark .bg-gray-50, body.dark .bg-gray-50\/80 { background: rgba(30,32,50,0.6) !important; }
     body.dark .bg-indigo-50, body.dark .bg-gradient-to-r { background: rgba(99,102,241,0.1) !important; }
+    body.dark .bg-gray-100 { background: rgba(30,35,55,0.9) !important; color: #E2E8F0 !important; }
+    body.dark .bg-indigo-100 { background: rgba(99,102,241,0.25) !important; color: #C7D2FE !important; }
+    body.dark code { background: rgba(30,35,55,0.9) !important; color: #E2E8F0 !important; border: 1px solid rgba(148,163,184,0.3) !important; }
+    body.dark #headerUserId { color: #A5B4FC !important; }
+    body.dark .dark-id-text { color: #A5B4FC !important; }
     body.dark .skill-tag { filter: brightness(0.85) saturate(1.3); }
     body.dark .toast { box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
     body.dark .modal-overlay > div { background: #1a1c2e !important; }
@@ -847,7 +861,7 @@ function renderUserSwitcher() {
     html += `<div class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Admin Account</div>`;
     html += `<div class="px-4 py-2 flex items-center gap-3 bg-indigo-50/80 rounded-xl">
       <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:${ADMIN_GRADIENT}">${getInitials(user.name)}</div>
-      <div><div class="text-sm font-semibold text-gray-800">${user.name}</div><div class="text-xs text-red-500 font-medium">${user.uniqueId}</div></div>
+      <div><div class="text-sm font-semibold text-gray-800">${user.name}</div><div class="text-xs font-mono font-semibold text-red-500">${user.uniqueId}</div></div>
       <i class="fas fa-check ml-auto text-indigo-600"></i>
     </div>`;
   } else {
@@ -856,7 +870,7 @@ function renderUserSwitcher() {
       const isActive = u.id === user.id;
       html += `<button onclick="switchUser('${u.id}')" class="w-full px-4 py-2 flex items-center gap-3 hover:bg-gray-50 rounded-xl transition-colors ${isActive ? 'bg-indigo-50/80' : ''}">
         <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:${getAvatarColor(u.id)}">${getInitials(u.name)}</div>
-        <div class="text-left"><div class="text-sm font-semibold text-gray-800">${u.name}</div><div class="text-xs text-gray-500">${u.uniqueId}</div></div>
+        <div class="text-left"><div class="text-sm font-semibold text-gray-800">${u.name}</div><div class="text-xs font-mono font-semibold text-indigo-600 dark-id-text">${u.uniqueId}</div></div>
         ${isActive ? '<i class="fas fa-check ml-auto text-indigo-600"></i>' : ''}
       </button>`;
     });
@@ -1151,9 +1165,9 @@ function openRequestModal(reqId) {
     <div class="border-t border-gray-100 pt-4 mb-5">
       <div class="flex items-center gap-3 mb-3">
         <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold" style="background:${getAvatarColor(r.userId)}">${getInitials(user?.name || 'U')}</div>
-        <div><p class="text-sm font-semibold text-gray-800">Posted by ${user?.name || 'Unknown'}</p><p class="text-xs text-gray-400">${user?.uniqueId || ''} · ${user?.dept || ''}</p></div>
+        <div><p class="text-sm font-semibold text-gray-800">Posted by ${user?.name || 'Unknown'}</p><p class="text-xs text-gray-400"><span class="id-badge text-[11px] py-0.5 px-2 mr-1">${user?.uniqueId || ''}</span> · ${user?.dept || ''}</p></div>
       </div>
-      ${acceptedUser ? `<div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold" style="background:${getAvatarColor(acceptedUser.id)}">${getInitials(acceptedUser.name)}</div><div><p class="text-sm font-semibold text-gray-800">Accepted by ${acceptedUser.name}</p><p class="text-xs text-gray-400">${acceptedUser.uniqueId} · ${acceptedUser.dept}</p></div></div>` : ''}
+      ${acceptedUser ? `<div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold" style="background:${getAvatarColor(acceptedUser.id)}">${getInitials(acceptedUser.name)}</div><div><p class="text-sm font-semibold text-gray-800">Accepted by ${acceptedUser.name}</p><p class="text-xs text-gray-400"><span class="id-badge text-[11px] py-0.5 px-2 mr-1">${acceptedUser.uniqueId}</span> · ${acceptedUser.dept}</p></div></div>` : ''}
     </div>
     <div class="flex gap-3">
       ${canAccept ? `<button onclick="acceptRequest('${r.id}')" class="flex-1 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-200"><i class="fas fa-hand-holding-heart mr-2"></i>Accept Request</button>` : ''}
@@ -1459,7 +1473,7 @@ function renderProfile() {
         <div class="w-24 h-24 rounded-full flex items-center justify-center text-white text-3xl font-black shadow-xl" style="background:${getAvatarColor(user.id)}">${getInitials(user.name)}</div>
         <div class="text-center sm:text-left flex-1">
           <h1 class="text-2xl font-black text-gray-800">${user.name}</h1>
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold mt-1 mb-1"><i class="fas fa-id-badge"></i>${user.uniqueId}</div>
+          <div class="id-badge text-sm mt-1 mb-1"><i class="fas fa-id-badge text-xs mr-1 opacity-80"></i>${user.uniqueId}</div>
           <p class="text-gray-500 text-sm">${user.dept}${user.section ? ' · Section ' + user.section : ''}</p>
           ${user.rollNo ? `<p class="text-gray-400 text-xs mt-0.5">Roll No: ${user.rollNo}</p>` : ''}
           <p class="text-gray-400 text-xs">${user.email}${user.phone ? ' · ' + user.phone : ''}</p>
@@ -1570,7 +1584,7 @@ function renderPendingTable() {
         <tbody>
           ${pending.map(p => `<tr>
             <td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-white text-xs font-bold">${getInitials(p.name)}</div><span class="font-semibold">${p.name}</span></div></td>
-            <td><code class="text-xs bg-gray-100 px-2 py-1 rounded">${p.rollNo}</code></td>
+            <td><code class="roll-badge">${p.rollNo}</code></td>
             <td>${p.dept}</td>
             <td>${p.section}</td>
             <td class="text-gray-500">${p.email}</td>
@@ -1607,8 +1621,8 @@ function renderStudentsList() {
         <tbody>
           ${students.map(s => `<tr>
             <td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:${getAvatarColor(s.id)}">${getInitials(s.name)}</div><span class="font-semibold">${s.name}</span></div></td>
-            <td><span class="status-badge-approved">${s.uniqueId}</span></td>
-            <td><code class="text-xs bg-gray-100 px-2 py-1 rounded">${s.rollNo || '-'}</code></td>
+            <td><span class="id-badge"><i class="fas fa-id-badge text-xs mr-1 opacity-70"></i>${s.uniqueId}</span></td>
+            <td><code class="roll-badge">${s.rollNo || '-'}</code></td>
             <td>${s.dept}</td>
             <td>${s.section || '-'}</td>
             <td class="text-gray-500">${s.email}</td>
@@ -1640,7 +1654,7 @@ function renderRejectedList() {
         <tbody>
           ${rejected.map(r => `<tr>
             <td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center text-white text-xs font-bold">${getInitials(r.name)}</div><span class="font-semibold">${r.name}</span></div></td>
-            <td><code class="text-xs bg-gray-100 px-2 py-1 rounded">${r.rollNo}</code></td>
+            <td><code class="roll-badge">${r.rollNo}</code></td>
             <td>${r.dept}</td>
             <td class="text-gray-500">${r.email}</td>
             <td><span class="text-sm text-red-600">${r.rejectedReason || 'No reason provided'}</span></td>
