@@ -29,136 +29,62 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #a78bfa, #6366f1); border-radius: 9999px; }
 
-    /* ===== ANIMATED BG ===== */
     body::before {
       content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
       background: radial-gradient(circle at 20% 80%, rgba(99,102,241,0.04) 0%, transparent 50%),
                   radial-gradient(circle at 80% 20%, rgba(236,72,153,0.04) 0%, transparent 50%),
                   radial-gradient(circle at 50% 50%, rgba(20,184,166,0.03) 0%, transparent 50%);
-      animation: bgFloat 20s ease-in-out infinite;
-      z-index: -1; pointer-events: none;
+      animation: bgFloat 20s ease-in-out infinite; z-index: -1; pointer-events: none;
     }
-    @keyframes bgFloat {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      33% { transform: translate(2%, -2%) rotate(1deg); }
-      66% { transform: translate(-1%, 1%) rotate(-1deg); }
-    }
+    @keyframes bgFloat { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 33% { transform: translate(2%, -2%) rotate(1deg); } 66% { transform: translate(-1%, 1%) rotate(-1deg); } }
 
-    /* ===== GLASSMORPHISM HEADER ===== */
     .glassmorphism {
-      background: rgba(255,255,255,0.7);
-      backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(255,255,255,0.7); backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,0.5);
-      box-shadow: 0 4px 30px rgba(79,70,229,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.5); box-shadow: 0 4px 30px rgba(79,70,229,0.06);
     }
-
-    /* ===== PAGES ===== */
     .page { display: none; opacity: 0; transform: translateY(12px); }
     .page.active { display: block; animation: pageIn 0.5s ease forwards; }
     @keyframes pageIn { to { opacity: 1; transform: translateY(0); } }
 
-    /* ===== TOAST ===== */
-    .toast {
-      position: fixed; top: 80px; right: 20px; z-index: 9999;
-      transform: translateX(120%) scale(0.9); transition: all 0.4s cubic-bezier(.68,-.55,.27,1.55);
-      max-width: 380px; backdrop-filter: blur(12px);
-    }
+    .toast { position: fixed; top: 80px; right: 20px; z-index: 9999; transform: translateX(120%) scale(0.9); transition: all 0.4s cubic-bezier(.68,-.55,.27,1.55); max-width: 380px; backdrop-filter: blur(12px); }
     .toast.show { transform: translateX(0) scale(1); }
 
-    /* ===== SIDEBAR ===== */
-    .sidebar-drawer {
-      position: fixed; top: 0; left: 0; height: 100%; width: 300px;
-      background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
-      z-index: 9998; transform: translateX(-100%);
-      transition: transform 0.4s cubic-bezier(.4,0,.2,1);
-      box-shadow: 8px 0 40px rgba(79,70,229,0.15);
-    }
+    .sidebar-drawer { position: fixed; top: 0; left: 0; height: 100%; width: 300px; background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%); z-index: 9998; transform: translateX(-100%); transition: transform 0.4s cubic-bezier(.4,0,.2,1); box-shadow: 8px 0 40px rgba(79,70,229,0.15); }
     .sidebar-drawer.open { transform: translateX(0); }
-
-    .overlay {
-      position: fixed; inset: 0; background: rgba(15,15,35,0.5);
-      backdrop-filter: blur(4px);
-      z-index: 9997; opacity: 0; pointer-events: none;
-      transition: opacity 0.3s;
-    }
+    .overlay { position: fixed; inset: 0; background: rgba(15,15,35,0.5); backdrop-filter: blur(4px); z-index: 9997; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
     .overlay.show { opacity: 1; pointer-events: all; }
 
-    /* ===== MODALS ===== */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(15,15,35,0.6);
-      backdrop-filter: blur(6px);
-      z-index: 10000; display: none; align-items: center; justify-content: center;
-      padding: 16px;
-    }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15,15,35,0.6); backdrop-filter: blur(6px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 16px; }
     .modal-overlay.show { display: flex; }
-    .modal-overlay.show > div {
-      animation: modalPop 0.4s cubic-bezier(.68,-.55,.27,1.55);
-    }
+    .modal-overlay.show > div { animation: modalPop 0.4s cubic-bezier(.68,-.55,.27,1.55); }
     @keyframes modalPop { from { opacity: 0; transform: scale(0.85) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-    /* ===== NOTIFICATION PANEL ===== */
-    .notification-panel {
-      position: fixed; top: 0; right: 0; height: 100%; width: 380px;
-      background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
-      z-index: 9999; transform: translateX(100%);
-      transition: transform 0.4s cubic-bezier(.4,0,.2,1);
-      box-shadow: -8px 0 40px rgba(79,70,229,0.15);
-      display: flex; flex-direction: column;
-    }
+    .notification-panel { position: fixed; top: 0; right: 0; height: 100%; width: 380px; background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%); z-index: 9999; transform: translateX(100%); transition: transform 0.4s cubic-bezier(.4,0,.2,1); box-shadow: -8px 0 40px rgba(79,70,229,0.15); display: flex; flex-direction: column; }
     .notification-panel.open { transform: translateX(0); }
 
-    /* ===== WIZARD STEPS ===== */
     .step-indicator { display: flex; align-items: center; gap: 0; }
-    .step-dot {
-      width: 40px; height: 40px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 14px; transition: all 0.4s cubic-bezier(.4,0,.2,1);
-      flex-shrink: 0; position: relative;
-    }
+    .step-dot { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; transition: all 0.4s cubic-bezier(.4,0,.2,1); flex-shrink: 0; position: relative; }
     .step-dot.glow { box-shadow: 0 0 20px rgba(79,70,229,0.4); }
     .step-line { flex: 1; height: 3px; transition: all 0.4s; border-radius: 2px; }
 
-    /* ===== STARS ===== */
     .star-btn { cursor: pointer; font-size: 32px; color: #d1d5db; transition: all 0.2s cubic-bezier(.4,0,.2,1); }
     .star-btn.active { color: #f59e0b; transform: scale(1.2); filter: drop-shadow(0 0 6px rgba(245,158,11,0.5)); }
     .star-btn:hover { color: #f59e0b; transform: scale(1.3); }
 
-    /* ===== CARDS ===== */
-    .category-card {
-      cursor: pointer; transition: all 0.35s cubic-bezier(.4,0,.2,1);
-      position: relative; overflow: hidden;
-    }
-    .category-card::before {
-      content: ''; position: absolute; inset: 0; opacity: 0;
-      background: linear-gradient(135deg, rgba(79,70,229,0.05), rgba(236,72,153,0.05));
-      transition: opacity 0.3s;
-    }
+    .category-card { cursor: pointer; transition: all 0.35s cubic-bezier(.4,0,.2,1); position: relative; overflow: hidden; }
+    .category-card::before { content: ''; position: absolute; inset: 0; opacity: 0; background: linear-gradient(135deg, rgba(79,70,229,0.05), rgba(236,72,153,0.05)); transition: opacity 0.3s; }
     .category-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(79,70,229,0.15); }
     .category-card:hover::before { opacity: 1; }
 
-    .request-card {
-      transition: all 0.35s cubic-bezier(.4,0,.2,1);
-      position: relative; overflow: hidden;
-      border: 1px solid rgba(229,231,235,0.6);
-    }
-    .request-card::after {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, #4F46E5, #EC4899, #F97316);
-      opacity: 0; transition: opacity 0.3s;
-    }
+    .request-card { transition: all 0.35s cubic-bezier(.4,0,.2,1); position: relative; overflow: hidden; border: 1px solid rgba(229,231,235,0.6); }
+    .request-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #4F46E5, #EC4899, #F97316); opacity: 0; transition: opacity 0.3s; }
     .request-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(79,70,229,0.12); border-color: rgba(99,102,241,0.2); }
     .request-card:hover::after { opacity: 1; }
-
     .card-shadow { box-shadow: 0 4px 24px rgba(79,70,229,0.06), 0 1px 3px rgba(0,0,0,0.04); }
     .card-shadow-lg { box-shadow: 0 10px 40px rgba(79,70,229,0.1), 0 2px 6px rgba(0,0,0,0.04); }
 
-    /* ===== TAGS & BADGES ===== */
-    .skill-tag {
-      display: inline-block; padding: 5px 14px;
-      border-radius: 9999px; font-size: 12px; font-weight: 600; margin: 3px;
-      transition: all 0.25s; cursor: default;
-    }
+    .skill-tag { display: inline-block; padding: 5px 14px; border-radius: 9999px; font-size: 12px; font-weight: 600; margin: 3px; transition: all 0.25s; cursor: default; }
     .skill-tag:nth-child(1) { background: linear-gradient(135deg, #EEF2FF, #E0E7FF); color: #4F46E5; }
     .skill-tag:nth-child(2) { background: linear-gradient(135deg, #FCE7F3, #FBCFE8); color: #DB2777; }
     .skill-tag:nth-child(3) { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); color: #059669; }
@@ -172,368 +98,163 @@
     .status-in_progress { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1d4ed8; }
     .status-completed { background: linear-gradient(135deg, #f3f4f6, #e5e7eb); color: #4b5563; }
 
-    /* ===== NAV LINKS ===== */
-    .nav-link {
-      color: #6B7280; font-weight: 500; font-size: 15px;
-      cursor: pointer; padding: 8px 14px; border-radius: 10px;
-      transition: all 0.3s; white-space: nowrap; text-decoration: none;
-      position: relative;
-    }
+    .nav-link { color: #6B7280; font-weight: 500; font-size: 15px; cursor: pointer; padding: 8px 14px; border-radius: 10px; transition: all 0.3s; white-space: nowrap; text-decoration: none; position: relative; }
     .nav-link:hover { color: #4F46E5; background: linear-gradient(135deg, #EEF2FF, #F5F3FF); transform: translateY(-1px); }
     .nav-link.active { color: #4F46E5; background: linear-gradient(135deg, #EEF2FF, #E0E7FF); font-weight: 600; }
 
-    /* ===== BUTTONS ===== */
-    .btn-primary {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      color: white; border: none; cursor: pointer;
-      transition: all 0.3s cubic-bezier(.4,0,.2,1); font-weight: 600;
-      position: relative; overflow: hidden;
-    }
-    .btn-primary::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, #6366F1, #8B5CF6);
-      opacity: 0; transition: opacity 0.3s;
-    }
+    .btn-primary { background: linear-gradient(135deg, #4F46E5, #7C3AED); color: white; border: none; cursor: pointer; transition: all 0.3s cubic-bezier(.4,0,.2,1); font-weight: 600; position: relative; overflow: hidden; }
+    .btn-primary::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, #6366F1, #8B5CF6); opacity: 0; transition: opacity 0.3s; }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(79,70,229,0.35); }
     .btn-primary:hover::before { opacity: 1; }
     .btn-primary span, .btn-primary i { position: relative; z-index: 1; }
     .btn-primary:active { transform: translateY(0); }
-
-    .btn-secondary {
-      background: linear-gradient(135deg, #EEF2FF, #F5F3FF); color: #4F46E5; border: 1px solid rgba(99,102,241,0.15);
-      cursor: pointer; transition: all 0.3s; font-weight: 600;
-    }
+    .btn-secondary { background: linear-gradient(135deg, #EEF2FF, #F5F3FF); color: #4F46E5; border: 1px solid rgba(99,102,241,0.15); cursor: pointer; transition: all 0.3s; font-weight: 600; }
     .btn-secondary:hover { background: linear-gradient(135deg, #E0E7FF, #EDE9FE); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(79,70,229,0.1); }
+    .btn-danger { background: linear-gradient(135deg, #EF4444, #DC2626); color: white; border: none; cursor: pointer; transition: all 0.3s; font-weight: 600; }
+    .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(239,68,68,0.35); }
+    .btn-success { background: linear-gradient(135deg, #10B981, #059669); color: white; border: none; cursor: pointer; transition: all 0.3s; font-weight: 600; }
+    .btn-success:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(16,185,129,0.35); }
 
-    /* ===== FORM FIELDS ===== */
-    .input-field {
-      width: 100%; padding: 12px 16px; border: 2px solid #E5E7EB;
-      border-radius: 12px; font-size: 15px; outline: none;
-      transition: all 0.3s; font-family: 'Inter', sans-serif;
-      background: rgba(255,255,255,0.8);
-    }
+    .input-field { width: 100%; padding: 12px 16px; border: 2px solid #E5E7EB; border-radius: 12px; font-size: 15px; outline: none; transition: all 0.3s; font-family: 'Inter', sans-serif; background: rgba(255,255,255,0.8); }
     .input-field:focus { border-color: #6366F1; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); background: white; }
-
-    .select-field {
-      width: 100%; padding: 12px 16px; border: 2px solid #E5E7EB;
-      border-radius: 12px; font-size: 15px; outline: none;
-      background: rgba(255,255,255,0.8); cursor: pointer;
-      transition: all 0.3s; appearance: none; font-family: 'Inter', sans-serif;
-    }
+    .select-field { width: 100%; padding: 12px 16px; border: 2px solid #E5E7EB; border-radius: 12px; font-size: 15px; outline: none; background: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.3s; appearance: none; font-family: 'Inter', sans-serif; }
     .select-field:focus { border-color: #6366F1; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); }
 
-    /* ===== TABS ===== */
-    .tab-btn {
-      padding: 10px 24px; border-radius: 12px; font-weight: 600;
-      cursor: pointer; transition: all 0.3s; border: none; font-size: 14px;
-    }
+    .tab-btn { padding: 10px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; border: none; font-size: 14px; }
     .tab-btn.active { background: linear-gradient(135deg, #4F46E5, #7C3AED); color: white; box-shadow: 0 4px 15px rgba(79,70,229,0.3); }
     .tab-btn:not(.active) { background: rgba(243,244,246,0.8); color: #6B7280; }
     .tab-btn:not(.active):hover { background: #E5E7EB; transform: translateY(-1px); }
 
-    /* ===== USER SWITCHER ===== */
-    .user-switcher-option {
-      padding: 12px 16px; cursor: pointer; transition: all 0.25s;
-      border-radius: 12px; margin: 4px;
-    }
+    .user-switcher-option { padding: 12px 16px; cursor: pointer; transition: all 0.25s; border-radius: 12px; margin: 4px; }
     .user-switcher-option:hover { background: linear-gradient(135deg, #EEF2FF, #F5F3FF); transform: translateX(4px); }
     .user-switcher-option.active-user { background: linear-gradient(135deg, #EEF2FF, #E0E7FF); border: 2px solid #6366F1; }
-
-    .dropdown-menu {
-      position: absolute; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
-      border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); z-index: 1000;
-      min-width: 240px; overflow: hidden; border: 1px solid rgba(255,255,255,0.5);
-      animation: dropIn 0.25s cubic-bezier(.68,-.55,.27,1.55);
-    }
+    .dropdown-menu { position: absolute; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); z-index: 1000; min-width: 260px; overflow: hidden; border: 1px solid rgba(255,255,255,0.5); animation: dropIn 0.25s cubic-bezier(.68,-.55,.27,1.55); }
     @keyframes dropIn { from { opacity: 0; transform: translateY(-8px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-    /* ===== HERO ===== */
-    .hero-bg {
-      background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 30%, #EC4899 70%, #F97316 100%);
-      background-size: 300% 300%;
-      animation: heroGradient 8s ease infinite;
-    }
-    @keyframes heroGradient {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
+    .hero-bg { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 30%, #EC4899 70%, #F97316 100%); background-size: 300% 300%; animation: heroGradient 8s ease infinite; }
+    @keyframes heroGradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
-    /* ===== FLOATING SHAPES ===== */
-    .floating-shape {
-      position: absolute; border-radius: 50%; opacity: 0.1;
-      animation: float 6s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(180deg); }
-    }
+    .floating-shape { position: absolute; border-radius: 50%; opacity: 0.1; animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(180deg); } }
 
-    /* ===== AVATAR ===== */
-    .avatar-circle {
-      border-radius: 50%; display: flex; align-items: center;
-      justify-content: center; font-weight: 700; letter-spacing: 0.5px; flex-shrink: 0;
-      transition: all 0.3s;
-    }
+    .avatar-circle { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; letter-spacing: 0.5px; flex-shrink: 0; transition: all 0.3s; }
     .avatar-circle:hover { transform: scale(1.1); }
 
-    /* ===== STATS CARD ===== */
-    .stat-card {
-      position: relative; overflow: hidden; transition: all 0.35s;
-    }
-    .stat-card::before {
-      content: ''; position: absolute; top: -50%; right: -50%;
-      width: 100%; height: 100%; border-radius: 50%;
-      opacity: 0.06; transition: all 0.4s;
-    }
+    .stat-card { position: relative; overflow: hidden; transition: all 0.35s; }
+    .stat-card::before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; border-radius: 50%; opacity: 0.06; transition: all 0.4s; }
     .stat-card:hover { transform: translateY(-4px); }
 
-    /* ===== CATEGORY RADIO ===== */
-    .category-radio-card {
-      border: 2px solid #E5E7EB; border-radius: 16px; padding: 20px;
-      cursor: pointer; transition: all 0.3s cubic-bezier(.4,0,.2,1); text-align: center;
-      position: relative; overflow: hidden;
-    }
-    .category-radio-card.selected {
-      border-color: #6366F1; background: linear-gradient(135deg, #EEF2FF, #F5F3FF);
-      box-shadow: 0 0 0 4px rgba(99,102,241,0.1);
-    }
+    .category-radio-card { border: 2px solid #E5E7EB; border-radius: 16px; padding: 20px; cursor: pointer; transition: all 0.3s cubic-bezier(.4,0,.2,1); text-align: center; position: relative; overflow: hidden; }
+    .category-radio-card.selected { border-color: #6366F1; background: linear-gradient(135deg, #EEF2FF, #F5F3FF); box-shadow: 0 0 0 4px rgba(99,102,241,0.1); }
     .category-radio-card:hover { border-color: #a5b4fc; transform: translateY(-2px); }
 
-    /* ===== BUDGET PREVIEW ===== */
-    .budget-preview {
-      background: linear-gradient(135deg, #EEF2FF, #F5F3FF, #FCE7F3);
-      border: 1px solid #C7D2FE; border-radius: 16px; padding: 20px;
-    }
+    .budget-preview { background: linear-gradient(135deg, #EEF2FF, #F5F3FF, #FCE7F3); border: 1px solid #C7D2FE; border-radius: 16px; padding: 20px; }
 
-    /* ===== ANIMATIONS ===== */
     .animate-fade-in { animation: fadeIn 0.5s ease forwards; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-
     .animate-scale-in { animation: scaleIn 0.4s cubic-bezier(.68,-.55,.27,1.55); }
     @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    .stagger-1 { animation-delay: 0.05s; } .stagger-2 { animation-delay: 0.1s; } .stagger-3 { animation-delay: 0.15s; }
+    .stagger-4 { animation-delay: 0.2s; } .stagger-5 { animation-delay: 0.25s; } .stagger-6 { animation-delay: 0.3s; }
 
-    .stagger-1 { animation-delay: 0.05s; }
-    .stagger-2 { animation-delay: 0.1s; }
-    .stagger-3 { animation-delay: 0.15s; }
-    .stagger-4 { animation-delay: 0.2s; }
-    .stagger-5 { animation-delay: 0.25s; }
-    .stagger-6 { animation-delay: 0.3s; }
+    .gradient-text { background: linear-gradient(135deg, #4F46E5, #7C3AED, #EC4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .notif-glow { animation: notifPulse 2s ease-in-out infinite; }
+    @keyframes notifPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); } 50% { box-shadow: 0 0 0 8px rgba(239,68,68,0); } }
 
-    /* ===== GRADIENT TEXT ===== */
-    .gradient-text {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED, #EC4899);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* ===== GLOW BADGE ===== */
-    .notif-glow {
-      animation: notifPulse 2s ease-in-out infinite;
-    }
-    @keyframes notifPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
-      50% { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 640px) {
-      .notification-panel { width: 100%; }
-    }
+    @media (max-width: 640px) { .notification-panel { width: 100%; } }
 
     /* ===== AUTH PAGES ===== */
-    .auth-wrapper {
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      padding: 20px; position: relative; overflow: hidden;
-      background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 30%, #312E81 60%, #4338CA 100%);
-    }
-    .auth-wrapper::before {
-      content: ''; position: absolute; inset: 0;
-      background-image: radial-gradient(circle at 20% 30%, rgba(99,102,241,0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(236,72,153,0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 50% 50%, rgba(20,184,166,0.08) 0%, transparent 60%);
-      animation: bgFloat 20s ease-in-out infinite;
-    }
-    .auth-wrapper::after {
-      content: ''; position: absolute; inset: 0; opacity: 0.03;
-      background-image: radial-gradient(circle, white 1px, transparent 1px);
-      background-size: 24px 24px;
-    }
-    .auth-card {
-      background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
-      border-radius: 24px; padding: 40px; width: 100%; max-width: 440px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.3), 0 0 100px rgba(99,102,241,0.1);
-      position: relative; z-index: 1;
-      animation: modalPop 0.5s cubic-bezier(.68,-.55,.27,1.55);
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-    body.dark .auth-card {
-      background: rgba(26,28,46,0.95);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 100px rgba(99,102,241,0.15);
-      border-color: rgba(99,102,241,0.2);
-    }
+    .auth-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; overflow: hidden; background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 30%, #312E81 60%, #4338CA 100%); }
+    .auth-wrapper::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 30%, rgba(99,102,241,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(236,72,153,0.1) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(20,184,166,0.08) 0%, transparent 60%); animation: bgFloat 20s ease-in-out infinite; }
+    .auth-wrapper::after { content: ''; position: absolute; inset: 0; opacity: 0.03; background-image: radial-gradient(circle, white 1px, transparent 1px); background-size: 24px 24px; }
+    .auth-card { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-radius: 24px; padding: 40px; width: 100%; max-width: 440px; box-shadow: 0 25px 60px rgba(0,0,0,0.3), 0 0 100px rgba(99,102,241,0.1); position: relative; z-index: 1; animation: modalPop 0.5s cubic-bezier(.68,-.55,.27,1.55); border: 1px solid rgba(255,255,255,0.2); }
+    body.dark .auth-card { background: rgba(26,28,46,0.95); box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 100px rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.2); }
     .auth-floating { position: absolute; border-radius: 50%; opacity: 0.08; }
-    .auth-input {
-      width: 100%; padding: 14px 16px 14px 44px; border: 2px solid #E5E7EB;
-      border-radius: 14px; font-size: 15px; outline: none;
-      transition: all 0.3s; font-family: 'Inter', sans-serif;
-      background: rgba(249,250,251,0.8);
-    }
+    .auth-input { width: 100%; padding: 14px 16px 14px 44px; border: 2px solid #E5E7EB; border-radius: 14px; font-size: 15px; outline: none; transition: all 0.3s; font-family: 'Inter', sans-serif; background: rgba(249,250,251,0.8); }
     .auth-input:focus { border-color: #6366F1; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); background: white; }
-    body.dark .auth-input {
-      background: rgba(30,32,50,0.8); border-color: rgba(99,102,241,0.2); color: #E5E7EB;
-    }
+    body.dark .auth-input { background: rgba(30,32,50,0.8); border-color: rgba(99,102,241,0.2); color: #E5E7EB; }
     body.dark .auth-input:focus { background: rgba(30,32,50,1); border-color: #6366F1; }
-    .auth-input-icon {
-      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
-      color: #9CA3AF; font-size: 14px; transition: color 0.3s;
-    }
-    .auth-input:focus ~ .auth-input-icon,
-    .auth-input-group:focus-within .auth-input-icon { color: #6366F1; }
-    .auth-divider {
-      display: flex; align-items: center; gap: 16px; margin: 20px 0;
-    }
-    .auth-divider::before, .auth-divider::after {
-      content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #E5E7EB, transparent);
-    }
-    .password-toggle {
-      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-      background: none; border: none; color: #9CA3AF; cursor: pointer;
-      font-size: 14px; transition: color 0.2s; padding: 4px;
-    }
+    .auth-input-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #9CA3AF; font-size: 14px; transition: color 0.3s; }
+    .auth-input:focus ~ .auth-input-icon, .auth-input-group:focus-within .auth-input-icon { color: #6366F1; }
+    .auth-divider { display: flex; align-items: center; gap: 16px; margin: 20px 0; }
+    .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #E5E7EB, transparent); }
+    .password-toggle { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9CA3AF; cursor: pointer; font-size: 14px; transition: color 0.2s; padding: 4px; }
     .password-toggle:hover { color: #6366F1; }
+
+    /* ===== ADMIN TABLE ===== */
+    .admin-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .admin-table th { background: linear-gradient(135deg, #EEF2FF, #E0E7FF); color: #4338CA; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; padding: 14px 16px; text-align: left; border-bottom: 2px solid #C7D2FE; }
+    .admin-table th:first-child { border-radius: 12px 0 0 0; }
+    .admin-table th:last-child { border-radius: 0 12px 0 0; }
+    .admin-table td { padding: 14px 16px; border-bottom: 1px solid #F3F4F6; font-size: 14px; vertical-align: middle; }
+    .admin-table tr:hover td { background: rgba(238,242,255,0.5); }
+    .admin-table tr:last-child td { border-bottom: none; }
+    body.dark .admin-table th { background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(124,58,237,0.15)); color: #A5B4FC; border-color: rgba(99,102,241,0.3); }
+    body.dark .admin-table td { border-color: rgba(255,255,255,0.06); }
+    body.dark .admin-table tr:hover td { background: rgba(99,102,241,0.08); }
+    .status-badge-pending { background: linear-gradient(135deg, #FEF3C7, #FDE68A); color: #92400E; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 700; }
+    .status-badge-approved { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); color: #065F46; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 700; }
+    .status-badge-rejected { background: linear-gradient(135deg, #FEE2E2, #FECACA); color: #991B1B; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 700; }
 
     /* ===== DARK MODE ===== */
     body.dark { background: #0F1117; color: #E5E7EB; }
-    body.dark::before {
-      background: radial-gradient(circle at 20% 80%, rgba(99,102,241,0.08) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 20%, rgba(236,72,153,0.06) 0%, transparent 50%),
-                  radial-gradient(circle at 50% 50%, rgba(20,184,166,0.05) 0%, transparent 50%);
-    }
-    body.dark .glassmorphism {
-      background: rgba(17,19,30,0.85);
-      border-bottom: 1px solid rgba(99,102,241,0.15);
-      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
-    }
+    body.dark::before { background: radial-gradient(circle at 20% 80%, rgba(99,102,241,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(236,72,153,0.06) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(20,184,166,0.05) 0%, transparent 50%); }
+    body.dark .glassmorphism { background: rgba(17,19,30,0.85); border-bottom: 1px solid rgba(99,102,241,0.15); box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
     body.dark .sidebar-drawer { background: linear-gradient(180deg, #13151f 0%, #1a1c2e 100%); }
     body.dark .notification-panel { background: linear-gradient(180deg, #13151f 0%, #1a1c2e 100%); }
     body.dark .overlay { background: rgba(0,0,0,0.7); }
     body.dark .modal-overlay { background: rgba(0,0,0,0.75); }
-
-    /* Dark cards & surfaces */
-    body.dark .bg-white\/90,
-    body.dark .bg-white\/80,
-    body.dark .bg-white { background: rgba(26,28,46,0.9) !important; }
+    body.dark .bg-white\/90, body.dark .bg-white\/80, body.dark .bg-white { background: rgba(26,28,46,0.9) !important; }
     body.dark .card-shadow { box-shadow: 0 4px 24px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2); }
     body.dark .card-shadow-lg { box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.2); }
     body.dark .border-white\/50 { border-color: rgba(99,102,241,0.15) !important; }
     body.dark .border-gray-100 { border-color: rgba(255,255,255,0.08) !important; }
-    body.dark .border-gray-100\/50 { border-color: rgba(255,255,255,0.06) !important; }
-
-    /* Dark text overrides */
     body.dark .text-gray-800 { color: #E5E7EB !important; }
     body.dark .text-gray-700 { color: #D1D5DB !important; }
     body.dark .text-gray-600 { color: #9CA3AF !important; }
     body.dark .text-gray-500 { color: #9CA3AF !important; }
     body.dark .text-gray-400 { color: #6B7280 !important; }
     body.dark h1, body.dark h2, body.dark h3 { color: #F3F4F6; }
-
-    /* Dark form fields */
-    body.dark .input-field, body.dark .select-field {
-      background: rgba(30,32,50,0.8); border-color: rgba(99,102,241,0.2);
-      color: #E5E7EB;
-    }
-    body.dark .input-field:focus, body.dark .select-field:focus {
-      border-color: #6366F1; box-shadow: 0 0 0 4px rgba(99,102,241,0.15); background: rgba(30,32,50,1);
-    }
+    body.dark .input-field, body.dark .select-field { background: rgba(30,32,50,0.8); border-color: rgba(99,102,241,0.2); color: #E5E7EB; }
+    body.dark .input-field:focus, body.dark .select-field:focus { border-color: #6366F1; box-shadow: 0 0 0 4px rgba(99,102,241,0.15); background: rgba(30,32,50,1); }
     body.dark .input-field::placeholder, body.dark .select-field option { color: #6B7280; }
-
-    /* Dark nav */
     body.dark .nav-link { color: #9CA3AF; }
-    body.dark .nav-link:hover, body.dark .nav-link.active {
-      color: #A5B4FC; background: rgba(99,102,241,0.12);
-    }
-
-    /* Dark buttons */
-    body.dark .btn-secondary {
-      background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(124,58,237,0.15));
-      border-color: rgba(99,102,241,0.2); color: #A5B4FC;
-    }
+    body.dark .nav-link:hover, body.dark .nav-link.active { color: #A5B4FC; background: rgba(99,102,241,0.12); }
+    body.dark .btn-secondary { background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(124,58,237,0.15)); border-color: rgba(99,102,241,0.2); color: #A5B4FC; }
     body.dark .btn-secondary:hover { background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(124,58,237,0.25)); }
     body.dark .tab-btn:not(.active) { background: rgba(30,32,50,0.8); color: #9CA3AF; }
     body.dark .tab-btn:not(.active):hover { background: rgba(99,102,241,0.15); }
-
-    /* Dark user switcher */
     body.dark .user-switcher-option:hover { background: rgba(99,102,241,0.12); }
     body.dark .user-switcher-option.active-user { background: rgba(99,102,241,0.15); border-color: #6366F1; }
     body.dark .dropdown-menu { background: rgba(22,24,40,0.97); border-color: rgba(99,102,241,0.2); }
-
-    /* Dark cards hover */
     body.dark .request-card { border-color: rgba(99,102,241,0.1); }
     body.dark .request-card:hover { border-color: rgba(99,102,241,0.3); box-shadow: 0 20px 40px rgba(99,102,241,0.1); }
     body.dark .category-card:hover { box-shadow: 0 20px 40px rgba(99,102,241,0.15); }
     body.dark .stat-card:hover { box-shadow: 0 10px 30px rgba(99,102,241,0.12); }
-
-    /* Dark category radio */
     body.dark .category-radio-card { border-color: rgba(99,102,241,0.15); background: rgba(26,28,46,0.6); }
     body.dark .category-radio-card.selected { border-color: #6366F1; background: rgba(99,102,241,0.12); }
     body.dark .category-radio-card:hover { border-color: rgba(99,102,241,0.4); }
-
-    /* Dark misc */
     body.dark .budget-preview { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(124,58,237,0.1)); border-color: rgba(99,102,241,0.2); }
     body.dark .bg-gray-50, body.dark .bg-gray-50\/80 { background: rgba(30,32,50,0.6) !important; }
     body.dark .bg-indigo-50, body.dark .bg-gradient-to-r { background: rgba(99,102,241,0.1) !important; }
     body.dark .skill-tag { filter: brightness(0.85) saturate(1.3); }
-
-    /* Dark toast */
     body.dark .toast { box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-
-    /* Dark modal content */
     body.dark .modal-overlay > div { background: #1a1c2e !important; }
-
-    /* Dark scrollbar */
     body.dark ::-webkit-scrollbar-track { background: #13151f; }
 
-    /* Dark mode toggle */
-    .dark-toggle {
-      width: 52px; height: 28px; border-radius: 14px;
-      position: relative; cursor: pointer; border: none;
-      transition: all 0.4s cubic-bezier(.4,0,.2,1);
-      background: linear-gradient(135deg, #E0E7FF, #C7D2FE);
-      overflow: hidden;
-    }
+    .dark-toggle { width: 52px; height: 28px; border-radius: 14px; position: relative; cursor: pointer; border: none; transition: all 0.4s cubic-bezier(.4,0,.2,1); background: linear-gradient(135deg, #E0E7FF, #C7D2FE); overflow: hidden; }
     body.dark .dark-toggle { background: linear-gradient(135deg, #312E81, #4338CA); }
-    .dark-toggle-knob {
-      position: absolute; top: 3px; left: 3px;
-      width: 22px; height: 22px; border-radius: 50%;
-      background: white; transition: all 0.4s cubic-bezier(.4,0,.2,1);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
+    .dark-toggle-knob { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: white; transition: all 0.4s cubic-bezier(.4,0,.2,1); display: flex; align-items: center; justify-content: center; font-size: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
     body.dark .dark-toggle-knob { left: 27px; background: #1e1b4b; color: #FDE68A; }
-
-    /* ===== RAINBOW BORDER ===== */
-    .rainbow-border {
-      position: relative;
-    }
-    .rainbow-border::before {
-      content: ''; position: absolute; inset: -2px; border-radius: inherit;
-      background: linear-gradient(135deg, #4F46E5, #7C3AED, #EC4899, #F97316, #14B8A6);
-      z-index: -1; opacity: 0; transition: opacity 0.3s;
-    }
+    .rainbow-border { position: relative; }
+    .rainbow-border::before { content: ''; position: absolute; inset: -2px; border-radius: inherit; background: linear-gradient(135deg, #4F46E5, #7C3AED, #EC4899, #F97316, #14B8A6); z-index: -1; opacity: 0; transition: opacity 0.3s; }
     .rainbow-border:hover::before { opacity: 1; }
-
-    /* ===== SHIMMER ===== */
-    .shimmer {
-      position: relative; overflow: hidden;
-    }
-    .shimmer::after {
-      content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      animation: shimmer 3s ease-in-out infinite;
-    }
+    .shimmer { position: relative; overflow: hidden; }
+    .shimmer::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: shimmer 3s ease-in-out infinite; }
     @keyframes shimmer { to { left: 150%; } }
   </style>
 </head>
+
 <body class="min-h-screen">
 
 <!-- TOAST -->
@@ -557,32 +278,21 @@
     </div>
     <div class="space-y-4">
       <div class="auth-input-group relative">
-        <input id="loginEmail" type="email" class="auth-input" placeholder="Email address" />
-        <i class="fas fa-envelope auth-input-icon"></i>
+        <input id="loginId" type="text" class="auth-input" placeholder="Unique ID (e.g. CC-2026-001 or CC-ADM-01)" />
+        <i class="fas fa-id-badge auth-input-icon"></i>
       </div>
       <div class="auth-input-group relative">
         <input id="loginPassword" type="password" class="auth-input" placeholder="Password" />
         <i class="fas fa-lock auth-input-icon"></i>
         <button type="button" class="password-toggle" onclick="togglePasswordVis('loginPassword',this)"><i class="fas fa-eye"></i></button>
       </div>
-      <div class="flex items-center justify-between text-sm">
-        <label class="flex items-center gap-2 cursor-pointer text-gray-600">
-          <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded accent-indigo-500" checked /> Remember me
-        </label>
-        <a class="font-semibold hover:underline cursor-pointer" style="color:#6366F1" onclick="showToast('info','Password reset coming soon!')">Forgot password?</a>
-      </div>
       <button onclick="handleLogin()" class="btn-primary w-full py-3.5 rounded-xl text-base font-bold mt-2"><i class="fas fa-sign-in-alt mr-2"></i><span>Sign In</span></button>
     </div>
-    <div class="auth-divider"><span class="text-xs text-gray-400 font-semibold">OR</span></div>
-    <div class="grid grid-cols-2 gap-3 mb-5">
-      <button onclick="handleDemoLogin('user_rahul')" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold transition-all hover:scale-[1.03]" style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF);color:#4F46E5">
-        <div class="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:linear-gradient(135deg,#4F46E5,#6366F1)">RS</div> Rahul
-      </button>
-      <button onclick="handleDemoLogin('user_ananya')" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold transition-all hover:scale-[1.03]" style="background:linear-gradient(135deg,#F3E8FF,#E9D5FF);color:#7C3AED">
-        <div class="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:linear-gradient(135deg,#7C3AED,#A855F7)">AR</div> Ananya
-      </button>
+    <div class="auth-divider"><span class="text-xs text-gray-400 font-semibold">NEW STUDENT?</span></div>
+    <p class="text-center text-sm text-gray-500">Don't have an account? <a class="font-bold cursor-pointer hover:underline" style="color:#6366F1" onclick="showAuth('register')">Register here</a></p>
+    <div class="mt-4 p-3 rounded-xl text-xs text-gray-400 text-center" style="background:rgba(99,102,241,0.05)">
+      <i class="fas fa-info-circle mr-1"></i>Admin? Use your Admin ID (CC-ADM-XX) to login.
     </div>
-    <p class="text-center text-sm text-gray-500">Don't have an account? <a class="font-bold cursor-pointer hover:underline" style="color:#6366F1" onclick="showAuth('register')">Create one</a></p>
   </div>
 </div>
 
@@ -590,24 +300,28 @@
 <div id="auth-register" class="auth-wrapper" style="display:none">
   <div class="auth-floating w-24 h-24 bg-pink-400" style="top:8%;right:10%;animation:float 7s ease-in-out infinite"></div>
   <div class="auth-floating w-16 h-16 bg-indigo-400" style="bottom:20%;left:10%;animation:float 6s ease-in-out 1s infinite"></div>
-  <div class="auth-card" style="max-width:480px">
+  <div class="auth-card" style="max-width:500px">
     <div class="text-center mb-6">
       <div class="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-xl shimmer" style="background:linear-gradient(135deg,#EC4899,#F97316)">
         <i class="fas fa-user-plus text-white text-2xl"></i>
       </div>
-      <h1 class="text-2xl font-black gradient-text">Create Account</h1>
-      <p class="text-gray-500 text-sm mt-1">Join the CampusConnect community</p>
+      <h1 class="text-2xl font-black gradient-text">Student Registration</h1>
+      <p class="text-gray-500 text-sm mt-1">Submit your details for admin verification</p>
     </div>
-    <div class="space-y-3.5">
-      <div class="grid grid-cols-2 gap-3">
-        <div class="auth-input-group relative">
-          <input id="regFirstName" type="text" class="auth-input" placeholder="First name" />
-          <i class="fas fa-user auth-input-icon"></i>
-        </div>
-        <div class="auth-input-group relative">
-          <input id="regLastName" type="text" class="auth-input" placeholder="Last name" />
-          <i class="fas fa-user auth-input-icon"></i>
-        </div>
+    <!-- Registration success screen (hidden by default) -->
+    <div id="regSuccessScreen" class="hidden text-center py-6">
+      <div class="w-20 h-20 rounded-full mx-auto mb-5 flex items-center justify-center" style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0)">
+        <i class="fas fa-clock text-4xl text-green-600"></i>
+      </div>
+      <h2 class="text-xl font-black text-gray-800 mb-2">Registration Submitted!</h2>
+      <p class="text-gray-500 text-sm leading-relaxed max-w-sm mx-auto mb-6">Your registration request has been submitted to College Admins for verification. Once approved, you will receive your <span class="font-bold text-indigo-600">Unique CampusConnect ID</span> to log in.</p>
+      <button onclick="showAuth('login')" class="btn-primary px-8 py-3 rounded-xl text-sm"><i class="fas fa-arrow-left mr-2"></i><span>Back to Login</span></button>
+    </div>
+    <!-- Registration form -->
+    <div id="regFormContent" class="space-y-3.5">
+      <div class="auth-input-group relative">
+        <input id="regFullName" type="text" class="auth-input" placeholder="Full Name" />
+        <i class="fas fa-user auth-input-icon"></i>
       </div>
       <div class="auth-input-group relative">
         <input id="regEmail" type="email" class="auth-input" placeholder="Email address" />
@@ -618,7 +332,7 @@
           <select id="regDept" class="auth-input" style="padding-left:44px;appearance:none;cursor:pointer">
             <option value="">Department</option>
             <option>Computer Science</option>
-            <option>Electronics & Comm</option>
+            <option>Electronics &amp; Comm</option>
             <option>Mechanical Eng</option>
             <option>Civil Eng</option>
             <option>Information Tech</option>
@@ -629,19 +343,19 @@
           <i class="fas fa-building auth-input-icon"></i>
         </div>
         <div class="auth-input-group relative">
-          <select id="regYear" class="auth-input" style="padding-left:44px;appearance:none;cursor:pointer">
-            <option value="">Year</option>
-            <option>1st Year</option>
-            <option>2nd Year</option>
-            <option>3rd Year</option>
-            <option>4th Year</option>
-          </select>
-          <i class="fas fa-calendar auth-input-icon"></i>
+          <input id="regSection" type="text" class="auth-input" placeholder="Section (e.g. A, B)" />
+          <i class="fas fa-layer-group auth-input-icon"></i>
         </div>
       </div>
-      <div class="auth-input-group relative">
-        <input id="regSkills" type="text" class="auth-input" placeholder="Skills (comma-separated)" />
-        <i class="fas fa-wand-magic-sparkles auth-input-icon"></i>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="auth-input-group relative">
+          <input id="regRollNo" type="text" class="auth-input" placeholder="Roll Number" />
+          <i class="fas fa-hashtag auth-input-icon"></i>
+        </div>
+        <div class="auth-input-group relative">
+          <input id="regPhone" type="tel" class="auth-input" placeholder="Phone Number" />
+          <i class="fas fa-phone auth-input-icon"></i>
+        </div>
       </div>
       <div class="auth-input-group relative">
         <input id="regPassword" type="password" class="auth-input" placeholder="Create password (min 6 chars)" />
@@ -656,7 +370,7 @@
         <input type="checkbox" id="agreeTerms" class="w-4 h-4 mt-0.5 rounded accent-indigo-500" />
         <span>I agree to the <a class="font-semibold" style="color:#6366F1" href="#">Terms of Service</a> and <a class="font-semibold" style="color:#6366F1" href="#">Privacy Policy</a></span>
       </label>
-      <button onclick="handleRegister()" class="btn-primary w-full py-3.5 rounded-xl text-base font-bold"><i class="fas fa-user-plus mr-2"></i><span>Create Account</span></button>
+      <button onclick="handleRegister()" class="btn-primary w-full py-3.5 rounded-xl text-base font-bold"><i class="fas fa-paper-plane mr-2"></i><span>Submit Registration</span></button>
     </div>
     <p class="text-center text-sm text-gray-500 mt-5">Already have an account? <a class="font-bold cursor-pointer hover:underline" style="color:#6366F1" onclick="showAuth('login')">Sign in</a></p>
   </div>
@@ -676,16 +390,8 @@
     </div>
     <button onclick="closeSidebar()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-red-500 transition-all"><i class="fas fa-times"></i></button>
   </div>
-  <nav class="flex flex-col gap-1" id="sidebarNav">
-    <a class="nav-link flex items-center gap-3 py-3" onclick="navigateTo('home');closeSidebar()"><i class="fas fa-home w-5"></i> Home</a>
-    <a class="nav-link flex items-center gap-3 py-3" onclick="navigateTo('browse');closeSidebar()"><i class="fas fa-compass w-5"></i> Browse Requests</a>
-    <a class="nav-link flex items-center gap-3 py-3" onclick="navigateTo('post');closeSidebar()"><i class="fas fa-plus-circle w-5"></i> Post a Request</a>
-    <a class="nav-link flex items-center gap-3 py-3" onclick="navigateTo('dashboard');closeSidebar()"><i class="fas fa-chart-pie w-5"></i> Dashboard</a>
-    <a class="nav-link flex items-center gap-3 py-3" onclick="navigateTo('profile');closeSidebar()"><i class="fas fa-user-circle w-5"></i> Profile</a>
-    <hr class="border-gray-100 my-2"/>
-    <a class="nav-link flex items-center gap-3 py-3 text-red-500 hover:bg-red-50" onclick="handleLogout()"><i class="fas fa-sign-out-alt w-5"></i> Sign Out</a>
-  </nav>
-  <div class="mt-8 px-2">
+  <nav class="flex flex-col gap-1" id="sidebarNav"></nav>
+  <div class="mt-8 px-2" id="sidebarSwitcherArea">
     <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3"><i class="fas fa-exchange-alt mr-1"></i> Switch Account</p>
     <div id="sidebarUserSwitcher"></div>
   </div>
@@ -714,19 +420,11 @@
         <span class="text-xl font-black hidden sm:block gradient-text">CampusConnect</span>
         <span class="text-lg font-black sm:hidden gradient-text">CC</span>
       </div>
-      <nav class="hidden lg:flex items-center gap-1" id="desktopNav">
-        <a class="nav-link" onclick="navigateTo('home')"><i class="fas fa-home mr-1.5"></i>Home</a>
-        <a class="nav-link" onclick="navigateTo('browse')"><i class="fas fa-compass mr-1.5"></i>Browse</a>
-        <a class="nav-link" onclick="navigateTo('post')"><i class="fas fa-plus mr-1.5"></i>Post</a>
-        <a class="nav-link" onclick="navigateTo('dashboard')"><i class="fas fa-chart-pie mr-1.5"></i>Dashboard</a>
-        <a class="nav-link" onclick="navigateTo('profile')"><i class="fas fa-user-circle mr-1.5"></i>Profile</a>
-      </nav>
+      <nav class="hidden lg:flex items-center gap-1" id="desktopNav"></nav>
       <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Dark Mode Toggle -->
         <button class="dark-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">
           <div class="dark-toggle-knob"><i class="fas fa-sun text-yellow-500"></i></div>
         </button>
-
         <button onclick="toggleNotificationPanel()" class="relative p-2.5 rounded-xl hover:bg-indigo-50 transition-all group">
           <i class="fas fa-bell text-gray-500 text-lg group-hover:text-indigo-500 transition-colors"></i>
           <span id="notifBadge" class="absolute -top-0.5 -right-0.5 w-5 h-5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full flex items-center justify-center font-bold hidden notif-glow">0</span>
@@ -734,7 +432,10 @@
         <div class="relative" id="userSwitcherContainer">
           <button onclick="toggleUserDropdown()" class="flex items-center gap-2 rounded-xl px-3 py-2 transition-all hover:shadow-md" style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF)">
             <div id="headerAvatar" class="avatar-circle w-8 h-8 text-white text-xs font-bold shadow-sm"></div>
-            <span id="headerUserName" class="hidden sm:block font-semibold text-sm text-gray-700 max-w-24 truncate"></span>
+            <div class="hidden sm:block text-left">
+              <span id="headerUserName" class="font-semibold text-sm text-gray-700 block max-w-24 truncate"></span>
+              <span id="headerUserId" class="text-xs text-gray-400 block" style="font-size:10px"></span>
+            </div>
             <i class="fas fa-chevron-down text-gray-400 text-xs transition-transform"></i>
           </button>
           <div id="userDropdown" class="dropdown-menu hidden" style="top:calc(100% + 8px);right:0;">
@@ -755,12 +456,10 @@
   <!-- HOME -->
   <div id="page-home" class="page">
     <div class="hero-bg rounded-3xl mt-6 px-8 py-16 sm:py-24 text-center text-white relative overflow-hidden">
-      <!-- Floating decorations -->
       <div class="floating-shape w-20 h-20 bg-white" style="top:10%;left:5%;animation-delay:0s"></div>
       <div class="floating-shape w-14 h-14 bg-yellow-300" style="top:20%;right:10%;animation-delay:2s"></div>
       <div class="floating-shape w-10 h-10 bg-pink-300" style="bottom:15%;left:15%;animation-delay:4s"></div>
       <div class="floating-shape w-16 h-16 bg-teal-300" style="bottom:20%;right:20%;animation-delay:1s"></div>
-      <div class="floating-shape w-8 h-8 bg-orange-300" style="top:60%;left:40%;animation-delay:3s"></div>
       <div class="absolute inset-0 opacity-10" style="background-image:radial-gradient(circle,white 1px,transparent 1px);background-size:30px 30px;"></div>
       <div class="relative z-10">
         <div class="inline-flex items-center gap-2 bg-white/20 rounded-full px-5 py-2 text-sm font-bold mb-6 backdrop-blur-md border border-white/20 animate-scale-in">
@@ -770,7 +469,7 @@
           Your Campus.<br/>Your Skills.<br/>
           <span class="text-yellow-300 drop-shadow-lg">One Connection.</span>
         </h1>
-        <p class="text-lg sm:text-xl text-white/80 mb-10 max-w-2xl mx-auto leading-relaxed">Connect with fellow students to get help or earn money by sharing your skills. Photography, notes, presentations and more!</p>
+        <p class="text-lg sm:text-xl text-white/80 mb-10 max-w-2xl mx-auto leading-relaxed">Connect with fellow students to get help or earn money by sharing your skills.</p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <button onclick="navigateTo('post')" class="group px-8 py-4 rounded-2xl text-lg font-bold bg-white text-indigo-600 shadow-2xl hover:shadow-white/25 hover:scale-105 transition-all">
             <i class="fas fa-plus-circle mr-2 group-hover:rotate-90 transition-transform"></i> Post a Request
@@ -781,21 +480,15 @@
         </div>
       </div>
     </div>
-
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-10" id="statsBar"></div>
-
     <div class="mt-12">
       <h2 class="text-2xl font-black text-gray-800 mb-2 text-center">Browse by <span class="gradient-text">Category</span></h2>
       <p class="text-gray-500 text-center mb-8">Choose a service type to explore available requests</p>
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4" id="categoriesGrid"></div>
     </div>
-
     <div class="mt-12">
       <div class="flex items-center justify-between mb-6">
-        <div>
-          <h2 class="text-2xl font-black text-gray-800">Recent <span class="gradient-text">Open Requests</span></h2>
-          <p class="text-gray-500 text-sm mt-1">Fresh opportunities from your campus</p>
-        </div>
+        <div><h2 class="text-2xl font-black text-gray-800">Recent <span class="gradient-text">Open Requests</span></h2><p class="text-gray-500 text-sm mt-1">Fresh opportunities from your campus</p></div>
         <button onclick="navigateTo('browse')" class="btn-secondary px-5 py-2.5 rounded-xl text-sm group">View All <i class="fas fa-arrow-right ml-1.5 group-hover:translate-x-1 transition-transform"></i></button>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="homeRequestsGrid"></div>
@@ -804,40 +497,18 @@
 
   <!-- BROWSE -->
   <div id="page-browse" class="page">
-    <div class="mt-6 mb-6">
-      <h2 class="text-2xl font-black text-gray-800 mb-1">Browse <span class="gradient-text">Requests</span></h2>
-      <p class="text-gray-500">Find opportunities to help fellow students and earn</p>
-    </div>
+    <div class="mt-6 mb-6"><h2 class="text-2xl font-black text-gray-800 mb-1">Browse <span class="gradient-text">Requests</span></h2><p class="text-gray-500">Find opportunities to help fellow students and earn</p></div>
     <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-5 card-shadow-lg mb-6 border border-white/50">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <div class="relative">
-          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-          <input id="browseSearch" type="text" placeholder="Search requests..." class="input-field pl-11" oninput="renderBrowse()" />
-        </div>
-        <select id="browseCategory" class="select-field" onchange="renderBrowse()">
-          <option value="">All Categories</option>
-        </select>
-        <select id="browseBudget" class="select-field" onchange="renderBrowse()">
-          <option value="">Any Budget</option>
-          <option value="free">Free / Collab</option>
-          <option value="under200">Under ₹200</option>
-          <option value="200to500">₹200 – ₹500</option>
-          <option value="500plus">₹500+</option>
-        </select>
-        <select id="browseStatus" class="select-field" onchange="renderBrowse()">
-          <option value="">All Status</option>
-          <option value="OPEN">Open</option>
-          <option value="ACCEPTED">Accepted</option>
-          <option value="IN_PROGRESS">In Progress</option>
-          <option value="COMPLETED">Completed</option>
-        </select>
+        <div class="relative"><i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i><input id="browseSearch" type="text" placeholder="Search requests..." class="input-field pl-11" oninput="renderBrowse()" /></div>
+        <select id="browseCategory" class="select-field" onchange="renderBrowse()"><option value="">All Categories</option></select>
+        <select id="browseBudget" class="select-field" onchange="renderBrowse()"><option value="">Any Budget</option><option value="free">Free / Collab</option><option value="under200">Under &#8377;200</option><option value="200to500">&#8377;200 – &#8377;500</option><option value="500plus">&#8377;500+</option></select>
+        <select id="browseStatus" class="select-field" onchange="renderBrowse()"><option value="">All Status</option><option value="OPEN">Open</option><option value="ACCEPTED">Accepted</option><option value="IN_PROGRESS">In Progress</option><option value="COMPLETED">Completed</option></select>
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="browseResults"></div>
     <div id="browseEmpty" class="hidden text-center py-20">
-      <div class="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#EEF2FF,#FCE7F3)">
-        <i class="fas fa-search text-3xl text-gray-300"></i>
-      </div>
+      <div class="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#EEF2FF,#FCE7F3)"><i class="fas fa-search text-3xl text-gray-300"></i></div>
       <p class="text-gray-400 text-lg font-semibold">No requests match your filters</p>
       <button onclick="clearBrowseFilters()" class="btn-secondary px-6 py-2.5 rounded-xl mt-5 text-sm">Clear Filters</button>
     </div>
@@ -845,26 +516,21 @@
 
   <!-- POST REQUEST WIZARD -->
   <div id="page-post" class="page">
-    <div class="mt-6 mb-6">
-      <h2 class="text-2xl font-black text-gray-800 mb-1">Post a <span class="gradient-text">New Request</span></h2>
-      <p class="text-gray-500">Tell us what you need help with</p>
-    </div>
+    <div class="mt-6 mb-6"><h2 class="text-2xl font-black text-gray-800 mb-1">Post a <span class="gradient-text">New Request</span></h2><p class="text-gray-500">Tell us what you need help with</p></div>
     <div class="max-w-2xl mx-auto">
       <div class="step-indicator mb-8" id="stepIndicator"></div>
       <div id="wizardStep1" class="wizard-step bg-white/90 backdrop-blur-sm rounded-2xl p-7 card-shadow-lg border border-white/50 animate-fade-in">
         <h3 class="text-lg font-bold text-gray-800 mb-1"><i class="fas fa-th-large mr-2 text-indigo-500"></i>Select a Category</h3>
         <p class="text-sm text-gray-500 mb-5">What kind of help do you need?</p>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="step1CategoryGrid"></div>
-        <div class="flex justify-end mt-6">
-          <button onclick="wizardNext(1)" class="btn-primary px-7 py-3 rounded-xl text-sm"><span>Next</span> <i class="fas fa-arrow-right ml-2"></i></button>
-        </div>
+        <div class="flex justify-end mt-6"><button onclick="wizardNext(1)" class="btn-primary px-7 py-3 rounded-xl text-sm"><span>Next</span> <i class="fas fa-arrow-right ml-2"></i></button></div>
       </div>
       <div id="wizardStep2" class="wizard-step hidden bg-white/90 backdrop-blur-sm rounded-2xl p-7 card-shadow-lg border border-white/50 animate-fade-in">
         <h3 class="text-lg font-bold text-gray-800 mb-1"><i class="fas fa-edit mr-2 text-pink-500"></i>Request Details</h3>
         <p class="text-sm text-gray-500 mb-5">Describe what you need</p>
         <div class="space-y-4">
           <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Title *</label><input id="postTitle" type="text" class="input-field" placeholder="e.g., Photographer needed for college event" /></div>
-          <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Description *</label><textarea id="postDesc" class="input-field" rows="4" placeholder="Provide details about what you need..."></textarea></div>
+          <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Description *</label><textarea id="postDesc" class="input-field" rows="4" placeholder="Provide details..."></textarea></div>
           <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Special Requirements (Optional)</label><input id="postReqs" type="text" class="input-field" placeholder="e.g., Must have DSLR camera" /></div>
         </div>
         <div class="flex justify-between mt-6">
@@ -873,7 +539,7 @@
         </div>
       </div>
       <div id="wizardStep3" class="wizard-step hidden bg-white/90 backdrop-blur-sm rounded-2xl p-7 card-shadow-lg border border-white/50 animate-fade-in">
-        <h3 class="text-lg font-bold text-gray-800 mb-1"><i class="fas fa-calendar-alt mr-2 text-teal-500"></i>Schedule & Location</h3>
+        <h3 class="text-lg font-bold text-gray-800 mb-1"><i class="fas fa-calendar-alt mr-2 text-teal-500"></i>Schedule &amp; Location</h3>
         <p class="text-sm text-gray-500 mb-5">When and where do you need help?</p>
         <div class="space-y-4">
           <div class="grid grid-cols-2 gap-4">
@@ -893,17 +559,17 @@
         <h3 class="text-lg font-bold text-gray-800 mb-1"><i class="fas fa-wallet mr-2 text-orange-500"></i>Set Your Budget</h3>
         <p class="text-sm text-gray-500 mb-5">How much are you willing to pay? Enter 0 for free collab.</p>
         <div class="space-y-4">
-          <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Budget (₹)</label>
-            <div class="relative"><span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold text-lg">₹</span>
+          <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Budget (&#8377;)</label>
+            <div class="relative"><span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold text-lg">&#8377;</span>
             <input id="postBudget" type="number" min="0" class="input-field pl-10 text-lg font-semibold" placeholder="0" oninput="updateBudgetPreview()" /></div>
           </div>
           <div id="budgetPreview" class="budget-preview hidden animate-scale-in">
             <h4 class="font-bold text-sm text-gray-700 mb-3"><i class="fas fa-calculator mr-2" style="color:#7C3AED"></i>Cost Breakdown</h4>
             <div class="space-y-2.5 text-sm">
-              <div class="flex justify-between"><span class="text-gray-600">Service Amount</span><span id="bpAmount" class="font-bold text-gray-800">₹0</span></div>
-              <div class="flex justify-between"><span class="text-gray-600">CampusConnect Fee (10%)</span><span id="bpFee" class="font-bold text-red-500">-₹0</span></div>
+              <div class="flex justify-between"><span class="text-gray-600">Service Amount</span><span id="bpAmount" class="font-bold text-gray-800">&#8377;0</span></div>
+              <div class="flex justify-between"><span class="text-gray-600">CampusConnect Fee (10%)</span><span id="bpFee" class="font-bold text-red-500">-&#8377;0</span></div>
               <hr class="border-indigo-100"/>
-              <div class="flex justify-between text-base"><span class="font-extrabold text-gray-800">Provider Payout</span><span id="bpPayout" class="font-extrabold text-green-600">₹0</span></div>
+              <div class="flex justify-between text-base"><span class="font-extrabold text-gray-800">Provider Payout</span><span id="bpPayout" class="font-extrabold text-green-600">&#8377;0</span></div>
             </div>
           </div>
         </div>
@@ -917,10 +583,7 @@
 
   <!-- DASHBOARD -->
   <div id="page-dashboard" class="page">
-    <div class="mt-6 mb-6">
-      <h2 class="text-2xl font-black text-gray-800 mb-1">My <span class="gradient-text">Dashboard</span></h2>
-      <p class="text-gray-500">Track your requests and tasks</p>
-    </div>
+    <div class="mt-6 mb-6"><h2 class="text-2xl font-black text-gray-800 mb-1">My <span class="gradient-text">Dashboard</span></h2><p class="text-gray-500">Track your requests and tasks</p></div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6" id="dashStats"></div>
     <div class="flex gap-2 mb-6" id="dashTabs">
       <button class="tab-btn active" onclick="switchDashTab('myRequests')"><i class="fas fa-paper-plane mr-1.5"></i>My Requests</button>
@@ -937,6 +600,25 @@
       <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 card-shadow border border-white/50" id="profileReviews"></div>
     </div>
   </div>
+
+  <!-- ADMIN PORTAL -->
+  <div id="page-admin" class="page">
+    <div class="mt-6 mb-6">
+      <div class="flex items-center gap-3 mb-1">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center shadow-md" style="background:linear-gradient(135deg,#DC2626,#F97316)"><i class="fas fa-shield-halved text-white"></i></div>
+        <h2 class="text-2xl font-black text-gray-800">Admin <span class="gradient-text">Portal</span></h2>
+      </div>
+      <p class="text-gray-500">Manage student registrations and platform users</p>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6" id="adminStats"></div>
+    <div class="flex gap-2 mb-6" id="adminTabs">
+      <button class="tab-btn active" onclick="switchAdminTab('pending')"><i class="fas fa-clock mr-1.5"></i>Pending Approvals</button>
+      <button class="tab-btn" onclick="switchAdminTab('students')"><i class="fas fa-users mr-1.5"></i>All Students</button>
+      <button class="tab-btn" onclick="switchAdminTab('rejected')"><i class="fas fa-times-circle mr-1.5"></i>Rejected</button>
+    </div>
+    <div id="adminContent" class="bg-white/90 backdrop-blur-sm rounded-2xl card-shadow-lg border border-white/50 overflow-hidden"></div>
+  </div>
+
 </main>
 
 <!-- REQUEST MODAL -->
@@ -949,709 +631,1365 @@
   <div class="bg-white rounded-3xl w-full max-w-md p-7 shadow-2xl" id="ratingModalContent" onclick="event.stopPropagation()"></div>
 </div>
 
+<!-- REJECT REASON MODAL -->
+<div id="rejectModal" class="modal-overlay" onclick="closeRejectModal(event)">
+  <div class="bg-white rounded-3xl w-full max-w-md p-7 shadow-2xl" id="rejectModalContent" onclick="event.stopPropagation()"></div>
+</div>
+
 </div><!-- END APP WRAPPER -->
 
+<!-- ==================== PART 3: CORE JS ==================== -->
 <script>
-// =====================================================
-// DATA
-// =====================================================
-var CATEGORIES = [
-  { id: 'photography', label: 'Photography', icon: 'fa-camera-retro', bg: '#FEF3C7', color: '#D97706', gradient: 'linear-gradient(135deg,#FEF3C7,#FDE68A)' },
-  { id: 'notes', label: 'Notes', icon: 'fa-book-open', bg: '#DBEAFE', color: '#2563EB', gradient: 'linear-gradient(135deg,#DBEAFE,#BFDBFE)' },
-  { id: 'presentation', label: 'Presentations', icon: 'fa-palette', bg: '#FCE7F3', color: '#DB2777', gradient: 'linear-gradient(135deg,#FCE7F3,#FBCFE8)' },
-  { id: 'teammates', label: 'Teammates', icon: 'fa-user-group', bg: '#D1FAE5', color: '#059669', gradient: 'linear-gradient(135deg,#D1FAE5,#A7F3D0)' },
-  { id: 'transport', label: 'Transport', icon: 'fa-car-side', bg: '#E0E7FF', color: '#4F46E5', gradient: 'linear-gradient(135deg,#E0E7FF,#C7D2FE)' },
-  { id: 'other', label: 'Other', icon: 'fa-wand-magic-sparkles', bg: '#F3E8FF', color: '#7C3AED', gradient: 'linear-gradient(135deg,#F3E8FF,#E9D5FF)' },
-];
-function getCategoryById(id) { return CATEGORIES.find(function(c){return c.id===id}) || CATEGORIES[5]; }
-
-var SEED_USERS = [
-  { id: 'user_rahul', name: 'Rahul Sharma', email: 'rahul.sharma@campus.edu', dept: 'Computer Science', year: '2nd Year', skills: ['Web Development', 'Python', 'Photography', 'Video Editing'], rating: 4.5, completedCount: 12, avatar: 'RS', bio: 'CS enthusiast passionate about web dev and open source. Always up for a hackathon!' },
-  { id: 'user_ananya', name: 'Ananya Roy', email: 'ananya.roy@campus.edu', dept: 'Electronics & Comm', year: '3rd Year', skills: ['Circuit Design', 'MATLAB', 'Technical Writing', 'Presentation Design', 'IoT'], rating: 4.8, completedCount: 23, avatar: 'AR', bio: 'ECE senior who loves helping juniors with notes and projects. Design enthusiast on the side.' },
+// ─── CATEGORIES ───
+const CATEGORIES = [
+  { id: 'notes', name: 'Notes & Study Material', icon: 'fas fa-book-open', color: 'from-blue-500 to-indigo-600', desc: 'Handwritten/digital notes, summaries, past papers' },
+  { id: 'assignments', name: 'Assignment Help', icon: 'fas fa-pen-fancy', color: 'from-purple-500 to-pink-600', desc: 'Help with assignments, projects, and homework' },
+  { id: 'tutoring', name: 'Tutoring', icon: 'fas fa-chalkboard-teacher', color: 'from-green-500 to-emerald-600', desc: 'One-on-one or group tutoring sessions' },
+  { id: 'skills', name: 'Skill Exchange', icon: 'fas fa-exchange-alt', color: 'from-orange-500 to-red-500', desc: 'Trade skills: coding, design, music, etc.' },
+  { id: 'transport', name: 'Transport & Rides', icon: 'fas fa-car', color: 'from-cyan-500 to-blue-500', desc: 'Carpooling, bike sharing, ride requests' },
+  { id: 'food', name: 'Food & Tiffin', icon: 'fas fa-utensils', color: 'from-yellow-500 to-orange-500', desc: 'Homemade food, tiffin services, group orders' },
+  { id: 'lost', name: 'Lost & Found', icon: 'fas fa-search', color: 'from-red-500 to-rose-600', desc: 'Report or find lost items on campus' },
+  { id: 'events', name: 'Events & Activities', icon: 'fas fa-calendar-star', color: 'from-pink-500 to-purple-600', desc: 'Club events, fests, meetups, workshops' },
+  { id: 'housing', name: 'Housing & PG', icon: 'fas fa-home', color: 'from-teal-500 to-green-500', desc: 'PG, flat sharing, roommate finder' },
+  { id: 'electronics', name: 'Electronics & Gadgets', icon: 'fas fa-laptop', color: 'from-gray-600 to-gray-800', desc: 'Buy, sell, rent electronics and gadgets' },
+  { id: 'sports', name: 'Sports & Fitness', icon: 'fas fa-futbol', color: 'from-lime-500 to-green-600', desc: 'Sports gear, gym partners, coaching' },
+  { id: 'other', name: 'Other', icon: 'fas fa-ellipsis-h', color: 'from-slate-500 to-slate-700', desc: 'Anything else you need!' }
 ];
 
-var TODAY = new Date();
-var TOMORROW = new Date(TODAY); TOMORROW.setDate(TOMORROW.getDate() + 1);
-var FRIDAY = new Date(TODAY); FRIDAY.setDate(FRIDAY.getDate() + ((5 - FRIDAY.getDay() + 7) % 7 || 7));
-var NEXTWEEK = new Date(TODAY); NEXTWEEK.setDate(NEXTWEEK.getDate() + 7);
-function fmtDate(d) { return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); }
-
-var SEED_REQUESTS = [
-  { id:'req_001', requesterId:'user_ananya', providerId:null, title:'Photographer Needed for College Cultural Event', category:'photography', description:'We need an experienced photographer with a DSLR for our annual cultural fest. Coverage of stage performances, candid shots, and group photos required.', requirements:'Must have DSLR camera, event photography experience preferred', date:fmtDate(TOMORROW), time:'4:00 PM', location:'Main Auditorium', budget:500, status:'OPEN', createdAt:new Date(TODAY.getTime()-3600000).toISOString() },
-  { id:'req_002', requesterId:'user_rahul', providerId:null, title:'Engineering Mathematics Module 2 Notes & Formula Sheet', category:'notes', description:'Looking for well-organized notes for Engineering Maths Module 2 covering Laplace Transforms, Fourier Series, and Complex Analysis.', requirements:'Neat handwriting or typed, covering all important derivations', date:fmtDate(TODAY), time:'', location:'Central Library', budget:100, status:'OPEN', createdAt:new Date(TODAY.getTime()-7200000).toISOString() },
-  { id:'req_003', requesterId:'user_ananya', providerId:null, title:'10-Slide Deck Design for Startup Pitch', category:'presentation', description:'Need a professional-looking 10-slide pitch deck for our startup idea presentation. Content is ready, just need someone skilled with PowerPoint/Canva.', requirements:'Proficiency in Canva or PowerPoint, modern design sense', date:fmtDate(FRIDAY), time:'2:00 PM', location:'Block B', budget:300, status:'OPEN', createdAt:new Date(TODAY.getTime()-10800000).toISOString() },
-  { id:'req_004', requesterId:'user_rahul', providerId:null, title:'Looking for React/Node Developer for Hackathon', category:'teammates', description:'Forming a team for the upcoming inter-college hackathon. Need someone skilled in React and/or Node.js. We already have a designer and ML engineer.', requirements:'Experience with React.js, Node.js, or full-stack development', date:fmtDate(NEXTWEEK), time:'', location:'Innovation Lab', budget:0, status:'OPEN', createdAt:new Date(TODAY.getTime()-14400000).toISOString() },
-  { id:'req_005', requesterId:'user_rahul', providerId:null, title:'Ride Share to City Station After Evening Class', category:'transport', description:'Looking for a ride share from campus to City Railway Station after our 5 PM class. Happy to split fuel costs.', requirements:'Must have 2-wheeler or car', date:fmtDate(TODAY), time:'5:30 PM', location:'Main Gate', budget:150, status:'OPEN', createdAt:new Date(TODAY.getTime()-1800000).toISOString() }
+// ─── SEED DATA ───
+const SEED_ADMINS = [
+  { id: 'admin_1', name: 'Admin One', email: 'admin1@campusconnect.edu', uniqueId: 'CC-ADM-01', dept: 'Administration', isAdmin: true, rating: 0, completed: 0, joined: '2025-01-01' },
+  { id: 'admin_2', name: 'Admin Two', email: 'admin2@campusconnect.edu', uniqueId: 'CC-ADM-02', dept: 'Administration', isAdmin: true, rating: 0, completed: 0, joined: '2025-01-01' },
+  { id: 'admin_3', name: 'Admin Three', email: 'admin3@campusconnect.edu', uniqueId: 'CC-ADM-03', dept: 'Administration', isAdmin: true, rating: 0, completed: 0, joined: '2025-01-01' }
 ];
 
-// =====================================================
-// LOCALSTORAGE DB
-// =====================================================
+const SEED_USERS = [
+  { id: 'user_1', name: 'Rahul Sharma', email: 'rahul@college.edu', uniqueId: 'CC-2026-001', dept: 'Computer Science', section: 'A', rollNo: 'CSE-2026-001', phone: '9999999999', isAdmin: false, rating: 4.8, completed: 12, joined: '2025-08-15' },
+  { id: 'user_2', name: 'Ananya Patel', email: 'ananya@college.edu', uniqueId: 'CC-2026-002', dept: 'Electronics', section: 'B', rollNo: 'ECE-2026-001', phone: '8888888888', isAdmin: false, rating: 4.5, completed: 8, joined: '2025-08-20' }
+];
+
+const SEED_PENDING = [
+  { id: 'pending_1', name: 'Priya Patel', email: 'priya@college.edu', dept: 'Computer Science', section: 'B', rollNo: 'CSE-2026-045', phone: '9876543210', password: 'priya123', status: 'PENDING', submittedAt: new Date(Date.now() - 86400000).toISOString(), rejectedReason: '' },
+  { id: 'pending_2', name: 'Vikram Singh', email: 'vikram@college.edu', dept: 'Mechanical', section: 'A', rollNo: 'ME-2026-012', phone: '8765432109', password: 'vikram123', status: 'PENDING', submittedAt: new Date(Date.now() - 43200000).toISOString(), rejectedReason: '' }
+];
+
+const SEED_REQUESTS = [
+  { id: 'req_1', title: 'Need Calculus II Notes', desc: 'Looking for comprehensive notes for Calculus II (Integration, Series). Prefer handwritten with examples.', category: 'notes', budget: 150, urgency: 'medium', status: 'open', userId: 'user_1', createdAt: new Date(Date.now() - 172800000).toISOString(), acceptedBy: null, completedAt: null },
+  { id: 'req_2', title: 'Python Tutor Needed', desc: 'Need help with Python OOP concepts and Data Structures. 2-3 sessions per week.', category: 'tutoring', budget: 500, urgency: 'high', status: 'open', userId: 'user_2', createdAt: new Date(Date.now() - 86400000).toISOString(), acceptedBy: null, completedAt: null },
+  { id: 'req_3', title: 'Ride to Tech Park', desc: 'Need daily ride from campus to Tech Park area. Willing to share fuel costs. Timing: 9 AM departure.', category: 'transport', budget: 200, urgency: 'low', status: 'open', userId: 'user_1', createdAt: new Date(Date.now() - 259200000).toISOString(), acceptedBy: null, completedAt: null },
+  { id: 'req_4', title: 'Web Dev Assignment Help', desc: 'Need help with React.js assignment due next week. Should include routing and state management.', category: 'assignments', budget: 300, urgency: 'high', status: 'accepted', userId: 'user_2', createdAt: new Date(Date.now() - 345600000).toISOString(), acceptedBy: 'user_1', completedAt: null },
+  { id: 'req_5', title: 'Lost Calculator (Casio fx-991)', desc: 'Lost my scientific calculator near the library. It has my name written on the back with a red sticker.', category: 'lost', budget: 0, urgency: 'high', status: 'open', userId: 'user_1', createdAt: new Date(Date.now() - 432000000).toISOString(), acceptedBy: null, completedAt: null }
+];
+
+// ─── DATABASE FUNCTIONS ───
 function initDB() {
-  if (!localStorage.getItem('cc_users')) localStorage.setItem('cc_users', JSON.stringify(SEED_USERS));
-  if (!localStorage.getItem('cc_requests')) localStorage.setItem('cc_requests', JSON.stringify(SEED_REQUESTS));
-  if (!localStorage.getItem('cc_reviews')) localStorage.setItem('cc_reviews', JSON.stringify([]));
-  if (!localStorage.getItem('cc_notifications')) localStorage.setItem('cc_notifications', JSON.stringify([]));
-  if (!localStorage.getItem('cc_active_user')) localStorage.setItem('cc_active_user', 'user_rahul');
+  if (!localStorage.getItem('cc_users')) {
+    localStorage.setItem('cc_users', JSON.stringify([...SEED_ADMINS, ...SEED_USERS]));
+  }
+  if (!localStorage.getItem('cc_requests')) {
+    localStorage.setItem('cc_requests', JSON.stringify(SEED_REQUESTS));
+  }
+  if (!localStorage.getItem('cc_reviews')) {
+    localStorage.setItem('cc_reviews', JSON.stringify([]));
+  }
+  if (!localStorage.getItem('cc_notifications')) {
+    localStorage.setItem('cc_notifications', JSON.stringify([
+      { id: 'n1', userId: 'user_1', msg: 'Welcome to CampusConnect! Start by browsing requests or posting your own.', read: false, time: new Date().toISOString() },
+      { id: 'n2', userId: 'user_2', msg: 'Your request "Web Dev Assignment Help" has been accepted by Rahul!', read: false, time: new Date().toISOString() }
+    ]));
+  }
+  if (!localStorage.getItem('cc_pending_registrations')) {
+    localStorage.setItem('cc_pending_registrations', JSON.stringify(SEED_PENDING));
+  }
+  if (!localStorage.getItem('cc_id_counter')) {
+    localStorage.setItem('cc_id_counter', '3');
+  }
 }
-function getUsers() { return JSON.parse(localStorage.getItem('cc_users')||'[]'); }
-function getRequests() { return JSON.parse(localStorage.getItem('cc_requests')||'[]'); }
-function getReviews() { return JSON.parse(localStorage.getItem('cc_reviews')||'[]'); }
-function getNotifications() { return JSON.parse(localStorage.getItem('cc_notifications')||'[]'); }
-function getActiveUserId() { return localStorage.getItem('cc_active_user')||'user_rahul'; }
-function getActiveUser() { return getUsers().find(function(u){return u.id===getActiveUserId()}); }
-function saveUsers(u) { localStorage.setItem('cc_users', JSON.stringify(u)); }
-function saveRequests(r) { localStorage.setItem('cc_requests', JSON.stringify(r)); }
-function saveReviews(r) { localStorage.setItem('cc_reviews', JSON.stringify(r)); }
-function saveNotifications(n) { localStorage.setItem('cc_notifications', JSON.stringify(n)); }
-function setActiveUser(id) { localStorage.setItem('cc_active_user', id); }
-function getUserById(id) { return getUsers().find(function(u){return u.id===id}); }
 
-function addNotification(userId, title, message) {
-  var notifs = getNotifications();
-  notifs.unshift({ id:'notif_'+Date.now(), userId:userId, title:title, message:message, date:new Date().toISOString(), read:false });
-  saveNotifications(notifs);
+function getUsers() { return JSON.parse(localStorage.getItem('cc_users') || '[]'); }
+function saveUsers(u) { localStorage.setItem('cc_users', JSON.stringify(u)); }
+function getRequests() { return JSON.parse(localStorage.getItem('cc_requests') || '[]'); }
+function saveRequests(r) { localStorage.setItem('cc_requests', JSON.stringify(r)); }
+function getReviews() { return JSON.parse(localStorage.getItem('cc_reviews') || '[]'); }
+function saveReviews(r) { localStorage.setItem('cc_reviews', JSON.stringify(r)); }
+function getNotifications() { return JSON.parse(localStorage.getItem('cc_notifications') || '[]'); }
+function saveNotifications(n) { localStorage.setItem('cc_notifications', JSON.stringify(n)); }
+function getPendingRegistrations() { return JSON.parse(localStorage.getItem('cc_pending_registrations') || '[]'); }
+function savePendingRegistrations(p) { localStorage.setItem('cc_pending_registrations', JSON.stringify(p)); }
+function getIdCounter() { return parseInt(localStorage.getItem('cc_id_counter') || '1'); }
+function incrementIdCounter() { const c = getIdCounter() + 1; localStorage.setItem('cc_id_counter', c.toString()); return c - 1; }
+function getPasswords() { return JSON.parse(localStorage.getItem('cc_passwords') || '{}'); }
+function savePasswords(p) { localStorage.setItem('cc_passwords', JSON.stringify(p)); }
+
+function getActiveUserId() { return localStorage.getItem('cc_active_user'); }
+function setActiveUserId(id) { localStorage.setItem('cc_active_user', id); }
+function getActiveUser() {
+  const uid = getActiveUserId();
+  if (!uid) return null;
+  return getUsers().find(u => u.id === uid) || null;
+}
+function isAdmin() {
+  const u = getActiveUser();
+  return u && u.isAdmin === true;
+}
+
+// ─── AVATAR COLORS ───
+const AVATAR_COLORS = [
+  'linear-gradient(135deg,#667eea,#764ba2)',
+  'linear-gradient(135deg,#f093fb,#f5576c)',
+  'linear-gradient(135deg,#4facfe,#00f2fe)',
+  'linear-gradient(135deg,#43e97b,#38f9d7)',
+  'linear-gradient(135deg,#fa709a,#fee140)',
+  'linear-gradient(135deg,#a18cd1,#fbc2eb)'
+];
+const ADMIN_GRADIENT = 'linear-gradient(135deg,#DC2626,#F97316)';
+
+function getAvatarColor(userId) {
+  const users = getUsers();
+  const user = users.find(u => u.id === userId);
+  if (user && user.isAdmin) return ADMIN_GRADIENT;
+  let hash = 0;
+  for (let i = 0; i < userId.length; i++) hash = userId.charCodeAt(i) + ((hash << 5) - hash);
+  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
+}
+
+function getInitials(name) {
+  return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+}
+
+// ─── NAVIGATION ───
+let currentPage = 'home';
+
+function navigateTo(page) {
+  currentPage = page;
+  const allPages = ['home', 'browse', 'post', 'dashboard', 'profile', 'admin'];
+  allPages.forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if (el) el.classList.remove('active');
+  });
+  const target = document.getElementById('page-' + page);
+  if (target) target.classList.add('active');
+
+  // Update active nav
+  document.querySelectorAll('.nav-link').forEach(l => {
+    l.classList.remove('active');
+    if (l.dataset.page === page) l.classList.add('active');
+  });
+
+  // Render content
+  if (page === 'home') renderHome();
+  else if (page === 'browse') renderBrowse();
+  else if (page === 'post') initWizard();
+  else if (page === 'dashboard') renderDashboard();
+  else if (page === 'profile') renderProfile();
+  else if (page === 'admin') renderAdmin();
+
+  closeSidebar();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderNav() {
+  const admin = isAdmin();
+  const desktopNav = document.getElementById('desktopNav');
+  const sidebarNav = document.getElementById('sidebarNav');
+
+  let navItems = [];
+  if (admin) {
+    navItems = [
+      { page: 'home', icon: 'fas fa-home', label: 'Home' },
+      { page: 'admin', icon: 'fas fa-shield-alt', label: 'Admin Portal' }
+    ];
+  } else {
+    navItems = [
+      { page: 'home', icon: 'fas fa-home', label: 'Home' },
+      { page: 'browse', icon: 'fas fa-compass', label: 'Browse' },
+      { page: 'post', icon: 'fas fa-plus-circle', label: 'Post' },
+      { page: 'dashboard', icon: 'fas fa-th-large', label: 'Dashboard' },
+      { page: 'profile', icon: 'fas fa-user', label: 'Profile' }
+    ];
+  }
+
+  if (desktopNav) {
+    desktopNav.innerHTML = navItems.map(n =>
+      `<button class="nav-link${currentPage === n.page ? ' active' : ''}" data-page="${n.page}" onclick="navigateTo('${n.page}')"><i class="${n.icon} mr-1.5"></i>${n.label}</button>`
+    ).join('');
+  }
+
+  if (sidebarNav) {
+    sidebarNav.innerHTML = navItems.map(n =>
+      `<button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold transition-all ${currentPage === n.page ? 'bg-indigo-500/15 text-indigo-400' : 'text-gray-400 hover:bg-white/5 hover:text-white'}" data-page="${n.page}" onclick="navigateTo('${n.page}')"><i class="${n.icon}"></i>${n.label}</button>`
+    ).join('');
+  }
+}
+
+// ─── USER SWITCHER ───
+function renderUserSwitcher() {
+  const user = getActiveUser();
+  if (!user) return;
+
+  const headerName = document.getElementById('headerUserName');
+  const headerIdEl = document.getElementById('headerUserId');
+  const headerAvatar = document.getElementById('headerAvatar');
+  const dropdown = document.getElementById('userDropdownContent');
+
+  if (headerName) headerName.textContent = user.name;
+  if (headerIdEl) headerIdEl.textContent = user.uniqueId;
+  if (headerAvatar) {
+    headerAvatar.style.background = getAvatarColor(user.id);
+    headerAvatar.textContent = getInitials(user.name);
+  }
+
+  if (!dropdown) return;
+  const users = getUsers().filter(u => !u.isAdmin);
+
+  let html = '';
+  if (user.isAdmin) {
+    html += `<div class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Admin Account</div>`;
+    html += `<div class="px-4 py-2 flex items-center gap-3 bg-indigo-50/80 rounded-xl">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:${ADMIN_GRADIENT}">${getInitials(user.name)}</div>
+      <div><div class="text-sm font-semibold text-gray-800">${user.name}</div><div class="text-xs text-red-500 font-medium">${user.uniqueId}</div></div>
+      <i class="fas fa-check ml-auto text-indigo-600"></i>
+    </div>`;
+  } else {
+    html += `<div class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Switch Account</div>`;
+    users.forEach(u => {
+      const isActive = u.id === user.id;
+      html += `<button onclick="switchUser('${u.id}')" class="w-full px-4 py-2 flex items-center gap-3 hover:bg-gray-50 rounded-xl transition-colors ${isActive ? 'bg-indigo-50/80' : ''}">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:${getAvatarColor(u.id)}">${getInitials(u.name)}</div>
+        <div class="text-left"><div class="text-sm font-semibold text-gray-800">${u.name}</div><div class="text-xs text-gray-500">${u.uniqueId}</div></div>
+        ${isActive ? '<i class="fas fa-check ml-auto text-indigo-600"></i>' : ''}
+      </button>`;
+    });
+  }
+
+  html += `<div class="border-t border-gray-100 mt-1"></div>`;
+  html += `<button onclick="handleLogout()" class="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50 rounded-xl transition-colors flex items-center gap-2"><i class="fas fa-sign-out-alt"></i>Logout</button>`;
+  dropdown.innerHTML = html;
+}
+
+function switchUser(uid) {
+  setActiveUserId(uid);
+  renderNav();
+  renderUserSwitcher();
   updateNotifBadge();
+  navigateTo('home');
+  toggleUserDropdown();
+  showToast('Switched account successfully!', 'success');
+}
+
+function toggleUserDropdown() {
+  const dd = document.getElementById('userDropdown');
+  if (dd) dd.classList.toggle('hidden');
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', (e) => {
+  const dd = document.getElementById('userDropdown');
+  const trigger = document.getElementById('userSwitcherContainer');
+  if (dd && trigger && !trigger.contains(e.target)) dd.classList.add('hidden');
+});
+
+// ─── TOAST ───
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  const colors = { success: '#10B981', error: '#EF4444', info: '#6366F1', warning: '#F59E0B' };
+  const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+  t.style.background = `linear-gradient(135deg, ${colors[type]}, ${colors[type]}dd)`;
+  t.innerHTML = `<i class="fas ${icons[type]} text-white text-lg mt-0.5"></i><div><p class="text-white font-bold text-sm">${msg}</p></div>`;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── SIDEBAR ───
+function openSidebar() {
+  document.getElementById('sidebar')?.classList.add('open');
+  document.getElementById('overlay')?.classList.add('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('overlay')?.classList.remove('show');
+}
+
+// ─── NOTIFICATIONS ───
+function toggleNotificationPanel() {
+  document.getElementById('notificationPanel')?.classList.toggle('open');
+  document.getElementById('overlay')?.classList.toggle('show');
+}
+function closeNotificationPanel() {
+  document.getElementById('notificationPanel')?.classList.remove('open');
+  document.getElementById('overlay')?.classList.remove('show');
 }
 function updateNotifBadge() {
-  var userId = getActiveUserId();
-  var count = getNotifications().filter(function(n){return n.userId===userId && !n.read}).length;
-  var badge = document.getElementById('notifBadge');
-  if (count > 0) { badge.textContent = count > 9 ? '9+' : count; badge.classList.remove('hidden'); }
-  else { badge.classList.add('hidden'); }
+  const uid = getActiveUserId();
+  const notifs = getNotifications().filter(n => n.userId === uid && !n.read);
+  const badge = document.getElementById('notifBadge');
+  if (badge) {
+    badge.textContent = notifs.length;
+    badge.style.display = notifs.length > 0 ? 'flex' : 'none';
+  }
+  renderNotifPanel();
+}
+function renderNotifPanel() {
+  const list = document.getElementById('notificationList');
+  if (!list) return;
+  const uid = getActiveUserId();
+  const notifs = getNotifications().filter(n => n.userId === uid).sort((a, b) => new Date(b.time) - new Date(a.time));
+  if (notifs.length === 0) {
+    list.innerHTML = '<div class="p-6 text-center text-gray-400"><i class="fas fa-bell-slash text-2xl mb-2"></i><p class="text-sm">No notifications yet</p></div>';
+    return;
+  }
+  list.innerHTML = notifs.slice(0, 15).map(n => `<div class="p-3 rounded-xl mb-2 ${n.read ? 'opacity-60' : 'bg-indigo-50/60'} transition-colors"><p class="text-sm text-gray-700">${n.msg}</p><p class="text-xs text-gray-400 mt-1">${timeAgo(n.time)}</p></div>`).join('');
 }
 function markAllNotificationsRead() {
-  var userId = getActiveUserId();
-  var notifs = getNotifications().map(function(n){return n.userId===userId ? Object.assign({},n,{read:true}) : n});
-  saveNotifications(notifs); updateNotifBadge(); renderNotificationPanel();
-  showToast('success','All notifications marked as read');
+  const uid = getActiveUserId();
+  const notifs = getNotifications().map(n => n.userId === uid ? { ...n, read: true } : n);
+  saveNotifications(notifs);
+  updateNotifBadge();
+  showToast('All notifications marked as read', 'info');
+}
+function markAllRead() { markAllNotificationsRead(); }
+function addNotification(userId, msg) {
+  const notifs = getNotifications();
+  notifs.push({ id: 'n_' + Date.now(), userId, msg, read: false, time: new Date().toISOString() });
+  saveNotifications(notifs);
 }
 
-// =====================================================
-// NAVIGATION
-// =====================================================
-var currentPage = 'home';
-var pages = ['home','browse','post','dashboard','profile'];
-function navigateTo(page, opts) {
-  opts = opts || {};
-  pages.forEach(function(p){ var el=document.getElementById('page-'+p); if(el) el.classList.remove('active'); });
-  var target = document.getElementById('page-'+page);
-  if (target) target.classList.add('active');
-  currentPage = page;
-  document.querySelectorAll('.nav-link').forEach(function(a){a.classList.remove('active')});
-  document.querySelectorAll('.nav-link').forEach(function(a){ if(a.getAttribute('onclick') && a.getAttribute('onclick').indexOf(page)!==-1) a.classList.add('active'); });
-  window.scrollTo({top:0,behavior:'smooth'});
-  if (page==='home') renderHome();
-  if (page==='browse') { if(opts.category){setTimeout(function(){document.getElementById('browseCategory').value=opts.category;renderBrowse()},50)} else renderBrowse(); }
-  if (page==='post') initWizard();
-  if (page==='dashboard') renderDashboard();
-  if (page==='profile') renderProfile();
+// Close notification panel on outside click
+document.addEventListener('click', (e) => {
+  const panel = document.getElementById('notificationPanel');
+  const btn = e.target.closest('[onclick*="toggleNotificationPanel"]');
+  if (panel && !panel.contains(e.target) && !btn) {
+    panel.classList.remove('open');
+  }
+});
+
+// ─── UTILITY ───
+function timeAgo(dateStr) {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'Just now';
+  if (mins < 60) return mins + 'm ago';
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return hrs + 'h ago';
+  const days = Math.floor(hrs / 24);
+  if (days < 7) return days + 'd ago';
+  return new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
 }
 
-// =====================================================
-// USER SWITCHER
-// =====================================================
-function getAvatarColor(userId) {
-  return userId === 'user_rahul' ? 'linear-gradient(135deg,#4F46E5,#6366F1)' : 'linear-gradient(135deg,#7C3AED,#A855F7)';
-}
-function renderUserSwitcher() {
-  var active = getActiveUser(); var users = getUsers();
-  var av = document.getElementById('headerAvatar');
-  av.textContent = active.avatar; av.style.background = getAvatarColor(active.id);
-  document.getElementById('headerUserName').textContent = active.name.split(' ')[0];
-  document.getElementById('userDropdownContent').innerHTML = users.map(function(u){
-    return '<div class="user-switcher-option '+(u.id===active.id?'active-user':'')+'" onclick="switchUser(\''+u.id+'\')">' +
-      '<div class="flex items-center gap-3">' +
-      '<div class="avatar-circle w-10 h-10 text-white text-sm font-bold shadow-sm" style="background:'+getAvatarColor(u.id)+'">'+u.avatar+'</div>' +
-      '<div><p class="font-semibold text-sm text-gray-800">'+u.name+(u.id===active.id?' <span class="text-xs font-bold" style="color:#7C3AED">(Active)</span>':'')+'</p>' +
-      '<p class="text-xs text-gray-500">'+u.dept+' &bull; '+u.year+'</p></div>' +
-      (u.id===active.id?'<i class="fas fa-check-circle ml-auto" style="color:#7C3AED"></i>':'') +
-      '</div></div>';
-  }).join('') +
-  '<hr style="border:none;border-top:1px solid rgba(229,231,235,0.5);margin:8px 4px"/>' +
-  '<div class="user-switcher-option" onclick="handleLogout()" style="margin:4px">' +
-  '<div class="flex items-center gap-3">' +
-  '<div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:linear-gradient(135deg,#FEE2E2,#FECACA)"><i class="fas fa-sign-out-alt text-red-500"></i></div>' +
-  '<p class="font-semibold text-sm text-red-500">Sign Out</p>' +
-  '</div></div>';
-  var sbs = document.getElementById('sidebarUserSwitcher');
-  if(sbs) sbs.innerHTML = users.map(function(u){
-    return '<div class="user-switcher-option '+(u.id===active.id?'active-user':'')+' mb-2" onclick="switchUser(\''+u.id+'\');closeSidebar()">' +
-      '<div class="flex items-center gap-3">' +
-      '<div class="avatar-circle w-9 h-9 text-white text-sm font-bold" style="background:'+getAvatarColor(u.id)+'">'+u.avatar+'</div>' +
-      '<div><p class="font-semibold text-sm text-gray-800">'+u.name.split(' ')[0]+'</p><p class="text-xs text-gray-500">'+u.dept+'</p></div>' +
-      (u.id===active.id?'<i class="fas fa-check ml-auto" style="color:#7C3AED"></i>':'') +
-      '</div></div>';
-  }).join('');
-}
-function switchUser(id) { setActiveUser(id); closeUserDropdown(); renderUserSwitcher(); updateNotifBadge(); navigateTo(currentPage); showToast('success','Switched to '+getUserById(id).name); }
-function toggleUserDropdown() { document.getElementById('userDropdown').classList.toggle('hidden'); }
-function closeUserDropdown() { document.getElementById('userDropdown').classList.add('hidden'); }
-document.addEventListener('click',function(e){ if(!document.getElementById('userSwitcherContainer').contains(e.target)) closeUserDropdown(); });
-
-// =====================================================
-// TOAST
-// =====================================================
-var toastTimer = null;
-function showToast(type, message) {
-  var toast = document.getElementById('toast');
-  var configs = {
-    success: { bg:'linear-gradient(135deg,#ECFDF5,#D1FAE5)', border:'#6EE7B7', icon:'fa-check-circle', iconColor:'#10B981', textColor:'#065F46' },
-    error:   { bg:'linear-gradient(135deg,#FEF2F2,#FEE2E2)', border:'#FCA5A5', icon:'fa-exclamation-circle', iconColor:'#EF4444', textColor:'#991B1B' },
-    info:    { bg:'linear-gradient(135deg,#EEF2FF,#E0E7FF)', border:'#A5B4FC', icon:'fa-info-circle', iconColor:'#6366F1', textColor:'#3730A3' },
-    warning: { bg:'linear-gradient(135deg,#FFFBEB,#FEF3C7)', border:'#FCD34D', icon:'fa-exclamation-triangle', iconColor:'#F59E0B', textColor:'#92400E' },
-  };
-  var c = configs[type]||configs.info;
-  toast.style.background = c.bg; toast.style.border = '2px solid '+c.border;
-  toast.innerHTML = '<i class="fas '+c.icon+' text-xl mt-0.5" style="color:'+c.iconColor+'"></i>' +
-    '<div><p class="font-bold text-sm" style="color:'+c.textColor+'">'+message+'</p></div>' +
-    '<button onclick="hideToast()" class="ml-auto text-gray-400 hover:text-gray-600 text-sm hover:rotate-90 transition-transform"><i class="fas fa-times"></i></button>';
-  toast.classList.add('show');
-  if(toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(hideToast, 3500);
-}
-function hideToast() { document.getElementById('toast').classList.remove('show'); }
-
-// =====================================================
-// SIDEBAR & NOTIFICATIONS
-// =====================================================
-function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
-function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
-function toggleNotificationPanel() {
-  var panel = document.getElementById('notificationPanel');
-  if(panel.classList.contains('open')) closeNotificationPanel();
-  else { renderNotificationPanel(); panel.classList.add('open'); document.getElementById('overlay').classList.add('show'); }
-}
-function closeNotificationPanel() { document.getElementById('notificationPanel').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
-function renderNotificationPanel() {
-  var userId=getActiveUserId(); var notifs=getNotifications().filter(function(n){return n.userId===userId});
-  var list=document.getElementById('notificationList');
-  if(notifs.length===0){ list.innerHTML='<div class="text-center py-16"><div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF)"><i class="fas fa-bell-slash text-2xl text-gray-300"></i></div><p class="text-gray-400 font-semibold">No notifications yet</p></div>'; return; }
-  list.innerHTML = notifs.map(function(n,i){
-    return '<div class="flex gap-3 p-4 rounded-xl mb-2 transition-all hover:scale-[1.02] '+(n.read?'bg-gray-50/80':'bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100')+'" style="animation:fadeIn 0.3s ease '+(i*0.05)+'s both">' +
-      '<div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF)">' +
-      '<i class="fas fa-bell text-sm" style="color:#6366F1"></i></div>' +
-      '<div class="flex-1 min-w-0"><p class="font-bold text-sm text-gray-800">'+n.title+'</p>' +
-      '<p class="text-xs text-gray-500 mt-0.5 leading-snug">'+n.message+'</p>' +
-      '<p class="text-xs text-gray-400 mt-1.5"><i class="fas fa-clock mr-1"></i>'+new Date(n.date).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</p></div>' +
-      (!n.read?'<div class="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0" style="background:linear-gradient(135deg,#6366F1,#7C3AED)"></div>':'') + '</div>';
-  }).join('');
+function formatDate(dateStr) {
+  return new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 </script>
 
+<!-- ==================== PART 4: RENDER FUNCTIONS ==================== -->
 <script>
-// =====================================================
-// HOME
-// =====================================================
-function renderHome() { renderStatsBar(); renderCategoriesGrid(); renderHomeRequests(); }
+// ─── HOME PAGE ───
+function renderHome() {
+  const requests = getRequests();
+  const openReqs = requests.filter(r => r.status === 'open');
+  const activeReqs = requests.filter(r => r.status === 'accepted');
+  const doneReqs = requests.filter(r => r.status === 'completed');
+  const users = getUsers().filter(u => !u.isAdmin);
 
-function renderStatsBar() {
-  var requests=getRequests();
-  var active=requests.filter(function(r){return r.status==='OPEN'||r.status==='ACCEPTED'||r.status==='IN_PROGRESS'}).length;
-  var completed=requests.filter(function(r){return r.status==='COMPLETED'}).length;
-  var earnings=requests.filter(function(r){return r.status==='COMPLETED'}).reduce(function(s,r){return s+(r.budget||0)},0);
-  var stats=[
-    {label:'Active Requests',value:active,icon:'fa-fire',gradient:'linear-gradient(135deg,#4F46E5,#6366F1)',bg:'linear-gradient(135deg,#EEF2FF,#E0E7FF)'},
-    {label:'Tasks Completed',value:completed,icon:'fa-trophy',gradient:'linear-gradient(135deg,#059669,#10B981)',bg:'linear-gradient(135deg,#D1FAE5,#A7F3D0)'},
-    {label:'Student Earnings',value:'\u20B9'+earnings.toLocaleString('en-IN'),icon:'fa-coins',gradient:'linear-gradient(135deg,#D97706,#F59E0B)',bg:'linear-gradient(135deg,#FEF3C7,#FDE68A)'},
-  ];
-  document.getElementById('statsBar').innerHTML = stats.map(function(s,i){
-    return '<div class="stat-card bg-white/90 backdrop-blur-sm rounded-2xl p-5 card-shadow-lg border border-white/50 flex items-center gap-4 animate-fade-in stagger-'+(i+1)+'">' +
-      '<div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg" style="background:'+s.gradient+'">' +
-      '<i class="fas '+s.icon+' text-xl text-white"></i></div>' +
-      '<div><p class="text-2xl font-black text-gray-800">'+s.value+'</p>' +
-      '<p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">'+s.label+'</p></div></div>';
-  }).join('');
+  // Stats bar
+  const statsBar = document.getElementById('statsBar');
+  if (statsBar) {
+    statsBar.innerHTML = `
+      <div class="glass-card rounded-2xl p-5 card-shadow flex items-center gap-4 animate-fade-in"><div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-lg"><i class="fas fa-clipboard-list text-lg"></i></div><div><p class="text-3xl font-black text-gray-800">${openReqs.length}</p><p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Open Requests</p></div></div>
+      <div class="glass-card rounded-2xl p-5 card-shadow flex items-center gap-4 animate-fade-in" style="animation-delay:.1s"><div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-lg"><i class="fas fa-handshake text-lg"></i></div><div><p class="text-3xl font-black text-gray-800">${activeReqs.length + doneReqs.length}</p><p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Connections Made</p></div></div>
+      <div class="glass-card rounded-2xl p-5 card-shadow flex items-center gap-4 animate-fade-in" style="animation-delay:.2s"><div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white shadow-lg"><i class="fas fa-users text-lg"></i></div><div><p class="text-3xl font-black text-gray-800">${users.length}</p><p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Active Students</p></div></div>`;
+  }
+
+  // Categories grid
+  const categoriesGrid = document.getElementById('categoriesGrid');
+  if (categoriesGrid) {
+    categoriesGrid.innerHTML = CATEGORIES.map(c => {
+      const count = openReqs.filter(r => r.category === c.id).length;
+      return `<button onclick="navigateTo('browse');setTimeout(()=>{const sel=document.getElementById('browseCategory');if(sel){sel.value='${c.id}';renderBrowse()}},100)" class="glass-card rounded-2xl p-5 card-shadow text-center hover:scale-105 transition-all duration-300 group cursor-pointer">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center text-white mx-auto mb-3 shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all"><i class="${c.icon} text-lg"></i></div>
+        <h3 class="font-bold text-gray-800 text-sm">${c.name}</h3>
+        <p class="text-xs text-gray-400 mt-1">${count} open</p>
+      </button>`;
+    }).join('');
+  }
+
+  // Recent requests
+  const homeRequestsGrid = document.getElementById('homeRequestsGrid');
+  if (homeRequestsGrid) {
+    if (openReqs.length === 0) {
+      homeRequestsGrid.innerHTML = '<div class="col-span-full text-center py-16"><div class="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#EEF2FF,#FCE7F3)"><i class="fas fa-inbox text-3xl text-gray-300"></i></div><p class="text-gray-400 text-lg font-semibold">No open requests yet</p><p class="text-gray-400 text-sm mt-1">Be the first to post!</p></div>';
+    } else {
+      homeRequestsGrid.innerHTML = openReqs.slice(0, 6).map(r => requestCardHTML(r)).join('');
+    }
+  }
 }
 
-function renderCategoriesGrid() {
-  document.getElementById('categoriesGrid').innerHTML = CATEGORIES.map(function(cat,i){
-    return '<div class="category-card bg-white/90 backdrop-blur-sm rounded-2xl p-5 text-center card-shadow border border-white/50 animate-fade-in stagger-'+(i+1)+'" onclick="navigateTo(\'browse\',{category:\''+cat.id+'\'})">' +
-      '<div class="w-16 h-16 rounded-2xl mx-auto mb-3 flex items-center justify-center text-2xl shadow-md transition-transform group-hover:scale-110" style="background:'+cat.gradient+';color:'+cat.color+'">' +
-      '<i class="fas '+cat.icon+'"></i></div>' +
-      '<p class="font-bold text-sm text-gray-700">'+cat.label+'</p></div>';
-  }).join('');
-}
-
-function renderHomeRequests() {
-  var requests=getRequests().filter(function(r){return r.status==='OPEN'}).slice(0,3);
-  var grid=document.getElementById('homeRequestsGrid');
-  if(requests.length===0){grid.innerHTML='<div class="col-span-3 text-center py-10 text-gray-400">No open requests. <button class="font-bold hover:underline" style="color:#6366F1" onclick="navigateTo(\'post\')">Be the first!</button></div>';return;}
-  grid.innerHTML = requests.map(function(r,i){return requestCardHTML(r,i)}).join('');
-}
-
-// =====================================================
-// REQUEST CARD
-// =====================================================
+// ─── REQUEST CARD ───
 function statusBadge(status) {
-  var map = { 'OPEN':['status-open','Open','fa-circle'], 'ACCEPTED':['status-accepted','Accepted','fa-clock'], 'IN_PROGRESS':['status-in_progress','In Progress','fa-spinner fa-spin'], 'COMPLETED':['status-completed','Completed','fa-check'] };
-  var a = map[status]||map['OPEN'];
-  return '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold '+a[0]+'"><i class="fas '+a[2]+' text-[10px]"></i>'+a[1]+'</span>';
+  const map = {
+    open: '<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700"><i class="fas fa-circle text-[6px] mr-1"></i>Open</span>',
+    accepted: '<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-700"><i class="fas fa-spinner text-[6px] mr-1"></i>In Progress</span>',
+    completed: '<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-700"><i class="fas fa-check text-[6px] mr-1"></i>Completed</span>'
+  };
+  return map[status] || '';
 }
 
-function requestCardHTML(req,idx) {
-  var cat=getCategoryById(req.category); var requester=getUserById(req.requesterId); var rName=requester?requester.name:'Unknown';
-  var delay = idx !== undefined ? ' style="animation-delay:'+(idx*0.08)+'s"' : '';
-  return '<div class="request-card bg-white/90 backdrop-blur-sm rounded-2xl p-5 card-shadow cursor-pointer border border-white/50 animate-fade-in"'+delay+' onclick="openRequestModal(\''+req.id+'\')">' +
-    '<div class="flex items-start justify-between mb-3">' +
-    '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold" style="background:'+cat.gradient+';color:'+cat.color+'">' +
-    '<i class="fas '+cat.icon+' text-xs"></i>'+cat.label+'</span>' + statusBadge(req.status) + '</div>' +
-    '<h3 class="font-bold text-gray-800 mb-2 leading-snug" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">'+req.title+'</h3>' +
-    '<p class="text-gray-500 text-sm mb-4" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">'+req.description+'</p>' +
-    '<div class="flex flex-wrap gap-y-2 gap-x-3 text-xs text-gray-500 mb-4">' +
-    '<span class="flex items-center gap-1"><i class="fas fa-user-circle text-indigo-400"></i>'+rName+'</span>' +
-    (req.location?'<span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-pink-400"></i>'+req.location+'</span>':'') +
-    (req.date?'<span class="flex items-center gap-1"><i class="fas fa-calendar-day text-teal-400"></i>'+req.date+(req.time?', '+req.time:'')+'</span>':'') + '</div>' +
-    '<div class="flex items-center justify-between">' +
-    '<span class="font-black text-lg gradient-text">'+(req.budget===0?'Free / Collab':'\u20B9'+req.budget)+'</span>' +
-    '<button class="btn-primary px-4 py-2 rounded-xl text-sm" onclick="event.stopPropagation();openRequestModal(\''+req.id+'\')"><span>Details</span> <i class="fas fa-arrow-right ml-1"></i></button>' +
-    '</div></div>';
+function requestCardHTML(r) {
+  const cat = CATEGORIES.find(c => c.id === r.category) || CATEGORIES[11];
+  const user = getUsers().find(u => u.id === r.userId);
+  const userName = user ? user.name : 'Unknown';
+  const urgencyColors = { low: 'text-green-500', medium: 'text-yellow-500', high: 'text-red-500' };
+
+  return `<div class="glass-card rounded-2xl p-5 card-shadow hover:shadow-xl transition-all duration-300 cursor-pointer hover:-translate-y-1" onclick="openRequestModal('${r.id}')">
+    <div class="flex items-start justify-between mb-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br ${cat.color} flex items-center justify-center text-white text-sm"><i class="${cat.icon}"></i></div>
+      ${statusBadge(r.status)}
+    </div>
+    <h3 class="font-bold text-gray-800 mb-2 line-clamp-1">${r.title}</h3>
+    <p class="text-sm text-gray-500 mb-3 line-clamp-2">${r.desc}</p>
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold" style="background:${getAvatarColor(r.userId)}">${getInitials(userName)}</div>
+        <span class="text-xs text-gray-500">${userName}</span>
+      </div>
+      <div class="flex items-center gap-3">
+        ${r.budget > 0 ? `<span class="text-sm font-bold text-gray-800">₹${r.budget}</span>` : '<span class="text-xs text-gray-400 font-medium">Free</span>'}
+        <i class="fas fa-circle text-[6px] ${urgencyColors[r.urgency]}"></i>
+      </div>
+    </div>
+    <div class="mt-2 text-xs text-gray-400">${timeAgo(r.createdAt)}</div>
+  </div>`;
 }
 
-// =====================================================
-// BROWSE
-// =====================================================
+// ─── BROWSE ───
 function renderBrowse() {
-  populateBrowseCategoryFilter();
-  var search=(document.getElementById('browseSearch').value||'').toLowerCase();
-  var category=document.getElementById('browseCategory').value||'';
-  var budget=document.getElementById('browseBudget').value||'';
-  var status=document.getElementById('browseStatus').value||'';
-  var requests=getRequests();
-  if(search) requests=requests.filter(function(r){return r.title.toLowerCase().indexOf(search)!==-1||r.description.toLowerCase().indexOf(search)!==-1});
-  if(category) requests=requests.filter(function(r){return r.category===category});
-  if(budget==='free') requests=requests.filter(function(r){return r.budget===0});
-  if(budget==='under200') requests=requests.filter(function(r){return r.budget>0&&r.budget<200});
-  if(budget==='200to500') requests=requests.filter(function(r){return r.budget>=200&&r.budget<=500});
-  if(budget==='500plus') requests=requests.filter(function(r){return r.budget>500});
-  if(status) requests=requests.filter(function(r){return r.status===status});
-  requests.sort(function(a,b){return new Date(b.createdAt)-new Date(a.createdAt)});
-  var grid=document.getElementById('browseResults'); var empty=document.getElementById('browseEmpty');
-  if(requests.length===0){grid.innerHTML='';empty.classList.remove('hidden')} else {empty.classList.add('hidden');grid.innerHTML=requests.map(function(r,i){return requestCardHTML(r,i)}).join('')}
-}
-var browseCategoryPopulated=false;
-function populateBrowseCategoryFilter(){if(browseCategoryPopulated)return;var sel=document.getElementById('browseCategory');CATEGORIES.forEach(function(c){var o=document.createElement('option');o.value=c.id;o.textContent=c.label;sel.appendChild(o)});browseCategoryPopulated=true}
-function clearBrowseFilters(){document.getElementById('browseSearch').value='';document.getElementById('browseCategory').value='';document.getElementById('browseBudget').value='';document.getElementById('browseStatus').value='';renderBrowse()}
+  const requests = getRequests();
+  const catFilter = document.getElementById('browseCategory')?.value || '';
+  const statusFilter = document.getElementById('browseStatus')?.value || '';
+  const budgetFilter = document.getElementById('browseBudget')?.value || '';
+  const searchVal = document.getElementById('browseSearch')?.value?.toLowerCase() || '';
 
-// =====================================================
-// REQUEST MODAL
-// =====================================================
-function openRequestModal(id) {
-  var req=getRequests().find(function(r){return r.id===id}); if(!req) return;
-  var cat=getCategoryById(req.category); var requester=getUserById(req.requesterId); var activeUser=getActiveUser(); var isOwner=activeUser.id===req.requesterId;
-  var actionBtn='';
-  if(isOwner) actionBtn='<div class="bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200 rounded-xl p-4 text-center text-sm text-yellow-700 font-bold"><i class="fas fa-info-circle mr-2"></i>You posted this request</div>';
-  else if(req.status==='OPEN') actionBtn='<button onclick="acceptRequest(\''+id+'\')" class="btn-primary w-full py-3.5 rounded-xl text-base font-bold shimmer"><i class="fas fa-handshake mr-2"></i><span>Accept This Request</span></button>';
-  else if(req.status==='ACCEPTED'&&req.providerId===activeUser.id) actionBtn='<div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 text-center text-sm text-blue-700 font-bold"><i class="fas fa-check mr-2"></i>You accepted this request</div>';
-  else if(req.status==='ACCEPTED'||req.status==='IN_PROGRESS') actionBtn='<div class="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center text-sm text-gray-500 font-semibold">This request is no longer available</div>';
-  else if(req.status==='COMPLETED') actionBtn='<div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4 text-center text-sm text-green-700 font-bold"><i class="fas fa-check-circle mr-2"></i>Completed</div>';
-  var provider=req.providerId?getUserById(req.providerId):null;
-  var provHTML=provider?'<div class="flex items-center gap-3 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl mb-5"><div class="avatar-circle w-11 h-11 text-white text-sm font-bold" style="background:'+getAvatarColor(provider.id)+'">'+provider.avatar+'</div><div><p class="text-xs text-green-700 font-bold mb-0.5"><i class="fas fa-check-circle mr-1"></i>Accepted by</p><p class="font-bold text-gray-800">'+provider.name+'</p><p class="text-xs text-gray-500">'+provider.dept+'</p></div></div>':'';
-  document.getElementById('requestModalContent').innerHTML =
-    '<div class="flex items-center justify-between mb-5">' +
-    '<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold" style="background:'+cat.gradient+';color:'+cat.color+'"><i class="fas '+cat.icon+'"></i>'+cat.label+'</span>' +
-    '<div class="flex items-center gap-2">'+statusBadge(req.status)+'<button onclick="closeRequestModal()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-red-500 transition-all ml-1"><i class="fas fa-times"></i></button></div></div>' +
-    '<h2 class="text-xl font-black text-gray-800 mb-3 leading-tight">'+req.title+'</h2>' +
-    '<p class="text-gray-600 mb-5 leading-relaxed">'+req.description+'</p>' +
-    (req.requirements?'<div class="rounded-xl p-4 mb-5" style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF)"><p class="text-sm font-bold mb-1" style="color:#6366F1"><i class="fas fa-star mr-2"></i>Special Requirements</p><p class="text-sm text-gray-600">'+req.requirements+'</p></div>':'') +
-    '<div class="grid grid-cols-2 gap-3 mb-5">' +
-    '<div class="rounded-xl p-4" style="background:linear-gradient(135deg,#F9FAFB,#F3F4F6)"><p class="text-xs text-gray-400 font-bold mb-1">LOCATION</p><p class="font-bold text-gray-800 text-sm"><i class="fas fa-map-marker-alt mr-1.5 text-pink-500"></i>'+(req.location||'TBD')+'</p></div>' +
-    '<div class="rounded-xl p-4" style="background:linear-gradient(135deg,#F9FAFB,#F3F4F6)"><p class="text-xs text-gray-400 font-bold mb-1">DATE & TIME</p><p class="font-bold text-gray-800 text-sm"><i class="fas fa-calendar-day mr-1.5 text-teal-500"></i>'+(req.date||'TBD')+(req.time?', '+req.time:'')+'</p></div>' +
-    '<div class="rounded-xl p-4" style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF)"><p class="text-xs text-gray-400 font-bold mb-1">BUDGET</p><p class="font-black text-2xl gradient-text">'+(req.budget===0?'Free':'\u20B9'+req.budget)+'</p></div>' +
-    '<div class="rounded-xl p-4" style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0)"><p class="text-xs text-gray-400 font-bold mb-1">PAYOUT</p><p class="font-black text-2xl text-green-600">'+(req.budget===0?'\u2014':'\u20B9'+Math.round(req.budget*0.9))+'</p></div></div>' +
-    '<div class="flex items-center gap-3 p-4 rounded-xl mb-5" style="background:linear-gradient(135deg,#F9FAFB,#F3F4F6)">' +
-    '<div class="avatar-circle w-11 h-11 text-white text-sm font-bold shadow-md" style="background:'+getAvatarColor(requester?requester.id:'')+'">'+( requester?requester.avatar:'?')+'</div>' +
-    '<div><p class="font-bold text-gray-800">'+(requester?requester.name:'Unknown')+'</p><p class="text-xs text-gray-500">'+(requester?requester.dept+' &bull; '+requester.year:'')+'</p>' +
-    '<div class="flex items-center gap-1 mt-0.5"><i class="fas fa-star text-yellow-400 text-xs"></i><span class="text-xs font-bold text-gray-600">'+(requester?requester.rating:0)+' &bull; '+(requester?requester.completedCount:0)+' tasks</span></div></div></div>' +
-    provHTML + actionBtn;
+  let filtered = requests;
+  if (catFilter) filtered = filtered.filter(r => r.category === catFilter);
+  if (statusFilter) filtered = filtered.filter(r => r.status === statusFilter.toLowerCase());
+  if (searchVal) filtered = filtered.filter(r => r.title.toLowerCase().includes(searchVal) || r.desc.toLowerCase().includes(searchVal));
+  if (budgetFilter === 'free') filtered = filtered.filter(r => r.budget === 0);
+  else if (budgetFilter === 'under200') filtered = filtered.filter(r => r.budget > 0 && r.budget < 200);
+  else if (budgetFilter === '200to500') filtered = filtered.filter(r => r.budget >= 200 && r.budget <= 500);
+  else if (budgetFilter === '500plus') filtered = filtered.filter(r => r.budget > 500);
+
+  filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  // Populate category filter dropdown if not populated
+  populateBrowseCategoryFilter();
+
+  const resultsGrid = document.getElementById('browseResults');
+  const emptyState = document.getElementById('browseEmpty');
+
+  if (resultsGrid) {
+    resultsGrid.innerHTML = filtered.map(r => requestCardHTML(r)).join('');
+  }
+  if (emptyState) {
+    emptyState.classList.toggle('hidden', filtered.length > 0);
+  }
+  if (resultsGrid) {
+    resultsGrid.classList.toggle('hidden', filtered.length === 0);
+  }
+}
+
+function populateBrowseCategoryFilter() {
+  const sel = document.getElementById('browseCategory');
+  if (!sel || sel.options.length > 1) return;
+  CATEGORIES.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = c.name;
+    sel.appendChild(opt);
+  });
+}
+
+function clearBrowseFilters() {
+  const s = document.getElementById('browseSearch'); if (s) s.value = '';
+  const c = document.getElementById('browseCategory'); if (c) c.value = '';
+  const b = document.getElementById('browseBudget'); if (b) b.value = '';
+  const st = document.getElementById('browseStatus'); if (st) st.value = '';
+  renderBrowse();
+}
+
+// ─── REQUEST MODAL ───
+function openRequestModal(reqId) {
+  const r = getRequests().find(x => x.id === reqId);
+  if (!r) return;
+  const cat = CATEGORIES.find(c => c.id === r.category) || CATEGORIES[11];
+  const user = getUsers().find(u => u.id === r.userId);
+  const acceptedUser = r.acceptedBy ? getUsers().find(u => u.id === r.acceptedBy) : null;
+  const activeUser = getActiveUser();
+  const urgencyLabels = { low: 'Low Priority', medium: 'Medium Priority', high: 'High Priority' };
+  const urgencyColors = { low: 'bg-green-100 text-green-700', medium: 'bg-yellow-100 text-yellow-700', high: 'bg-red-100 text-red-700' };
+
+  const canAccept = r.status === 'open' && activeUser && r.userId !== activeUser.id && !activeUser.isAdmin;
+  const canComplete = r.status === 'accepted' && activeUser && r.userId === activeUser.id;
+  const canConfirm = r.status === 'accepted' && activeUser && r.acceptedBy === activeUser.id;
+
+  const content = document.getElementById('requestModalContent');
+  content.innerHTML = `
+    <div class="flex items-start justify-between mb-5">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${cat.color} flex items-center justify-center text-white"><i class="${cat.icon} text-lg"></i></div>
+        <div><h2 class="text-lg font-bold text-gray-800">${r.title}</h2><p class="text-xs text-gray-400">${cat.name} · ${timeAgo(r.createdAt)}</p></div>
+      </div>
+      <button onclick="closeRequestModal()" class="text-gray-400 hover:text-gray-600 transition-colors"><i class="fas fa-times text-lg"></i></button>
+    </div>
+    <p class="text-gray-600 text-sm mb-5 leading-relaxed">${r.desc}</p>
+    <div class="flex flex-wrap gap-2 mb-5">
+      ${statusBadge(r.status)}
+      <span class="px-2.5 py-1 text-xs font-semibold rounded-full ${urgencyColors[r.urgency]}">${urgencyLabels[r.urgency]}</span>
+      ${r.budget > 0 ? `<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-700">₹${r.budget}</span>` : '<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-500">Free</span>'}
+    </div>
+    <div class="border-t border-gray-100 pt-4 mb-5">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold" style="background:${getAvatarColor(r.userId)}">${getInitials(user?.name || 'U')}</div>
+        <div><p class="text-sm font-semibold text-gray-800">Posted by ${user?.name || 'Unknown'}</p><p class="text-xs text-gray-400">${user?.uniqueId || ''} · ${user?.dept || ''}</p></div>
+      </div>
+      ${acceptedUser ? `<div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold" style="background:${getAvatarColor(acceptedUser.id)}">${getInitials(acceptedUser.name)}</div><div><p class="text-sm font-semibold text-gray-800">Accepted by ${acceptedUser.name}</p><p class="text-xs text-gray-400">${acceptedUser.uniqueId} · ${acceptedUser.dept}</p></div></div>` : ''}
+    </div>
+    <div class="flex gap-3">
+      ${canAccept ? `<button onclick="acceptRequest('${r.id}')" class="flex-1 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-200"><i class="fas fa-hand-holding-heart mr-2"></i>Accept Request</button>` : ''}
+      ${canComplete ? `<button onclick="markComplete('${r.id}')" class="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-200"><i class="fas fa-check mr-2"></i>Mark Complete</button>` : ''}
+      ${canConfirm ? `<button onclick="confirmCompletion('${r.id}')" class="flex-1 py-3 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-200"><i class="fas fa-clipboard-check mr-2"></i>Confirm & Rate</button>` : ''}
+    </div>`;
+
   document.getElementById('requestModal').classList.add('show');
 }
-function closeRequestModal(e){if(!e||e.target===document.getElementById('requestModal')) document.getElementById('requestModal').classList.remove('show')}
 
-// =====================================================
-// ACCEPT
-// =====================================================
-function acceptRequest(id) {
-  var requests=getRequests(); var idx=requests.findIndex(function(r){return r.id===id}); if(idx===-1)return;
-  var req=requests[idx]; var activeUser=getActiveUser();
-  if(req.requesterId===activeUser.id){showToast('error','You cannot accept your own request!');return}
-  if(req.status!=='OPEN'){showToast('error','This request is no longer available.');return}
-  requests[idx].status='ACCEPTED'; requests[idx].providerId=activeUser.id; saveRequests(requests);
-  addNotification(req.requesterId,'Request Accepted! \uD83C\uDF89',activeUser.name+' has accepted your request: "'+req.title+'"');
-  closeRequestModal(); showToast('success','You accepted "'+req.title+'"!');
-  if(currentPage==='browse') renderBrowse(); if(currentPage==='home') renderHome();
+function closeRequestModal(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('requestModal')?.classList.remove('show');
 }
 
-// =====================================================
-// WIZARD
-// =====================================================
-var wizardData={category:'',step:1};
-function initWizard(){
-  wizardData={category:'',step:1}; renderWizardStep(1); renderStep1Categories(); renderStepIndicator(1);
-  ['postTitle','postDesc','postReqs','postDate','postTime','postBudget'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
-  var loc=document.getElementById('postLocation'); if(loc)loc.value='';
-  document.getElementById('budgetPreview').classList.add('hidden');
+// ─── ACCEPT REQUEST ───
+function acceptRequest(reqId) {
+  const requests = getRequests();
+  const idx = requests.findIndex(r => r.id === reqId);
+  if (idx === -1) return;
+  const activeUser = getActiveUser();
+  requests[idx].status = 'accepted';
+  requests[idx].acceptedBy = activeUser.id;
+  saveRequests(requests);
+  addNotification(requests[idx].userId, `${activeUser.name} accepted your request "${requests[idx].title}"`);
+  closeRequestModal();
+  showToast('Request accepted! You can now help out.', 'success');
+  if (currentPage === 'home') renderHome();
+  else if (currentPage === 'browse') renderBrowse();
 }
-function renderStep1Categories(){
-  document.getElementById('step1CategoryGrid').innerHTML=CATEGORIES.map(function(cat){
-    return '<div class="category-radio-card '+(wizardData.category===cat.id?'selected':'')+'" onclick="selectWizardCategory(\''+cat.id+'\')">' +
-      '<div class="text-3xl mb-2" style="color:'+cat.color+'"><i class="fas '+cat.icon+'"></i></div>' +
-      '<p class="font-bold text-sm text-gray-700">'+cat.label+'</p></div>';
+
+// ─── WIZARD ───
+let wizardStep = 1;
+let wizardData = { category: '' };
+
+function initWizard() {
+  wizardStep = 1;
+  wizardData = { category: '' };
+  renderStepIndicator();
+  renderStep1Categories();
+  showWizardStep(1);
+}
+
+function renderStep1Categories() {
+  const grid = document.getElementById('step1CategoryGrid');
+  if (!grid) return;
+  grid.innerHTML = CATEGORIES.map(c => `
+    <button onclick="selectWizardCategory('${c.id}')" class="category-card p-4 rounded-xl border-2 ${wizardData.category === c.id ? 'border-indigo-500 bg-indigo-50 shadow-md' : 'border-gray-200 hover:border-indigo-300 hover:shadow-sm'} transition-all duration-200 text-left group">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center text-white mb-2 shadow-md group-hover:scale-110 transition-transform"><i class="${c.icon}"></i></div>
+      <h4 class="font-bold text-gray-800 text-sm">${c.name}</h4>
+      <p class="text-xs text-gray-400 mt-0.5 line-clamp-2">${c.desc}</p>
+    </button>`).join('');
+}
+
+function selectWizardCategory(catId) {
+  wizardData.category = catId;
+  renderStep1Categories();
+}
+
+function showWizardStep(step) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('wizardStep' + i);
+    if (el) {
+      el.classList.toggle('hidden', i !== step);
+    }
+  }
+}
+
+function renderStepIndicator() {
+  const indicator = document.getElementById('stepIndicator');
+  if (!indicator) return;
+  indicator.innerHTML = [1, 2, 3, 4].map(s => {
+    const labels = ['Category', 'Details', 'Schedule', 'Budget'];
+    const done = s < wizardStep;
+    const active = s === wizardStep;
+    return `<div class="flex items-center gap-2">
+      <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${done ? 'bg-indigo-600 text-white shadow-lg' : active ? 'bg-indigo-100 text-indigo-600 ring-2 ring-indigo-500 shadow-md' : 'bg-gray-100 text-gray-400'}">${done ? '<i class="fas fa-check text-xs"></i>' : s}</div>
+      <span class="text-xs font-semibold hidden sm:inline ${active ? 'text-indigo-600' : 'text-gray-400'}">${labels[s-1]}</span>
+      ${s < 4 ? `<div class="w-8 h-0.5 ${done ? 'bg-indigo-600' : 'bg-gray-200'}"></div>` : ''}
+    </div>`;
   }).join('');
 }
-function selectWizardCategory(id){wizardData.category=id;renderStep1Categories()}
-function renderWizardStep(step){for(var i=1;i<=4;i++){var el=document.getElementById('wizardStep'+i);if(el){if(i===step)el.classList.remove('hidden');else el.classList.add('hidden')}}renderStepIndicator(step)}
-function renderStepIndicator(current){
-  var steps=['Category','Details','Schedule','Budget']; var icons=['fa-th-large','fa-edit','fa-calendar-alt','fa-wallet']; var colors=['#4F46E5','#EC4899','#14B8A6','#F97316'];
-  var html='';
-  steps.forEach(function(label,i){
-    var num=i+1; var done=num<current; var act=num===current;
-    var bg=done?'linear-gradient(135deg,#10B981,#059669)':(act?'linear-gradient(135deg,'+colors[i]+','+colors[i]+'dd)':'#E5E7EB');
-    html+='<div class="step-dot text-white '+(act?'glow shadow-lg':'')+'" style="background:'+bg+';'+(done||act?'':'color:#9CA3AF')+'">'+(done?'<i class="fas fa-check text-xs"></i>':'<i class="fas '+icons[i]+' text-xs"></i>')+'</div>';
-    if(i<steps.length-1) html+='<div class="step-line" style="background:'+(done?'linear-gradient(90deg,#10B981,#6366F1)':'#E5E7EB')+'"></div>';
+
+function wizardNext(currentStep) {
+  if (currentStep === 1) {
+    if (!wizardData.category) { showToast('Please select a category', 'error'); return; }
+  }
+  if (currentStep === 2) {
+    const title = document.getElementById('postTitle')?.value?.trim();
+    const desc = document.getElementById('postDesc')?.value?.trim();
+    if (!title || !desc) { showToast('Please fill in the title and description', 'error'); return; }
+    wizardData.title = title;
+    wizardData.desc = desc;
+    wizardData.reqs = document.getElementById('postReqs')?.value?.trim() || '';
+  }
+  if (currentStep === 3) {
+    wizardData.date = document.getElementById('postDate')?.value || '';
+    wizardData.time = document.getElementById('postTime')?.value || '';
+    wizardData.location = document.getElementById('postLocation')?.value || '';
+  }
+  wizardStep = currentStep + 1;
+  renderStepIndicator();
+  showWizardStep(wizardStep);
+}
+
+function wizardBack(currentStep) {
+  wizardStep = currentStep - 1;
+  renderStepIndicator();
+  showWizardStep(wizardStep);
+}
+
+function updateBudgetPreview() {
+  const val = parseInt(document.getElementById('postBudget')?.value) || 0;
+  const preview = document.getElementById('budgetPreview');
+  if (preview) {
+    if (val > 0) {
+      const fee = Math.round(val * 0.1);
+      const payout = val - fee;
+      preview.classList.remove('hidden');
+      const bpAmount = document.getElementById('bpAmount');
+      const bpFee = document.getElementById('bpFee');
+      const bpPayout = document.getElementById('bpPayout');
+      if (bpAmount) bpAmount.textContent = '₹' + val;
+      if (bpFee) bpFee.textContent = '-₹' + fee;
+      if (bpPayout) bpPayout.textContent = '₹' + payout;
+    } else {
+      preview.classList.add('hidden');
+    }
+  }
+}
+
+function submitRequest() {
+  const budget = parseInt(document.getElementById('postBudget')?.value) || 0;
+  const user = getActiveUser();
+  if (!user) return;
+
+  const newReq = {
+    id: 'req_' + Date.now(),
+    title: wizardData.title,
+    desc: wizardData.desc + (wizardData.reqs ? '\n\nRequirements: ' + wizardData.reqs : ''),
+    category: wizardData.category,
+    budget: budget,
+    urgency: 'medium',
+    status: 'open',
+    userId: user.id,
+    createdAt: new Date().toISOString(),
+    acceptedBy: null,
+    completedAt: null
+  };
+  const reqs = getRequests();
+  reqs.push(newReq);
+  saveRequests(reqs);
+  showToast('Request posted successfully! 🎉', 'success');
+  navigateTo('home');
+}
+
+// ─── DASHBOARD ───
+let dashTab = 'myRequests';
+
+function switchDashTab(tab) {
+  dashTab = tab;
+  document.querySelectorAll('#dashTabs .tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`#dashTabs .tab-btn[onclick="switchDashTab('${tab}')"]`)?.classList.add('active');
+  renderDashboard();
+}
+
+function renderDashboard() {
+  const user = getActiveUser();
+  if (!user) return;
+  const requests = getRequests();
+  const posted = requests.filter(r => r.userId === user.id);
+  const accepted = requests.filter(r => r.acceptedBy === user.id);
+  const completed = requests.filter(r => (r.userId === user.id || r.acceptedBy === user.id) && r.status === 'completed');
+
+  // Stats
+  const dashStats = document.getElementById('dashStats');
+  if (dashStats) {
+    dashStats.innerHTML = `
+      <div class="glass-card rounded-2xl p-4 card-shadow"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white"><i class="fas fa-paper-plane"></i></div><div><p class="text-2xl font-bold text-gray-800">${posted.length}</p><p class="text-xs text-gray-500">My Requests</p></div></div></div>
+      <div class="glass-card rounded-2xl p-4 card-shadow"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white"><i class="fas fa-hands-helping"></i></div><div><p class="text-2xl font-bold text-gray-800">${accepted.length}</p><p class="text-xs text-gray-500">Accepted</p></div></div></div>
+      <div class="glass-card rounded-2xl p-4 card-shadow"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white"><i class="fas fa-check-circle"></i></div><div><p class="text-2xl font-bold text-gray-800">${completed.length}</p><p class="text-xs text-gray-500">Completed</p></div></div></div>
+      <div class="glass-card rounded-2xl p-4 card-shadow"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-white"><i class="fas fa-star"></i></div><div><p class="text-2xl font-bold text-gray-800">${user.rating}</p><p class="text-xs text-gray-500">Rating</p></div></div></div>`;
+  }
+
+  // Content
+  const dashContent = document.getElementById('dashContent');
+  if (!dashContent) return;
+  const current = dashTab === 'myRequests' ? posted : accepted;
+
+  if (current.length === 0) {
+    dashContent.innerHTML = `<div class="text-center py-16"><div class="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#EEF2FF,#FCE7F3)"><i class="fas fa-${dashTab === 'myRequests' ? 'paper-plane' : 'hands-helping'} text-3xl text-gray-300"></i></div><p class="text-gray-400 text-lg font-semibold">No ${dashTab === 'myRequests' ? 'posted requests' : 'accepted tasks'} yet</p></div>`;
+  } else {
+    dashContent.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">${current.map(r => requestCardHTML(r)).join('')}</div>`;
+  }
+}
+
+// ─── MARK COMPLETE / CONFIRM ───
+function markComplete(reqId) {
+  const reqs = getRequests();
+  const idx = reqs.findIndex(r => r.id === reqId);
+  if (idx === -1) return;
+  reqs[idx].status = 'completed';
+  reqs[idx].completedAt = new Date().toISOString();
+  saveRequests(reqs);
+  if (reqs[idx].acceptedBy) {
+    addNotification(reqs[idx].acceptedBy, `Request "${reqs[idx].title}" has been marked as complete. Thanks for helping!`);
+  }
+  closeRequestModal();
+  showToast('Request marked as complete! 🎉', 'success');
+  openRatingModal(reqId);
+}
+
+function confirmCompletion(reqId) {
+  markComplete(reqId);
+}
+
+// ─── RATING MODAL ───
+let ratingValue = 0;
+let ratingReqId = null;
+
+function openRatingModal(reqId) {
+  ratingReqId = reqId;
+  ratingValue = 0;
+  const req = getRequests().find(r => r.id === reqId);
+  if (!req) return;
+  const otherUserId = req.userId === getActiveUserId() ? req.acceptedBy : req.userId;
+  const otherUser = otherUserId ? getUsers().find(u => u.id === otherUserId) : null;
+
+  const content = document.getElementById('ratingModalContent');
+  content.innerHTML = `
+    <div class="text-center">
+      <div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-xl font-bold" style="background:${otherUser ? getAvatarColor(otherUser.id) : '#ccc'}">${otherUser ? getInitials(otherUser.name) : '?'}</div>
+      <h2 class="text-lg font-bold text-gray-800 mb-1">Rate ${otherUser?.name || 'User'}</h2>
+      <p class="text-sm text-gray-500 mb-5">How was your experience?</p>
+      <div class="flex justify-center gap-2 mb-6" id="ratingStars">
+        ${[1,2,3,4,5].map(s => `<button onclick="setRating(${s})" class="text-3xl transition-transform hover:scale-125 ${s <= ratingValue ? 'text-yellow-400' : 'text-gray-300'}"><i class="fas fa-star"></i></button>`).join('')}
+      </div>
+      <div class="flex gap-3">
+        <button onclick="closeRatingModal()" class="flex-1 py-3 rounded-xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50">Skip</button>
+        <button onclick="submitRating()" class="flex-1 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all">Submit</button>
+      </div>
+    </div>`;
+  document.getElementById('ratingModal').classList.add('show');
+}
+
+function setRating(val) {
+  ratingValue = val;
+  document.querySelectorAll('#ratingStars button').forEach((btn, i) => {
+    btn.classList.toggle('text-yellow-400', i < val);
+    btn.classList.toggle('text-gray-300', i >= val);
   });
-  document.getElementById('stepIndicator').innerHTML=html;
 }
-function wizardNext(step){
-  if(step===1){if(!wizardData.category){showToast('warning','Please select a category');return}wizardData.step=2;renderWizardStep(2)}
-  else if(step===2){if(!document.getElementById('postTitle').value.trim()){showToast('warning','Please enter a title');return}if(!document.getElementById('postDesc').value.trim()){showToast('warning','Please enter a description');return}wizardData.step=3;renderWizardStep(3)}
-  else if(step===3){if(!document.getElementById('postDate').value){showToast('warning','Please select a date');return}if(!document.getElementById('postLocation').value){showToast('warning','Please select a location');return}wizardData.step=4;renderWizardStep(4)}
+
+function submitRating() {
+  if (ratingValue === 0) { showToast('Please select a rating', 'error'); return; }
+  const req = getRequests().find(r => r.id === ratingReqId);
+  if (!req) return;
+  const targetId = req.userId === getActiveUserId() ? req.acceptedBy : req.userId;
+  if (targetId) {
+    const reviews = getReviews();
+    reviews.push({ id: 'rev_' + Date.now(), reqId: ratingReqId, fromUser: getActiveUserId(), toUser: targetId, rating: ratingValue, time: new Date().toISOString() });
+    saveReviews(reviews);
+
+    // Update user rating
+    const users = getUsers();
+    const userReviews = reviews.filter(rv => rv.toUser === targetId);
+    const avgRating = userReviews.reduce((sum, rv) => sum + rv.rating, 0) / userReviews.length;
+    const uIdx = users.findIndex(u => u.id === targetId);
+    if (uIdx !== -1) {
+      users[uIdx].rating = Math.round(avgRating * 10) / 10;
+      users[uIdx].completed = (users[uIdx].completed || 0) + 1;
+      saveUsers(users);
+    }
+  }
+  closeRatingModal();
+  showToast('Rating submitted! Thank you! ⭐', 'success');
+  if (currentPage === 'dashboard') renderDashboard();
+  else if (currentPage === 'home') renderHome();
 }
-function wizardBack(step){wizardData.step=step-1;renderWizardStep(step-1)}
-function updateBudgetPreview(){
-  var val=parseInt(document.getElementById('postBudget').value)||0;var p=document.getElementById('budgetPreview');
-  if(val>0){p.classList.remove('hidden');document.getElementById('bpAmount').textContent='\u20B9'+val;document.getElementById('bpFee').textContent='-\u20B9'+Math.round(val*0.1);document.getElementById('bpPayout').textContent='\u20B9'+Math.round(val*0.9)}else p.classList.add('hidden');
+
+function closeRatingModal(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('ratingModal')?.classList.remove('show');
+  ratingReqId = null;
+  ratingValue = 0;
 }
-function submitRequest(){
-  var budget=parseInt(document.getElementById('postBudget').value)||0;
-  var dateVal=document.getElementById('postDate').value; var dateObj=dateVal?new Date(dateVal):new Date();
-  var timeEl=document.getElementById('postTime');var timeVal='';
-  if(timeEl&&timeEl.value){var parts=timeEl.value.split(':');var h=parseInt(parts[0]);var m=parts[1];var ampm=h>=12?'PM':'AM';h=h%12||12;timeVal=h+':'+m+' '+ampm}
-  var newReq={id:'req_'+Date.now(),requesterId:getActiveUserId(),providerId:null,title:document.getElementById('postTitle').value.trim(),category:wizardData.category,description:document.getElementById('postDesc').value.trim(),requirements:document.getElementById('postReqs').value.trim(),date:fmtDate(dateObj),time:timeVal,location:document.getElementById('postLocation').value,budget:budget,status:'OPEN',createdAt:new Date().toISOString()};
-  var requests=getRequests();requests.unshift(newReq);saveRequests(requests);
-  showToast('success','Request posted successfully! \uD83C\uDF89');navigateTo('browse');
+
+// ─── PROFILE ───
+function renderProfile() {
+  const user = getActiveUser();
+  if (!user) return;
+  const requests = getRequests();
+  const posted = requests.filter(r => r.userId === user.id);
+  const helped = requests.filter(r => r.acceptedBy === user.id);
+  const completed = requests.filter(r => (r.userId === user.id || r.acceptedBy === user.id) && r.status === 'completed');
+  const reviews = getReviews().filter(r => r.toUser === user.id);
+
+  // Profile header
+  const profileHeader = document.getElementById('profileHeader');
+  if (profileHeader) {
+    profileHeader.innerHTML = `
+      <div class="flex flex-col sm:flex-row items-center gap-6">
+        <div class="w-24 h-24 rounded-full flex items-center justify-center text-white text-3xl font-black shadow-xl" style="background:${getAvatarColor(user.id)}">${getInitials(user.name)}</div>
+        <div class="text-center sm:text-left flex-1">
+          <h1 class="text-2xl font-black text-gray-800">${user.name}</h1>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold mt-1 mb-1"><i class="fas fa-id-badge"></i>${user.uniqueId}</div>
+          <p class="text-gray-500 text-sm">${user.dept}${user.section ? ' · Section ' + user.section : ''}</p>
+          ${user.rollNo ? `<p class="text-gray-400 text-xs mt-0.5">Roll No: ${user.rollNo}</p>` : ''}
+          <p class="text-gray-400 text-xs">${user.email}${user.phone ? ' · ' + user.phone : ''}</p>
+          <div class="flex items-center ${window.innerWidth < 640 ? 'justify-center' : ''} gap-1 mt-2">
+            ${[1,2,3,4,5].map(s => `<i class="fas fa-star text-sm ${s <= Math.round(user.rating) ? 'text-yellow-400' : 'text-gray-300'}"></i>`).join('')}
+            <span class="text-sm font-bold text-gray-700 ml-1">${user.rating}</span>
+            <span class="text-xs text-gray-400">(${reviews.length} reviews)</span>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">Joined ${formatDate(user.joined)}</p>
+        </div>
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div><p class="text-2xl font-black text-indigo-600">${posted.length}</p><p class="text-xs text-gray-500 font-semibold">Posted</p></div>
+          <div><p class="text-2xl font-black text-green-600">${helped.length}</p><p class="text-xs text-gray-500 font-semibold">Helped</p></div>
+          <div><p class="text-2xl font-black text-purple-600">${completed.length}</p><p class="text-xs text-gray-500 font-semibold">Completed</p></div>
+        </div>
+      </div>`;
+  }
+
+  // Profile skills / recent activity
+  const profileSkills = document.getElementById('profileSkills');
+  if (profileSkills) {
+    const recentActivity = [...posted, ...helped].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5);
+    profileSkills.innerHTML = `
+      <h3 class="text-lg font-bold text-gray-800 mb-4"><i class="fas fa-history mr-2 text-indigo-500"></i>Recent Activity</h3>
+      ${recentActivity.length === 0 ? '<p class="text-center text-gray-400 text-sm py-4">No activity yet</p>' :
+        recentActivity.map(r => {
+          const cat = CATEGORIES.find(c => c.id === r.category) || CATEGORIES[11];
+          return `<div class="flex items-center gap-3 py-3 border-b border-gray-100 last:border-0 cursor-pointer hover:bg-gray-50 rounded-xl px-2 transition-colors" onclick="openRequestModal('${r.id}')">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${cat.color} flex items-center justify-center text-white text-sm shadow-md"><i class="${cat.icon}"></i></div>
+            <div class="flex-1 min-w-0"><p class="text-sm font-bold text-gray-800 truncate">${r.title}</p><p class="text-xs text-gray-400">${cat.name} · ${timeAgo(r.createdAt)}</p></div>
+            ${statusBadge(r.status)}
+          </div>`;
+        }).join('')}`;
+  }
+
+  // Profile reviews
+  const profileReviews = document.getElementById('profileReviews');
+  if (profileReviews) {
+    profileReviews.innerHTML = `
+      <h3 class="text-lg font-bold text-gray-800 mb-4"><i class="fas fa-star mr-2 text-yellow-500"></i>Reviews (${reviews.length})</h3>
+      ${reviews.length === 0 ? '<p class="text-center text-gray-400 text-sm py-4">No reviews yet</p>' :
+        reviews.slice(0, 5).map(rv => {
+          const fromUser = getUsers().find(u => u.id === rv.fromUser);
+          return `<div class="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0">
+            <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:${getAvatarColor(rv.fromUser)}">${getInitials(fromUser?.name || 'U')}</div>
+            <div><div class="flex items-center gap-2"><span class="text-sm font-semibold text-gray-800">${fromUser?.name || 'Unknown'}</span><div class="flex">${[1,2,3,4,5].map(s => `<i class="fas fa-star text-xs ${s <= rv.rating ? 'text-yellow-400' : 'text-gray-300'}"></i>`).join('')}</div></div><p class="text-xs text-gray-400 mt-0.5">${timeAgo(rv.time)}</p></div>
+          </div>`;
+        }).join('')}`;
+  }
 }
 </script>
 
+<!-- ==================== PART 5: AUTH, ADMIN, DARK MODE, INIT ==================== -->
 <script>
-// =====================================================
-// DASHBOARD
-// =====================================================
-var dashTab='myRequests';
-function switchDashTab(tab){
-  dashTab=tab;
-  document.querySelectorAll('#dashTabs .tab-btn').forEach(function(btn){
-    btn.classList.remove('active');
-    if((tab==='myRequests'&&btn.textContent.indexOf('My')!==-1)||(tab==='acceptedTasks'&&btn.textContent.indexOf('Accepted')!==-1)) btn.classList.add('active');
-  });
-  renderDashboard();
+// ─── ADMIN PORTAL ───
+let adminTab = 'pending';
+
+function renderAdmin() {
+  const page = document.getElementById('page-admin');
+  if (!page || !isAdmin()) return;
+  renderAdminStats();
+  renderAdminTabContent();
 }
-function renderDashboard(){
-  var userId=getActiveUserId();var requests=getRequests();var reviews=getReviews();
-  var posted=requests.filter(function(r){return r.requesterId===userId});
-  var accepted=requests.filter(function(r){return r.providerId===userId});
-  var completedP=posted.filter(function(r){return r.status==='COMPLETED'});
-  var completedA=accepted.filter(function(r){return r.status==='COMPLETED'});
-  var userReviews=reviews.filter(function(r){return r.providerId===userId});
-  var avgRating=userReviews.length>0?(userReviews.reduce(function(s,r){return s+r.rating},0)/userReviews.length).toFixed(1):getActiveUser().rating;
-  var totalEarned=completedA.reduce(function(s,r){return s+Math.round((r.budget||0)*0.9)},0);
-  var totalSpent=completedP.reduce(function(s,r){return s+(r.budget||0)},0);
-  var stats=[
-    {label:'Posted',value:posted.length,icon:'fa-paper-plane',gradient:'linear-gradient(135deg,#4F46E5,#6366F1)'},
-    {label:'Completed',value:completedP.length+completedA.length,icon:'fa-trophy',gradient:'linear-gradient(135deg,#059669,#10B981)'},
-    {label:'Avg Rating',value:avgRating,icon:'fa-star',gradient:'linear-gradient(135deg,#D97706,#F59E0B)'},
-    {label:'Earned / Spent',value:'\u20B9'+totalEarned+' / \u20B9'+totalSpent,icon:'fa-wallet',gradient:'linear-gradient(135deg,#7C3AED,#A855F7)'},
-  ];
-  document.getElementById('dashStats').innerHTML=stats.map(function(s,i){
-    return '<div class="stat-card bg-white/90 backdrop-blur-sm rounded-2xl p-4 card-shadow border border-white/50 animate-fade-in stagger-'+(i+1)+'">' +
-      '<div class="flex items-center gap-3"><div class="w-11 h-11 rounded-xl flex items-center justify-center shadow-md" style="background:'+s.gradient+'">' +
-      '<i class="fas '+s.icon+' text-white"></i></div><div><p class="font-black text-gray-800 text-lg">'+s.value+'</p><p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">'+s.label+'</p></div></div></div>';
-  }).join('');
-  var content=document.getElementById('dashContent');
-  if(dashTab==='myRequests'){
-    if(posted.length===0){content.innerHTML='<div class="text-center py-20 bg-white/90 rounded-2xl card-shadow-lg border border-white/50"><div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF)"><i class="fas fa-inbox text-2xl text-gray-300"></i></div><p class="text-gray-400 text-lg font-semibold mb-4">No requests posted yet</p><button onclick="navigateTo(\'post\')" class="btn-primary px-7 py-3 rounded-xl"><i class="fas fa-plus mr-2"></i><span>Post Your First Request</span></button></div>';return}
-    content.innerHTML='<div class="space-y-4">'+posted.map(function(req,i){
-      var cat=getCategoryById(req.category);var provider=req.providerId?getUserById(req.providerId):null;var actionArea='';
-      if(req.status==='IN_PROGRESS') actionArea='<button onclick="confirmCompletion(\''+req.id+'\')" class="btn-primary px-5 py-2.5 rounded-xl text-sm"><i class="fas fa-check-double mr-1.5"></i><span>Confirm Complete</span></button>';
-      else if(req.status==='COMPLETED') actionArea='<span class="inline-flex items-center gap-1.5 text-sm text-green-600 font-bold bg-green-50 px-3 py-1.5 rounded-full"><i class="fas fa-check-circle"></i>Done</span>';
-      return '<div class="bg-white/90 backdrop-blur-sm rounded-2xl p-5 card-shadow border border-white/50 animate-fade-in" style="animation-delay:'+(i*0.06)+'s">' +
-        '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3"><div class="flex-1 min-w-0">' +
-        '<div class="flex items-center gap-2 mb-2"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold" style="background:'+cat.gradient+';color:'+cat.color+'"><i class="fas '+cat.icon+' text-xs"></i>'+cat.label+'</span>'+statusBadge(req.status)+'</div>' +
-        '<h3 class="font-bold text-gray-800 truncate">'+req.title+'</h3>' +
-        '<p class="text-sm text-gray-500 mt-1"><i class="fas fa-calendar-day text-gray-400 mr-1"></i>'+(req.date||'')+(req.time?' at '+req.time:'')+'<span class="mx-2 text-gray-300">|</span><i class="fas fa-map-marker-alt text-gray-400 mr-1"></i>'+(req.location||'')+'<span class="mx-2 text-gray-300">|</span><span class="font-bold gradient-text">'+(req.budget===0?'Free':'\u20B9'+req.budget)+'</span></p>' +
-        (provider?'<p class="text-sm font-bold mt-1.5" style="color:#059669"><i class="fas fa-user-check mr-1"></i>Accepted by '+provider.name+'</p>':'') +
-        '</div><div class="flex items-center gap-2">'+actionArea+'</div></div></div>';
-    }).join('')+'</div>';
-  } else {
-    if(accepted.length===0){content.innerHTML='<div class="text-center py-20 bg-white/90 rounded-2xl card-shadow-lg border border-white/50"><div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0)"><i class="fas fa-hands-helping text-2xl text-gray-300"></i></div><p class="text-gray-400 text-lg font-semibold mb-4">No tasks accepted yet</p><button onclick="navigateTo(\'browse\')" class="btn-primary px-7 py-3 rounded-xl"><i class="fas fa-compass mr-2"></i><span>Browse Requests</span></button></div>';return}
-    content.innerHTML='<div class="space-y-4">'+accepted.map(function(req,i){
-      var cat=getCategoryById(req.category);var requester=getUserById(req.requesterId);var actionArea='';
-      if(req.status==='ACCEPTED') actionArea='<button onclick="markComplete(\''+req.id+'\')" class="btn-primary px-5 py-2.5 rounded-xl text-sm"><i class="fas fa-flag-checkered mr-1.5"></i><span>Mark Complete</span></button>';
-      else if(req.status==='IN_PROGRESS') actionArea='<span class="inline-flex items-center gap-1.5 text-sm text-blue-600 font-bold bg-blue-50 px-3 py-1.5 rounded-full"><i class="fas fa-hourglass-half"></i>Awaiting Confirmation</span>';
-      else if(req.status==='COMPLETED') actionArea='<span class="inline-flex items-center gap-1.5 text-sm text-green-600 font-bold bg-green-50 px-3 py-1.5 rounded-full"><i class="fas fa-check-circle"></i>Earned \u20B9'+Math.round((req.budget||0)*0.9)+'</span>';
-      return '<div class="bg-white/90 backdrop-blur-sm rounded-2xl p-5 card-shadow border border-white/50 animate-fade-in" style="animation-delay:'+(i*0.06)+'s">' +
-        '<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3"><div class="flex-1 min-w-0">' +
-        '<div class="flex items-center gap-2 mb-2"><span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold" style="background:'+cat.gradient+';color:'+cat.color+'"><i class="fas '+cat.icon+' text-xs"></i>'+cat.label+'</span>'+statusBadge(req.status)+'</div>' +
-        '<h3 class="font-bold text-gray-800 truncate">'+req.title+'</h3>' +
-        '<p class="text-sm text-gray-500 mt-1"><i class="fas fa-calendar-day text-gray-400 mr-1"></i>'+(req.date||'')+(req.time?' at '+req.time:'')+'<span class="mx-2 text-gray-300">|</span><i class="fas fa-map-marker-alt text-gray-400 mr-1"></i>'+(req.location||'')+'<span class="mx-2 text-gray-300">|</span><span class="font-bold gradient-text">'+(req.budget===0?'Free':'\u20B9'+req.budget)+'</span></p>' +
-        (requester?'<p class="text-sm text-gray-500 mt-1.5"><i class="fas fa-user mr-1"></i>Requested by <span class="font-semibold">'+requester.name+'</span></p>':'') +
-        '</div><div class="flex items-center gap-2">'+actionArea+'</div></div></div>';
-    }).join('')+'</div>';
+
+function renderAdminStats() {
+  const statsEl = document.getElementById('adminStats');
+  if (!statsEl) return;
+  const users = getUsers().filter(u => !u.isAdmin);
+  const pending = getPendingRegistrations().filter(p => p.status === 'PENDING');
+  const rejected = getPendingRegistrations().filter(p => p.status === 'REJECTED');
+
+  statsEl.innerHTML = `
+    <div class="glass-card rounded-2xl p-4 card-shadow"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white"><i class="fas fa-users"></i></div><div><p class="text-2xl font-bold text-gray-800">${users.length}</p><p class="text-xs text-gray-500">Total Students</p></div></div></div>
+    <div class="glass-card rounded-2xl p-4 card-shadow"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-white"><i class="fas fa-clock"></i></div><div><p class="text-2xl font-bold text-gray-800">${pending.length}</p><p class="text-xs text-gray-500">Pending Approval</p></div></div></div>
+    <div class="glass-card rounded-2xl p-4 card-shadow"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white"><i class="fas fa-check-circle"></i></div><div><p class="text-2xl font-bold text-gray-800">${users.length}</p><p class="text-xs text-gray-500">Approved</p></div></div></div>
+    <div class="glass-card rounded-2xl p-4 card-shadow"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center text-white"><i class="fas fa-times-circle"></i></div><div><p class="text-2xl font-bold text-gray-800">${rejected.length}</p><p class="text-xs text-gray-500">Rejected</p></div></div></div>`;
+}
+
+function switchAdminTab(tab) {
+  adminTab = tab;
+  document.querySelectorAll('#adminTabs .tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`#adminTabs .tab-btn[onclick="switchAdminTab('${tab}')"]`)?.classList.add('active');
+  renderAdminTabContent();
+}
+
+function renderAdminTabContent() {
+  if (adminTab === 'pending') renderPendingTable();
+  else if (adminTab === 'students') renderStudentsList();
+  else if (adminTab === 'rejected') renderRejectedList();
+}
+
+function renderPendingTable() {
+  const container = document.getElementById('adminContent');
+  if (!container) return;
+  const pending = getPendingRegistrations().filter(p => p.status === 'PENDING');
+
+  if (pending.length === 0) {
+    container.innerHTML = '<div class="p-12 text-center text-gray-400"><i class="fas fa-check-circle text-4xl mb-3"></i><p class="text-lg font-semibold">All caught up!</p><p class="text-sm">No pending registration requests.</p></div>';
+    return;
   }
+
+  container.innerHTML = `
+    <div class="overflow-x-auto">
+      <table class="admin-table">
+        <thead><tr>
+          <th>Name</th><th>Roll No.</th><th>Branch</th><th>Section</th><th>Email</th><th>Phone</th><th>Requested</th><th>Actions</th>
+        </tr></thead>
+        <tbody>
+          ${pending.map(p => `<tr>
+            <td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-white text-xs font-bold">${getInitials(p.name)}</div><span class="font-semibold">${p.name}</span></div></td>
+            <td><code class="text-xs bg-gray-100 px-2 py-1 rounded">${p.rollNo}</code></td>
+            <td>${p.dept}</td>
+            <td>${p.section}</td>
+            <td class="text-gray-500">${p.email}</td>
+            <td class="text-gray-500">${p.phone}</td>
+            <td class="text-gray-400 text-xs">${timeAgo(p.submittedAt)}</td>
+            <td>
+              <div class="flex gap-2">
+                <button onclick="approveRegistration('${p.id}')" class="btn-success text-xs"><i class="fas fa-check mr-1"></i>Approve</button>
+                <button onclick="openRejectModal('${p.id}')" class="btn-danger text-xs"><i class="fas fa-times mr-1"></i>Reject</button>
+              </div>
+            </td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
 }
 
-// =====================================================
-// MARK COMPLETE / CONFIRM
-// =====================================================
-function markComplete(id){
-  var requests=getRequests();var idx=requests.findIndex(function(r){return r.id===id});if(idx===-1)return;
-  requests[idx].status='IN_PROGRESS';saveRequests(requests);
-  addNotification(requests[idx].requesterId,'Task Marked Complete \u2705',getActiveUser().name+' has marked "'+requests[idx].title+'" as complete. Please confirm.');
-  showToast('info','Marked as complete. Awaiting requester confirmation.');renderDashboard();
-}
-function confirmCompletion(id){
-  var requests=getRequests();var idx=requests.findIndex(function(r){return r.id===id});if(idx===-1)return;
-  var req=requests[idx];if(req.status!=='IN_PROGRESS'){showToast('warning','Task is not ready for completion');return}
-  requests[idx].status='COMPLETED';saveRequests(requests);
-  var users=getUsers();var provIdx=users.findIndex(function(u){return u.id===req.providerId});
-  if(provIdx!==-1){users[provIdx].completedCount=(users[provIdx].completedCount||0)+1;saveUsers(users)}
-  addNotification(req.providerId,'Payment Released! \uD83D\uDCB0',getActiveUser().name+' confirmed "'+req.title+'". \u20B9'+Math.round((req.budget||0)*0.9)+' credited.');
-  showToast('success','Task confirmed as complete!');renderDashboard();openRatingModal(id);
+function renderStudentsList() {
+  const container = document.getElementById('adminContent');
+  if (!container) return;
+  const students = getUsers().filter(u => !u.isAdmin);
+
+  if (students.length === 0) {
+    container.innerHTML = '<div class="p-12 text-center text-gray-400"><i class="fas fa-users text-4xl mb-3"></i><p>No students registered yet.</p></div>';
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="overflow-x-auto">
+      <table class="admin-table">
+        <thead><tr>
+          <th>Name</th><th>Unique ID</th><th>Roll No.</th><th>Branch</th><th>Section</th><th>Email</th><th>Phone</th><th>Rating</th><th>Joined</th>
+        </tr></thead>
+        <tbody>
+          ${students.map(s => `<tr>
+            <td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:${getAvatarColor(s.id)}">${getInitials(s.name)}</div><span class="font-semibold">${s.name}</span></div></td>
+            <td><span class="status-badge-approved">${s.uniqueId}</span></td>
+            <td><code class="text-xs bg-gray-100 px-2 py-1 rounded">${s.rollNo || '-'}</code></td>
+            <td>${s.dept}</td>
+            <td>${s.section || '-'}</td>
+            <td class="text-gray-500">${s.email}</td>
+            <td class="text-gray-500">${s.phone || '-'}</td>
+            <td><div class="flex items-center gap-1"><i class="fas fa-star text-yellow-400 text-xs"></i><span class="text-sm font-semibold">${s.rating}</span></div></td>
+            <td class="text-gray-400 text-xs">${formatDate(s.joined)}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
 }
 
-// =====================================================
-// RATING MODAL
-// =====================================================
-var currentRating=0;
-function openRatingModal(requestId){
-  currentRating=0;var req=getRequests().find(function(r){return r.id===requestId});if(!req||!req.providerId)return;
-  var provider=getUserById(req.providerId);
-  var starsHTML='';for(var i=1;i<=5;i++) starsHTML+='<span class="star-btn" id="star'+i+'" onclick="setRating('+i+')"><i class="fas fa-star"></i></span>';
-  document.getElementById('ratingModalContent').innerHTML=
-    '<div class="text-center mb-6">' +
-    '<div class="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center shimmer" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A)"><i class="fas fa-star text-3xl text-yellow-500"></i></div>' +
-    '<h2 class="text-xl font-black text-gray-800">Rate Your Experience</h2>' +
-    '<p class="text-sm text-gray-500 mt-1">How was working with <span class="font-bold gradient-text">'+(provider?provider.name:'the provider')+'</span>?</p></div>' +
-    '<div class="flex justify-center gap-3 mb-6">'+starsHTML+'</div>' +
-    '<div class="mb-6"><label class="block text-sm font-semibold text-gray-700 mb-1.5">Write a Review (Optional)</label>' +
-    '<textarea id="reviewText" class="input-field" rows="3" placeholder="Tell us about your experience..."></textarea></div>' +
-    '<div class="flex gap-3">' +
-    '<button onclick="closeRatingModal()" class="btn-secondary flex-1 py-3 rounded-xl">Skip</button>' +
-    '<button onclick="submitRating(\''+requestId+'\')" class="btn-primary flex-1 py-3 rounded-xl"><i class="fas fa-paper-plane mr-2"></i><span>Submit Review</span></button></div>';
-  document.getElementById('ratingModal').classList.add('show');
-}
-function setRating(n){currentRating=n;for(var i=1;i<=5;i++){var s=document.getElementById('star'+i);if(s){if(i<=n)s.classList.add('active');else s.classList.remove('active')}}}
-function submitRating(requestId){
-  if(currentRating===0){showToast('warning','Please select a rating');return}
-  var textEl=document.getElementById('reviewText');var text=textEl?textEl.value.trim():'';
-  var req=getRequests().find(function(r){return r.id===requestId});if(!req||!req.providerId)return;
-  var review={id:'review_'+Date.now(),requestId:requestId,reviewerId:getActiveUserId(),providerId:req.providerId,rating:currentRating,text:text,date:new Date().toISOString()};
-  var reviews=getReviews();reviews.push(review);saveReviews(reviews);
-  var users=getUsers();var provIdx=users.findIndex(function(u){return u.id===req.providerId});
-  if(provIdx!==-1){var pr=reviews.filter(function(r){return r.providerId===req.providerId});users[provIdx].rating=parseFloat((pr.reduce(function(s,r){return s+r.rating},0)/pr.length).toFixed(1));saveUsers(users)}
-  closeRatingModal();showToast('success','Review submitted! Thank you. \u2B50');if(currentPage==='dashboard')renderDashboard();
-}
-function closeRatingModal(e){if(!e||e.target===document.getElementById('ratingModal'))document.getElementById('ratingModal').classList.remove('show')}
+function renderRejectedList() {
+  const container = document.getElementById('adminContent');
+  if (!container) return;
+  const rejected = getPendingRegistrations().filter(p => p.status === 'REJECTED');
 
-// =====================================================
-// PROFILE
-// =====================================================
-function renderProfile(){
-  var user=getActiveUser();var reviews=getReviews().filter(function(r){return r.providerId===user.id});
-  var avgRating=reviews.length>0?(reviews.reduce(function(s,r){return s+r.rating},0)/reviews.length).toFixed(1):user.rating;
-  document.getElementById('profileHeader').innerHTML=
-    '<div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">' +
-    '<div class="relative"><div class="avatar-circle w-24 h-24 text-white text-3xl shadow-xl ring-4 ring-white" style="background:'+getAvatarColor(user.id)+'">'+user.avatar+'</div>' +
-    '<div class="absolute -bottom-1 -right-1 w-7 h-7 rounded-full flex items-center justify-center shadow-md" style="background:linear-gradient(135deg,#10B981,#059669)"><i class="fas fa-check text-white text-xs"></i></div></div>' +
-    '<div class="text-center sm:text-left flex-1">' +
-    '<h2 class="text-2xl font-black text-gray-800">'+user.name+'</h2>' +
-    '<p class="text-gray-500 mt-0.5 font-medium">'+user.dept+' &bull; '+user.year+'</p>' +
-    '<p class="text-gray-600 text-sm mt-2 max-w-md leading-relaxed">'+(user.bio||'')+'</p>' +
-    '<div class="flex flex-wrap justify-center sm:justify-start gap-3 mt-4">' +
-    '<div class="flex items-center gap-2 px-4 py-2 rounded-full shadow-sm" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A)"><i class="fas fa-star text-yellow-500 text-sm"></i><span class="font-black text-gray-800">'+avgRating+'</span><span class="text-xs text-gray-600 font-semibold">Rating</span></div>' +
-    '<div class="flex items-center gap-2 px-4 py-2 rounded-full shadow-sm" style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0)"><i class="fas fa-trophy text-green-600 text-sm"></i><span class="font-black text-gray-800">'+user.completedCount+'</span><span class="text-xs text-gray-600 font-semibold">Completed</span></div>' +
-    '<div class="flex items-center gap-2 px-4 py-2 rounded-full shadow-sm" style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF)"><i class="fas fa-envelope text-sm" style="color:#6366F1"></i><span class="text-xs text-gray-600 font-medium">'+user.email+'</span></div>' +
-    '</div></div></div>';
-  document.getElementById('profileSkills').innerHTML=
-    '<h3 class="font-black text-gray-800 mb-4"><i class="fas fa-wand-magic-sparkles mr-2" style="color:#7C3AED"></i>Skills & Expertise</h3>' +
-    '<div class="flex flex-wrap">'+(user.skills||[]).map(function(s){return '<span class="skill-tag">'+s+'</span>'}).join('')+'</div>';
-  var reviewsHTML='';
-  if(reviews.length===0) reviewsHTML='<div class="text-center py-12"><div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A)"><i class="fas fa-star text-2xl text-gray-300"></i></div><p class="text-gray-400 font-semibold">No reviews received yet</p></div>';
-  else reviewsHTML=reviews.slice().reverse().map(function(r,i){
-    var reviewer=getUserById(r.reviewerId);var stars='';for(var j=0;j<5;j++) stars+='<i class="fas fa-star text-xs '+(j<r.rating?'text-yellow-400':'text-gray-200')+'"></i>';
-    return '<div class="border border-gray-100 rounded-xl p-4 mb-3 hover:shadow-md transition-all animate-fade-in" style="animation-delay:'+(i*0.05)+'s">' +
-      '<div class="flex items-center gap-3 mb-2">' +
-      '<div class="avatar-circle w-9 h-9 text-white text-xs font-bold shadow-sm" style="background:'+getAvatarColor(reviewer?reviewer.id:'')+'">'+( reviewer?reviewer.avatar:'?')+'</div>' +
-      '<div><p class="font-bold text-sm text-gray-800">'+(reviewer?reviewer.name:'Unknown')+'</p><div class="flex gap-0.5 mt-0.5">'+stars+'</div></div>' +
-      '<p class="text-xs text-gray-400 ml-auto"><i class="fas fa-clock mr-1"></i>'+new Date(r.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+'</p></div>' +
-      (r.text?'<p class="text-sm text-gray-600 leading-relaxed mt-2 italic">\u201C'+r.text+'\u201D</p>':'') + '</div>';
-  }).join('');
-  document.getElementById('profileReviews').innerHTML=
-    '<h3 class="font-black text-gray-800 mb-4"><i class="fas fa-comments mr-2" style="color:#EC4899"></i>Student Reviews <span class="text-sm font-bold text-gray-400">('+reviews.length+')</span></h3>'+reviewsHTML;
+  if (rejected.length === 0) {
+    container.innerHTML = '<div class="p-12 text-center text-gray-400"><i class="fas fa-inbox text-4xl mb-3"></i><p>No rejected registrations.</p></div>';
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="overflow-x-auto">
+      <table class="admin-table">
+        <thead><tr>
+          <th>Name</th><th>Roll No.</th><th>Branch</th><th>Email</th><th>Reason</th><th>Date</th>
+        </tr></thead>
+        <tbody>
+          ${rejected.map(r => `<tr>
+            <td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center text-white text-xs font-bold">${getInitials(r.name)}</div><span class="font-semibold">${r.name}</span></div></td>
+            <td><code class="text-xs bg-gray-100 px-2 py-1 rounded">${r.rollNo}</code></td>
+            <td>${r.dept}</td>
+            <td class="text-gray-500">${r.email}</td>
+            <td><span class="text-sm text-red-600">${r.rejectedReason || 'No reason provided'}</span></td>
+            <td class="text-gray-400 text-xs">${timeAgo(r.submittedAt)}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
 }
 
-// =====================================================
-// AUTH SYSTEM
-// =====================================================
+// ─── APPROVE REGISTRATION ───
+function approveRegistration(regId) {
+  const pending = getPendingRegistrations();
+  const idx = pending.findIndex(p => p.id === regId);
+  if (idx === -1) return;
+
+  const reg = pending[idx];
+  const counter = getIdCounter();
+  incrementIdCounter();
+  const uniqueId = 'CC-2026-' + String(counter).padStart(3, '0');
+
+  // Create new user
+  const newUser = {
+    id: 'user_' + Date.now(),
+    name: reg.name,
+    email: reg.email,
+    uniqueId: uniqueId,
+    dept: reg.dept,
+    section: reg.section,
+    rollNo: reg.rollNo,
+    phone: reg.phone,
+    isAdmin: false,
+    rating: 0,
+    completed: 0,
+    joined: new Date().toISOString().split('T')[0]
+  };
+
+  // Add to users
+  const users = getUsers();
+  users.push(newUser);
+  saveUsers(users);
+
+  // Save password keyed by uniqueId
+  const passwords = getPasswords();
+  passwords[uniqueId] = reg.password;
+  savePasswords(passwords);
+
+  // Remove from pending
+  pending.splice(idx, 1);
+  savePendingRegistrations(pending);
+
+  // Add notification for admin log
+  addNotification(getActiveUserId(), `Approved ${reg.name} — Assigned ID: ${uniqueId}`);
+
+  showToast(`Approved! ${reg.name} assigned ID: ${uniqueId}`, 'success');
+  renderAdmin();
+}
+
+// ─── REJECT REGISTRATION ───
+let rejectTargetId = null;
+
+function openRejectModal(regId) {
+  rejectTargetId = regId;
+  const pending = getPendingRegistrations();
+  const reg = pending.find(p => p.id === regId);
+  if (!reg) return;
+
+  const content = document.getElementById('rejectModalContent');
+  content.innerHTML = `
+    <div class="text-center mb-5">
+      <div class="w-14 h-14 rounded-full bg-red-100 mx-auto mb-3 flex items-center justify-center"><i class="fas fa-exclamation-triangle text-red-500 text-xl"></i></div>
+      <h2 class="text-lg font-bold text-gray-800">Reject Registration</h2>
+      <p class="text-sm text-gray-500 mt-1">Reject ${reg.name}'s registration request?</p>
+    </div>
+    <div class="mb-5">
+      <label class="block text-sm font-semibold text-gray-700 mb-1">Reason (optional)</label>
+      <textarea id="rejectReason" rows="3" placeholder="Provide a reason for rejection..." class="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-400 resize-none"></textarea>
+    </div>
+    <div class="flex gap-3">
+      <button onclick="closeRejectModal()" class="flex-1 py-3 rounded-xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all">Cancel</button>
+      <button onclick="submitReject()" class="flex-1 py-3 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"><i class="fas fa-times mr-2"></i>Reject</button>
+    </div>`;
+  document.getElementById('rejectModal').classList.add('show');
+}
+
+function submitReject() {
+  if (!rejectTargetId) return;
+  const reason = document.getElementById('rejectReason')?.value?.trim() || '';
+  const pending = getPendingRegistrations();
+  const idx = pending.findIndex(p => p.id === rejectTargetId);
+  if (idx === -1) return;
+
+  pending[idx].status = 'REJECTED';
+  pending[idx].rejectedReason = reason;
+  savePendingRegistrations(pending);
+
+  addNotification(getActiveUserId(), `Rejected registration request from ${pending[idx].name}${reason ? ': ' + reason : ''}`);
+
+  closeRejectModal();
+  showToast('Registration rejected', 'info');
+  renderAdmin();
+}
+
+function closeRejectModal(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('rejectModal')?.classList.remove('show');
+  rejectTargetId = null;
+}
+
+// ─── AUTH SYSTEM ───
 function initPasswords() {
   if (!localStorage.getItem('cc_passwords')) {
-    localStorage.setItem('cc_passwords', JSON.stringify({
-      'rahul.sharma@campus.edu': 'rahul123',
-      'ananya.roy@campus.edu': 'ananya123'
-    }));
+    const passwords = {
+      'CC-2026-001': 'rahul123',
+      'CC-2026-002': 'ananya123',
+      'CC-ADM-01': 'admin123',
+      'CC-ADM-02': 'admin123',
+      'CC-ADM-03': 'admin123'
+    };
+    savePasswords(passwords);
   }
 }
 
-function isLoggedIn() { return localStorage.getItem('cc_logged_in') === 'true'; }
+function isLoggedIn() {
+  return !!localStorage.getItem('cc_active_user');
+}
 
 function showAuth(page) {
-  document.getElementById('auth-login').style.display = page === 'login' ? 'flex' : 'none';
-  document.getElementById('auth-register').style.display = page === 'register' ? 'flex' : 'none';
-  document.getElementById('app-wrapper').style.display = 'none';
+  const loginDiv = document.getElementById('auth-login');
+  const regDiv = document.getElementById('auth-register');
+  const appDiv = document.getElementById('app-wrapper');
+  if (loginDiv) loginDiv.style.display = (page === 'login') ? 'flex' : 'none';
+  if (regDiv) regDiv.style.display = (page === 'register') ? 'flex' : 'none';
+  if (appDiv) appDiv.style.display = 'none';
+
+  // Reset registration success screen
+  const regSuccess = document.getElementById('regSuccessScreen');
+  const regFormContent = document.getElementById('regFormContent');
+  if (regSuccess) regSuccess.classList.add('hidden');
+  if (regFormContent) regFormContent.classList.remove('hidden');
 }
 
 function showApp() {
-  document.getElementById('auth-login').style.display = 'none';
-  document.getElementById('auth-register').style.display = 'none';
-  document.getElementById('app-wrapper').style.display = 'block';
+  const loginDiv = document.getElementById('auth-login');
+  const regDiv = document.getElementById('auth-register');
+  const appDiv = document.getElementById('app-wrapper');
+  if (loginDiv) loginDiv.style.display = 'none';
+  if (regDiv) regDiv.style.display = 'none';
+  if (appDiv) appDiv.style.display = 'block';
 }
 
 function togglePasswordVis(inputId, btn) {
-  var input = document.getElementById(inputId);
-  var icon = btn.querySelector('i');
-  if (input.type === 'password') { input.type = 'text'; icon.className = 'fas fa-eye-slash'; }
-  else { input.type = 'password'; icon.className = 'fas fa-eye'; }
-}
-
-function handleLogin() {
-  var email = document.getElementById('loginEmail').value.trim().toLowerCase();
-  var password = document.getElementById('loginPassword').value;
-  if (!email) { showToast('warning', 'Please enter your email'); return; }
-  if (!password) { showToast('warning', 'Please enter your password'); return; }
-  var passwords = JSON.parse(localStorage.getItem('cc_passwords') || '{}');
-  if (!passwords[email]) { showToast('error', 'No account found with this email'); return; }
-  if (passwords[email] !== password) { showToast('error', 'Incorrect password. Try again.'); return; }
-  // Find user by email
-  var users = getUsers();
-  var user = users.find(function(u) { return u.email.toLowerCase() === email; });
-  if (!user) { showToast('error', 'User data not found'); return; }
-  setActiveUser(user.id);
-  localStorage.setItem('cc_logged_in', 'true');
-  showApp();
-  renderUserSwitcher();
-  updateNotifBadge();
-  navigateTo('home');
-  showToast('success', 'Welcome back, ' + user.name.split(' ')[0] + '! \uD83D\uDC4B');
-}
-
-function handleDemoLogin(userId) {
-  setActiveUser(userId);
-  localStorage.setItem('cc_logged_in', 'true');
-  showApp();
-  renderUserSwitcher();
-  updateNotifBadge();
-  navigateTo('home');
-  var user = getUserById(userId);
-  showToast('success', 'Signed in as ' + user.name + ' \uD83D\uDE80');
-}
-
-function handleRegister() {
-  var first = document.getElementById('regFirstName').value.trim();
-  var last = document.getElementById('regLastName').value.trim();
-  var email = document.getElementById('regEmail').value.trim().toLowerCase();
-  var dept = document.getElementById('regDept').value;
-  var year = document.getElementById('regYear').value;
-  var skillsRaw = document.getElementById('regSkills').value.trim();
-  var password = document.getElementById('regPassword').value;
-  var confirm = document.getElementById('regConfirm').value;
-  var agreed = document.getElementById('agreeTerms').checked;
-
-  if (!first || !last) { showToast('warning', 'Please enter your full name'); return; }
-  if (!email || !email.includes('@')) { showToast('warning', 'Please enter a valid email'); return; }
-  if (!dept) { showToast('warning', 'Please select your department'); return; }
-  if (!year) { showToast('warning', 'Please select your year'); return; }
-  if (password.length < 6) { showToast('warning', 'Password must be at least 6 characters'); return; }
-  if (password !== confirm) { showToast('error', 'Passwords do not match'); return; }
-  if (!agreed) { showToast('warning', 'Please agree to the Terms of Service'); return; }
-
-  // Check if email exists
-  var passwords = JSON.parse(localStorage.getItem('cc_passwords') || '{}');
-  if (passwords[email]) { showToast('error', 'An account with this email already exists'); return; }
-
-  var name = first + ' ' + last;
-  var avatar = (first[0] + last[0]).toUpperCase();
-  var skills = skillsRaw ? skillsRaw.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; }) : [];
-  var newUser = {
-    id: 'user_' + Date.now(),
-    name: name, email: email, dept: dept, year: year,
-    skills: skills, rating: 5.0, completedCount: 0, avatar: avatar,
-    bio: 'New student on CampusConnect!'
-  };
-
-  var users = getUsers();
-  users.push(newUser);
-  saveUsers(users);
-  passwords[email] = password;
-  localStorage.setItem('cc_passwords', JSON.stringify(passwords));
-  setActiveUser(newUser.id);
-  localStorage.setItem('cc_logged_in', 'true');
-  showApp();
-  renderUserSwitcher();
-  updateNotifBadge();
-  navigateTo('home');
-  showToast('success', 'Account created! Welcome, ' + first + '! \uD83C\uDF89');
-}
-
-function handleLogout() {
-  localStorage.setItem('cc_logged_in', 'false');
-  closeUserDropdown();
-  closeSidebar();
-  showAuth('login');
-  showToast('info', 'You have been signed out');
-  // Clear login form
-  var le = document.getElementById('loginEmail'); if (le) le.value = '';
-  var lp = document.getElementById('loginPassword'); if (lp) lp.value = '';
-}
-
-// =====================================================
-// DARK MODE
-// =====================================================
-function toggleDarkMode() {
-  document.body.classList.toggle('dark');
-  var isDark = document.body.classList.contains('dark');
-  localStorage.setItem('cc_dark_mode', isDark ? 'true' : 'false');
-  // Update toggle icon
-  var knobs = document.querySelectorAll('.dark-toggle-knob');
-  knobs.forEach(function(k) {
-    k.innerHTML = isDark ? '<i class="fas fa-moon" style="color:#FDE68A"></i>' : '<i class="fas fa-sun" style="color:#F59E0B"></i>';
-  });
-}
-function initDarkMode() {
-  var saved = localStorage.getItem('cc_dark_mode');
-  if (saved === 'true') {
-    document.body.classList.add('dark');
-    var knobs = document.querySelectorAll('.dark-toggle-knob');
-    knobs.forEach(function(k) { k.innerHTML = '<i class="fas fa-moon" style="color:#FDE68A"></i>'; });
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  const isPass = input.type === 'password';
+  input.type = isPass ? 'text' : 'password';
+  const icon = btn.querySelector('i');
+  if (icon) {
+    icon.classList.toggle('fa-eye', isPass);
+    icon.classList.toggle('fa-eye-slash', !isPass);
   }
 }
 
-// =====================================================
-// INIT
-// =====================================================
-function init(){
-  initPasswords();
+function handleLogin() {
+  const loginId = document.getElementById('loginId')?.value?.trim();
+  const password = document.getElementById('loginPassword')?.value;
+
+  if (!loginId || !password) {
+    showToast('Please enter your ID and password', 'error');
+    return;
+  }
+
+  // Check if this ID belongs to a pending/rejected registration
+  const pending = getPendingRegistrations();
+  // We need to check by matching — pending registrations don't have uniqueId yet,
+  // so they can't log in by unique ID. But let's check if someone tries an ID that matches pending rollNo.
+  
+  // First check passwords database
+  const passwords = getPasswords();
+
+  if (!passwords[loginId]) {
+    // Check if there's a pending registration that might match
+    // Pending users don't have a uniqueId yet, so no match is possible.
+    // But we show a helpful message
+    showToast('Invalid ID or password. Please check your credentials.', 'error');
+    return;
+  }
+
+  if (passwords[loginId] !== password) {
+    showToast('Invalid ID or password. Please check your credentials.', 'error');
+    return;
+  }
+
+  // Find user by uniqueId
+  const users = getUsers();
+  const user = users.find(u => u.uniqueId === loginId);
+
+  if (!user) {
+    // The password matched but user not found — possibly a data inconsistency
+    showToast('Account not found. Please contact admin.', 'error');
+    return;
+  }
+
+  setActiveUserId(user.id);
+  showApp();
+  renderNav();
+  renderUserSwitcher();
+  updateNotifBadge();
+
+  if (user.isAdmin) {
+    navigateTo('admin');
+  } else {
+    navigateTo('home');
+  }
+
+  showToast(`Welcome back, ${user.name}!`, 'success');
+}
+
+function handleRegister() {
+  const name = document.getElementById('regFullName')?.value?.trim();
+  const email = document.getElementById('regEmail')?.value?.trim();
+  const dept = document.getElementById('regDept')?.value;
+  const section = document.getElementById('regSection')?.value?.trim();
+  const rollNo = document.getElementById('regRollNo')?.value?.trim();
+  const phone = document.getElementById('regPhone')?.value?.trim();
+  const password = document.getElementById('regPassword')?.value;
+  const confirmPassword = document.getElementById('regConfirm')?.value;
+  const agree = document.getElementById('agreeTerms')?.checked;
+
+  // Validations
+  if (!name || !email || !dept || !section || !rollNo || !phone || !password || !confirmPassword) {
+    showToast('Please fill in all fields', 'error');
+    return;
+  }
+
+  if (!email.includes('@')) {
+    showToast('Please enter a valid email address', 'error');
+    return;
+  }
+
+  if (phone.length < 10) {
+    showToast('Please enter a valid phone number', 'error');
+    return;
+  }
+
+  if (password.length < 6) {
+    showToast('Password must be at least 6 characters', 'error');
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    showToast('Passwords do not match', 'error');
+    return;
+  }
+
+  if (!agree) {
+    showToast('Please agree to the terms', 'error');
+    return;
+  }
+
+  // Check duplicates in users and pending
+  const users = getUsers();
+  const pending = getPendingRegistrations();
+
+  if (users.some(u => u.email === email) || pending.some(p => p.email === email && p.status === 'PENDING')) {
+    showToast('An account with this email already exists or is pending approval', 'error');
+    return;
+  }
+
+  if (users.some(u => u.rollNo === rollNo) || pending.some(p => p.rollNo === rollNo && p.status === 'PENDING')) {
+    showToast('An account with this roll number already exists or is pending approval', 'error');
+    return;
+  }
+
+  // Create pending registration
+  const newPending = {
+    id: 'pending_' + Date.now(),
+    name: name,
+    email: email,
+    dept: dept,
+    section: section,
+    rollNo: rollNo,
+    phone: phone,
+    password: password,
+    status: 'PENDING',
+    submittedAt: new Date().toISOString(),
+    rejectedReason: ''
+  };
+
+  pending.push(newPending);
+  savePendingRegistrations(pending);
+
+  // Show success screen
+  const regFormContent = document.getElementById('regFormContent');
+  const regSuccess = document.getElementById('regSuccessScreen');
+  if (regFormContent) regFormContent.classList.add('hidden');
+  if (regSuccess) regSuccess.classList.remove('hidden');
+
+  showToast('Registration submitted successfully!', 'success');
+}
+
+function handleLogout() {
+  localStorage.removeItem('cc_active_user');
+  showAuth('login');
+  showToast('Logged out successfully', 'info');
+
+  // Clear form fields
+  const loginId = document.getElementById('loginId');
+  const loginPass = document.getElementById('loginPassword');
+  if (loginId) loginId.value = '';
+  if (loginPass) loginPass.value = '';
+}
+
+// ─── DARK MODE ───
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('cc_dark_mode', isDark);
+}
+
+function initDarkMode() {
+  if (localStorage.getItem('cc_dark_mode') === 'true') {
+    document.body.classList.add('dark');
+  }
+}
+
+// ─── INIT ───
+function init() {
   initDarkMode();
   initDB();
+  initPasswords();
+
   if (isLoggedIn()) {
     showApp();
+    renderNav();
     renderUserSwitcher();
     updateNotifBadge();
-    navigateTo('home');
+    if (isAdmin()) {
+      navigateTo('admin');
+    } else {
+      navigateTo('home');
+    }
   } else {
     showAuth('login');
   }
 }
-init();
+
+// Start the app
+document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
